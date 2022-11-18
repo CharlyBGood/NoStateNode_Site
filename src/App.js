@@ -1,17 +1,21 @@
 import { Route, Routes } from "react-router-dom";
-
 import "./App.css";
 import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/Login" element={<Login />} />
-      <Route path="/Register" element={<Register />} />
-    </Routes>
+    <div className="bg-slate-300 h-screen text-white flex">
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
+        </Routes>
+      </AuthProvider>
+    </div>
   );
 }
 
