@@ -8,7 +8,7 @@ export function Login() {
     password: "",
   });
 
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
 
@@ -29,6 +29,15 @@ export function Login() {
         setError("El usuario no existe.");
       }
       // setError(error.message);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -56,6 +65,8 @@ export function Login() {
 
         <button>Login</button>
       </form>
+
+      <button onClick={handleGoogleLogin}>Login with Google</button>
     </div>
   );
 }
