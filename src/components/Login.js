@@ -9,7 +9,7 @@ export function Login() {
     password: "",
   });
 
-  const { login, loginWithGoogle, resetPassword } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
 
@@ -48,17 +48,17 @@ export function Login() {
     }
   };
 
-  const handleResetPassword = async () => {
-    if (!user.email) return setError("Por favor ingresa tu email.");
-    try {
-      await resetPassword(user.email);
-      setError(
-        "Hemos enviado un correo con un enlace para resetear tu contraseña!"
-      );
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+  // const handleResetPassword = async () => {
+  //   if (!user.email) return setError("Por favor ingresa tu email.");
+  //   try {
+  //     await resetPassword(user.email);
+  //     setError(
+  //       "Hemos enviado un correo con un enlace para resetear tu contraseña!"
+  //     );
+  //   } catch (error) {
+  //     setError(error.message);
+  //   }
+  // };
 
   return (
     <div className="bg-black w-full max-w-xs m-auto">
@@ -112,13 +112,14 @@ export function Login() {
           </button>
         </div>
         <div className="mb-4">
-          <a
+          <Link
+          to="/ResetPassword"
             href="#!"
             className="inline-block align-center font-bold text-sm"
-            onClick={handleResetPassword}
+            // onClick={handleResetPassword}
           >
             ¿Olvidaste tu contraseña?
-          </a>
+          </Link>
         </div>
         <div className="mb-4">
           <p className="my-4 text-sm flex justify-between">
