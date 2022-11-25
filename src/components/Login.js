@@ -24,10 +24,16 @@ export function Login() {
       navigate("/");
     } catch (error) {
       if (error.code === "auth/wrong-password") {
-        setError("Contraseña inválida.");
+        setError("La contraseña no es válida.");
       }
       if (error.code === "auth/user-not-found") {
         setError("El usuario no existe.");
+      }
+      if (
+        error.code === "auth/invalid-email" ||
+        error.code === "auth/internal-error"
+      ) {
+        setError("Proporciona un email válido y una contraseña.");
       }
       // setError(error.message);
     }
@@ -46,7 +52,9 @@ export function Login() {
     if (!user.email) return setError("Por favor ingresa tu email.");
     try {
       await resetPassword(user.email);
-      setError("Hemos enviado un correo con un enlace para resetear tu contraseña!")
+      setError(
+        "Hemos enviado un correo con un enlace para resetear tu contraseña!"
+      );
     } catch (error) {
       setError(error.message);
     }

@@ -23,8 +23,13 @@ export function Register() {
       await signup(user.email, user.password);
       navigate("/");
     } catch (error) {
-      if (error.code === "auth/internal-error") {
-        setError("Correo inválido");
+      if (
+        error.code === "auth/internal-error" ||
+        error.code === "auth/invalid-email"
+      ) {
+        setError(
+          "¡Debes completar ambos campos del formulario, y la información debe ser válida!"
+        );
       }
       if (error.code === "auth/weak-password") {
         setError("La contraseña debe tener al menos 6 caracteres.");
@@ -33,6 +38,7 @@ export function Register() {
         setError("El correo proporcionado ya tiene una cuenta existente.");
       }
       // setError(error.message);
+      console.log(error.message);
     }
   };
 
@@ -79,12 +85,15 @@ export function Register() {
           Crear cuenta
         </button>
         <p className="my-4 text-sm flex justify-between">
-          ¿Ya tienes cuenta? 
-          <Link className="bg-blue-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2 " to="/login">Iniciar sesión</Link>
-
+          ¿Ya tienes cuenta?
+          <Link
+            className="bg-blue-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2 "
+            to="/login"
+          >
+            Iniciar sesión
+          </Link>
         </p>
       </form>
-      
     </div>
   );
 }
