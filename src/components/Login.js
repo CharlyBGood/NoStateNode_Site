@@ -70,7 +70,7 @@ export function Login() {
       >
         <div className="mb-4">
           <label
-            className="block text-gray-400 text-sm font-fold mb-2"
+            className="block text-orange-300 text-sm font-fold mb-2"
             htmlFor="email"
           >
             Email
@@ -85,7 +85,7 @@ export function Login() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-400 text-sm font-fold mb-2"
+            className="block text-orange-300 text-sm font-fold mb-2"
             htmlFor="password"
           >
             Password
@@ -100,15 +100,15 @@ export function Login() {
           />
         </div>
 
-        <button className="bg-blue-600 hover:bg-slate-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
-          Login
+        <button className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
+          Iniciar sesión
         </button>
         <div className="mb-4">
           <button
-            className="bg-blue-700 hover:bg-slate-400 w-100 border-none text-black font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
+            className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
           >
-            Login with Google
+            Ingresar con Google
           </button>
         </div>
         <div className="mb-4">
@@ -125,7 +125,7 @@ export function Login() {
           <p className="my-4 text-sm flex justify-between">
             ¿No tienes cuenta?
             <Link
-              className="bg-blue-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2 "
+              className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded mb-2 "
               to="/register"
             >
               Registrarse

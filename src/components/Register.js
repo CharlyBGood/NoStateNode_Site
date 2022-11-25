@@ -52,7 +52,7 @@ export function Register() {
       >
         <div className="mb-4">
           <label
-            className="block text-gray-400 text-sm font-fold mb-2"
+            className="block text-orange-300 text-sm font-fold mb-2"
             htmlFor="email"
           >
             Email
@@ -67,7 +67,7 @@ export function Register() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-400 text-sm font-fold mb-2"
+            className="block text-orange-300 text-sm font-fold mb-2"
             htmlFor="password"
           >
             Password
@@ -81,13 +81,13 @@ export function Register() {
             placeholder="******"
           />
         </div>
-        <button className="bg-blue-600 hover:bg-slate-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
+        <button className="bg-orange-600 hover:bg-slate-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
           Crear cuenta
         </button>
-        <p className="my-4 text-sm flex justify-between">
+        <p className="my-4 text-sm text-orange-300 flex justify-between">
           ¿Ya tienes cuenta?
           <Link
-            className="bg-blue-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2 "
+            className="bg-orange-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2 "
             to="/login"
           >
             Iniciar sesión
