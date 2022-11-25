@@ -9,7 +9,7 @@ export function Login() {
     password: "",
   });
 
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
 
@@ -39,6 +39,16 @@ export function Login() {
       navigate("/");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!user.email) return setError("Por favor ingresa tu email.");
+    try {
+      await resetPassword(user.email);
+      setError("Hemos enviado un correo con un enlace para resetear tu contraseña!")
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -92,6 +102,15 @@ export function Login() {
           >
             Login with Google
           </button>
+        </div>
+        <div className="mb-4">
+          <a
+            href="#!"
+            className="inline-block align-center font-bold text-sm"
+            onClick={handleResetPassword}
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
         </div>
         <div className="mb-4">
           <p className="my-4 text-sm flex justify-between">
