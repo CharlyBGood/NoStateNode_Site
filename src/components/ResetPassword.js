@@ -25,9 +25,10 @@ export function ResetPassword() {
     if (!user.email) return setError("Por favor ingresa tu email.");
     try {
       await resetPassword(user.email);
-      navigate("/login");
+      alert("¡Hemos enviado un correo con un enlace para resetear tu contraseña!")
+      navigate("/Welcome");
       setError(
-        "Hemos enviado un correo con un enlace para resetear tu contraseña!"
+        "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
       );
     } catch (error) {
       setError(error.message);
