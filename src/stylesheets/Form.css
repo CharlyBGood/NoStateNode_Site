@@ -1,0 +1,8 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.5em 0;
+  flex: 0.4;
+  color: var(--wheat);
+}

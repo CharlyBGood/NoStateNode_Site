@@ -16,9 +16,9 @@ export function Navbar() {
       </nav>
       <button
         className="log-button"
-        onClick={() => alert("Create a username!!")}
+        // onClick={() => alert("Create a username!!")}
       >
-        <Link to="./Users">Login</Link>
+        <Link to="./Login">Login</Link>
       </button>
     </div>
   );

@@ -1,7 +1,7 @@
 import "../stylesheets/Footer.css";
 import { FaGithub } from "react-icons/fa";
 
-function Footer() {
+export function Footer() {
   return (
     <footer>
       <p>
@@ -18,4 +18,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+
