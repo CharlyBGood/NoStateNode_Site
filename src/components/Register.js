@@ -44,8 +44,6 @@ export function Register() {
 
   return (
     <div className="bg-black w-full max-w-xs m-auto">
-      {error && <Alert message={error} />}
-
       <form
         className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit}
@@ -94,6 +92,7 @@ export function Register() {
           </Link>
         </p>
       </form>
+      {error && <Alert message={error} />}
     </div>
   );
 }
