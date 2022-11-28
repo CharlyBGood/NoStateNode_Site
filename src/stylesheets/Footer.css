@@ -1,0 +1,17 @@
+footer {
+  background-color: var(--soft-black);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+footer p,
+footer a {
+  color: var(--wheat);
+  margin: 0;
+  padding: 0.5em;
+  text-decoration: none;
+}
