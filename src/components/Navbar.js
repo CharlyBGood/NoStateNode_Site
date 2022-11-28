@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
+import { LoginButton } from "./LoginButton";
+import { LogoutButton } from "./LogoutButton";
+import { useAuth } from "../context/AuthContext";
 import "../stylesheets/Navbar.css";
 
 export function Navbar() {
+  const { user } = useAuth();
+
   return (
     <div className="nav-container">
       <nav className="navbar-logos">
-        <Link to="/">
+        <Link to={!user ? "/" : "/Home"}>
           <h1>NoStateNode</h1>
         </Link>
         <img
@@ -14,12 +19,7 @@ export function Navbar() {
           alt="nostatenode horse logo"
         />
       </nav>
-      <button
-        className="log-button"
-        // onClick={() => alert("Create a username!!")}
-      >
-        <Link to="./Login">Login</Link>
-      </button>
+      {!user ? <LoginButton /> : <LogoutButton />}
     </div>
   );
 }

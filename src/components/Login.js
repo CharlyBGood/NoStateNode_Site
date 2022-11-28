@@ -21,7 +21,7 @@ export function Login() {
     setError("");
     try {
       await login(user.email, user.password);
-      navigate("/");
+      navigate("/Home");
     } catch (error) {
       if (error.code === "auth/wrong-password") {
         setError("La contraseña no es válida.");
@@ -42,7 +42,7 @@ export function Login() {
   const handleGoogleLogin = async () => {
     try {
       await loginWithGoogle();
-      navigate("/");
+      navigate("/Home");
     } catch (error) {
       console.log(error);
     }
