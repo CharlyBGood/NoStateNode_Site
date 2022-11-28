@@ -48,18 +48,6 @@ export function Login() {
     }
   };
 
-  // const handleResetPassword = async () => {
-  //   if (!user.email) return setError("Por favor ingresa tu email.");
-  //   try {
-  //     await resetPassword(user.email);
-  //     setError(
-  //       "Hemos enviado un correo con un enlace para resetear tu contraseña!"
-  //     );
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
-
   return (
     <div className="bg-black w-full max-w-xs m-auto">
       {error && <Alert message={error} />}
