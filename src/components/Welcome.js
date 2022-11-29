@@ -2,7 +2,7 @@ import "../stylesheets/Form.css"
 
 export function Welcome() {
   return (
-    <div className="bg-neutral w-85 text-orange-300 max-w-prose text-center m-auto">
+    <div className="bg-neutral w-85 max-w-prose text-center m-auto">
       <h2 className="font-bold">Te damos la bienvenida</h2>
         <p>
          <span className="text-bold text-orange-500">NoStateNode</span> es un espacio para compartir ideas, recursos y buscar
