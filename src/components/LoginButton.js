@@ -1,18 +1,24 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 // import { Navigate } from "react-router-dom";
 
 export function LoginButton() {
   const { loading } = useAuth();
+  const navigate = useNavigate();
 
   if (loading) return <h1>Loading...</h1>;
 
+  const redirectLogin = () => {
+    navigate("/Login");
+  };
+
   return (
     <button
-      className="log-button"
-      // onClick={() => alert("Create a username!!")}
+      className="bg-orange-600 hover:bg-orange-400 w-50 border-none text-black block border rounded py-1 px-1 m-3"
+      onClick={redirectLogin}
     >
-      <Link to="./Login">Login</Link>
+      <a href="#!">Login</a>
+      {/* <Link to="./Login">Login</Link> */}
     </button>
   );
 }

@@ -11,15 +11,16 @@ export function Navbar() {
     <div className="nav-container">
       <nav className="navbar-logos">
         <Link to={!user ? "/" : "/Home"}>
-          <h1>NoStateNode</h1>
+          <h1 className="text-orange-300">NoStateNode</h1>
         </Link>
         <img
           className="logo-img"
           src={require("../img/horsecoin.png")}
           alt="nostatenode horse logo"
         />
+        {!user ? <LoginButton /> : <LogoutButton />}
       </nav>
-      {!user ? <LoginButton /> : <LogoutButton />}
+      {/* {!user ? <LoginButton /> : <LogoutButton />} */}
     </div>
   );
 }
