@@ -1,15 +1,16 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export function Home() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate()
 
   if (loading) {
     return <h1>Loading....</h1>;
   }
 
   if (!user) {
-    Navigate("/Welcome")
+    navigate("/")
   }
 
   return (
