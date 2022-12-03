@@ -5,7 +5,7 @@ import { Alert } from "./Alert";
 
 export function ResetPassword() {
   const [user, setUser] = useState({
-    email: ""
+    email: "",
   });
 
   const { resetPassword } = useAuth();
@@ -25,7 +25,9 @@ export function ResetPassword() {
     if (!user.email) return setError("Por favor ingresa tu email.");
     try {
       await resetPassword(user.email);
-      alert("¡Hemos enviado un correo con un enlace para resetear tu contraseña!")
+      alert(
+        "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
+      );
       navigate("/Welcome");
       setError(
         "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
@@ -44,7 +46,7 @@ export function ResetPassword() {
         onSubmit={handleResetPassword}
       >
         <div className="mb-4">
-        <p className="my-4 text-sm text-orange-300 flex justify-between">
+          <p className="my-4 text-sm text-orange-300 flex justify-between">
             Enviaremos un correo para reestablecer la constraseña.
           </p>
         </div>
@@ -64,32 +66,29 @@ export function ResetPassword() {
           />
         </div>
 
-        <button
-          className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full"
-        >
+        <button className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
           Reset Password
         </button>
-        <div className="mb-4">
+        <div className="mb-4 flex items-center">
           <p className="my-4 text-sm text-orange-300 flex justify-between">
             ¿No tienes cuenta?
-            <Link
-              className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded mb-2 "
-              to="/register"
-            >
-              Registrarse
-            </Link>
           </p>
+          <Link
+            className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded mb-2"
+            to="/register"
+          >
+            Registrarse
+          </Link>
         </div>
         <div className="mb-4">
-        <p className="my-4 text-sm flex justify-between">
-          
-          <Link
-            className="w-full text-orange-300 py-1 outline-none hover:text-orange-200 border-none text-center font-bold border rounded mb-2 "
-            to="/login"
-          >
-            Volver a Inicio
-          </Link>
-        </p>
+          <p className="my-4 text-sm flex justify-between">
+            <Link
+              className="w-full text-orange-300 py-1 outline-none hover:text-orange-200 border-none text-center font-bold border rounded mb-2 "
+              to="/login"
+            >
+              Volver a Inicio
+            </Link>
+          </p>
         </div>
       </form>
     </div>

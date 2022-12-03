@@ -107,12 +107,12 @@ export function Login() {
             Ingresar con Google
           </button>
         </div>        
-        <div className="mb-4 text-center">
+        <div className="mb-4 flex items-center">
           <p className="mb-2 text-sm justify-between">
             ¿No tienes cuenta?            
           </p>
           <Link
-              className="w-full bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
+              className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
               to="/register"
             >
               Registrarse
