@@ -25,9 +25,13 @@
   /* margin: 0.5rem; */
 }
 
-.navbar-logos h1,
-.navbar-logos a {
-  font-size: 1.2em;
+.navbar-logos button a {
+  color: var(--wheat);
+  font-size: 1.1rem;
+}
+
+.navbar-logos h1 {
+  font-size: 1.4em;
   color: var(--wheat);
   padding: 0.3em;
   text-decoration: none;

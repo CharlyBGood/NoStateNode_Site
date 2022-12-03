@@ -15,14 +15,14 @@ export function LogoutButton() {
     navigate("/Welcome");
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <h1>Saliendo...</h1>;
 
   return (
     <button
       className="bg-orange-600 hover:bg-orange-400 w-50 border-none text-black block border rounded py-1 px-1 m-3"
       onClick={handleLogout}
     >
-      <a href="#!">Logout</a>
+      <a href="#!">Cerrar Sesión</a>
       {/* <Link to="./Welcome">Logout</Link> */}
     </button>
   );

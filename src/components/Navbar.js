@@ -11,7 +11,7 @@ export function Navbar() {
     <div className="nav-container">
       <nav className="navbar-logos">
         <Link to={!user ? "/" : "/Home"}>
-          <h1 className="text-orange-300">
+          <h1>
             <span className="text-orange-300">N</span>o
             <span className="text-orange-300">S</span>tate
             <span className="text-orange-300">N</span>ode
