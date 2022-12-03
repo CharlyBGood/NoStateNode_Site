@@ -25,11 +25,6 @@
   /* margin: 0.5rem; */
 }
 
-.navbar-logos button a {
-  color: var(--wheat);
-  font-size: 1.1rem;
-}
-
 .navbar-logos h1 {
   font-size: 1.4em;
   color: var(--wheat);
@@ -69,6 +64,10 @@
   .navbar-logos {
     margin: 0;
     justify-content: center;
+  }
+  
+  .navbar-logos h1 {
+    font-size: 1.2em;
   }
 
   .logo-img {

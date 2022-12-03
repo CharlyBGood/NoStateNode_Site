@@ -17,7 +17,7 @@ export function LoginButton() {
       className="bg-orange-600 hover:bg-orange-400 w-50 border-none text-black block border rounded py-1 px-1 m-3"
       onClick={redirectLogin}
     >
-      <a href="#!">Ingresar</a>
+      <a className="font-bold" href="#!">Ingresar</a>
       {/* <Link to="./Login">Login</Link> */}
     </button>
   );

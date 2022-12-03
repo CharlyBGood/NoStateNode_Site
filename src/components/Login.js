@@ -107,16 +107,16 @@ export function Login() {
             Ingresar con Google
           </button>
         </div>        
-        <div className="mb-4">
-          <p className="my-4 text-sm flex justify-between">
-            ¿No tienes cuenta?
-            <Link
-              className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded mb-2 "
+        <div className="mb-4 text-center">
+          <p className="mb-2 text-sm justify-between">
+            ¿No tienes cuenta?            
+          </p>
+          <Link
+              className="w-full bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
               to="/register"
             >
               Registrarse
             </Link>
-          </p>
         </div>
       </form>
       {error && <Alert message={error} />}
