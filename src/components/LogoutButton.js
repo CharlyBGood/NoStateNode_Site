@@ -19,10 +19,10 @@ export function LogoutButton() {
 
   return (
     <button
-      className="bg-orange-600 hover:bg-orange-400 w-50 border-none text-black block border rounded py-1 px-1 m-3"
+      className="bg-orange-600 hover:bg-orange-400 border-none text-black border rounded py-1 px-3"
       onClick={handleLogout}
     >
-      <a href="#!">Cerrar Sesión</a>
+      <a className="font-bold" href="#!">Salir</a>
       {/* <Link to="./Welcome">Logout</Link> */}
     </button>
   );

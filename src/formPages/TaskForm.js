@@ -21,7 +21,7 @@ function TaskForm({ createInput }) {
     <form id="form" className="bg-neutral shadow-md rounded px-8 pt-6 pb-2" onSubmit={handleSend}>
       <div className="mb-4">
       <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-orange-600 font-bold leading-tight focus:outline-none focus:shadow-outline"
         type="text"
         placeholder="Añade una nota"
         value={input}

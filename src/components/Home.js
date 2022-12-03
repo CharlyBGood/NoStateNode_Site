@@ -15,16 +15,16 @@ export function Home() {
   }
 
   return (
-      
-      <div className="bg-neutral w-full max-w-md rounded m-auto">
-        {/* <div className="bg-black py-4 px-2 w-full max-w-xs m-auto text-slate-300">
+    <div className="bg-neutral w-full max-w-md rounded m-auto">
+      {/* <div className="bg-black py-4 px-2 w-full max-w-xs m-auto text-slate-300">
         <h1>¡Hola {user.displayName || user.email}!</h1>
       </div> */}
-        
-          <h1 className="text-orange-300 text-center text-sm font-fold py-3">¡Hola {user.displayName || user.email}!</h1>
-          <TaskList />
-        
-      </div>
-    
+
+      <h1 className="text-center text-sm font-fold py-3">
+        ¡Hola {user.displayName || user.email}!
+      </h1>
+      <p>¡Puedes comenzar añadiendo una lista de ideas!</p>
+      <TaskList />
+    </div>
   );
 }
