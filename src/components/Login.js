@@ -89,15 +89,7 @@ export function Login() {
         <button className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
           Iniciar sesión
         </button>
-        <div className="mb-4">
-          <button
-            className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
-            onClick={handleGoogleLogin}
-          >
-            Ingresar con Google
-          </button>
-        </div>
-        <div className="mb-4">
+        <div className="mb-4 text-center py-2">
           <Link
           to="/ResetPassword"
             href="#!"
@@ -107,6 +99,14 @@ export function Login() {
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
+        <div className="mb-4">
+          <button
+            className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
+            onClick={handleGoogleLogin}
+          >
+            Ingresar con Google
+          </button>
+        </div>        
         <div className="mb-4">
           <p className="my-4 text-sm flex justify-between">
             ¿No tienes cuenta?

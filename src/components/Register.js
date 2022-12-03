@@ -53,7 +53,7 @@ export function Register() {
             className="block text-orange-300 text-sm font-fold mb-2"
             htmlFor="email"
           >
-            Email
+            Correo
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -68,7 +68,7 @@ export function Register() {
             className="block text-orange-300 text-sm font-fold mb-2"
             htmlFor="password"
           >
-            Password
+            Contraseña
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -82,13 +82,13 @@ export function Register() {
         <button className="bg-orange-600 hover:bg-slate-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
           Crear cuenta
         </button>
-        <p className="my-4 text-sm text-orange-300 flex justify-between">
+        <p className="my-4 text-sm flex justify-between">
           ¿Ya tienes cuenta?
           <Link
-            className="bg-orange-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2 "
+            className="bg-orange-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2"
             to="/login"
           >
-            Iniciar sesión
+            Ingresar
           </Link>
         </p>
       </form>

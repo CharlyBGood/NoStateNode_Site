@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');
+
 :root {
   color-scheme: light only;
   --soft-black: #2e2b2b;
@@ -50,7 +52,7 @@ body {
   max-height: 100%;
   background-color: var(--dark-black);
   color: var(--wheat);
-  font-size: 16px;
+  /* font-size: 16px; */
 }
 
 footer svg {
