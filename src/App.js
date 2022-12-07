@@ -11,7 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <div className="bg-neutral-800 h-screen flex">
+    <div className="todo-app">
       <AuthProvider>
         <Navbar />
           <Routes>

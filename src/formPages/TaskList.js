@@ -46,7 +46,7 @@ function TaskList() {
   return (
     <>
       <TaskForm createInput={addTask} />
-      <div className="task-list-container m-auto mb-8 max-w-sm">
+      <div className="task-list-container">
         {tasks.map((task) => (
           <Task
             key={task.id}

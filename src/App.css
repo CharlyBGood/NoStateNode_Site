@@ -1,0 +1,39 @@
+.todo-app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-description {
+  text-align: center;
+  font-size: 1.1em;
+  color: #f5deb3;
+  font-family: Roboto, sans-serif;
+  /* margin: 1.1em 0; */
+}
+.todo-list-main {
+  width: 65%;
+  min-height: 31em;
+  /* background-color: #1e1e1e; */
+  padding: 1.4em;
+  margin: 0.8em;
+  position: relative;
+  border-radius: 0.6em;
+  top: 11%;
+}
+
+@media screen and (max-width: 850px) {
+  .todo-app {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
+  }
+
+  .todo-list-main {
+    width: 85%;
+  }
+}

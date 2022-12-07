@@ -7,7 +7,7 @@
   background-color: #b94908;
   margin: 0.4em auto;
   padding: 0.6em 1em 0.6em 1.2em;
-  /* width: 85%; */
+  width: 85%;
   min-height: 2.5em;
   cursor: pointer;
 }
@@ -47,6 +47,6 @@
 @media screen and (max-width: 850px) {
   .todo-container {
     padding: 0;
-    width: 85%;
+    width: 100%;
   }
 }

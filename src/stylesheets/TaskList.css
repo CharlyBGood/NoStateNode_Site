@@ -1,0 +1,12 @@
+.task-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: .3em 0 3% 0;
+}
+
+@media screen and (max-width: 850px) {
+  .task-list-container {
+    margin: 0.5em 0;
+  }
+}

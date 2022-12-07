@@ -1,10 +1,10 @@
-/* .task-form {
+.task-form {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 85%;
-  margin: 0 auto;
+  margin: 1em auto;
 }
 
 .task-input {
@@ -44,4 +44,4 @@
   .task-btn {
     width: 100%;
   }
-} */
+}

@@ -51,7 +51,7 @@ export function Login() {
   return (
     <div className="bg-black w-full max-w-xs m-auto">
       <form
-        className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-black shadow-md rounded px-8 pt-6"
         onSubmit={handleSubmit}
       >
         <div className="mb-4">

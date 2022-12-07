@@ -18,18 +18,16 @@ function TaskForm({ createInput }) {
   };
 
   return (
-    <form id="form" className="bg-neutral shadow-md rounded px-8 pt-6 pb-2" onSubmit={handleSend}>
-      <div className="mb-4">
+    <form id="form" className="task-form" onSubmit={handleSend}>
       <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-orange-600 font-bold leading-tight focus:outline-none focus:shadow-outline"
+        className="task-input"
         type="text"
         placeholder="Añade una nota"
         value={input}
         name="text"
         onChange={(e) => setInput(e.target.value)}
-      />      
-      </div>
-      <button className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">Agregar</button>
+      />
+      <button className="task-btn">Agregar</button>
     </form>
   );
 }
