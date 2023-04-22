@@ -3,10 +3,12 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: .3em 0 3% 0;
+  padding-bottom: 1em;
 }
 
 @media screen and (max-width: 850px) {
   .task-list-container {
     margin: 0.5em 0;
+    padding-bottom: 3em;
   }
 }

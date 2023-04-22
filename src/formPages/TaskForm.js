@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+
 import "../stylesheets/TaskForm.css";
 
 function TaskForm({ createInput }) {
   const [input, setInput] = useState("");
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
 
     const newTask = {
@@ -13,6 +14,7 @@ function TaskForm({ createInput }) {
       text: input,
       complete: false,
     };
+
     createInput(newTask);
     setInput("");
   };

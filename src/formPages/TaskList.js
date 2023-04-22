@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskForm from "./TaskForm";
 import Task from "./Task";
 import "../stylesheets/TaskList.css";
-import { useEffect } from "react";
 
 function TaskList() {
   const [tasks, setTasks] = useState([]);
