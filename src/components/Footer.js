@@ -5,17 +5,16 @@ export function Footer() {
   return (
     <footer>
       <p>
-        by Charly BGood
+        by
         <a
           href="https://github.com/CharlyBGood/"
           target="_blank"
           rel="noopener noreferrer"
         >
+          Charly BGood
           <FaGithub />
         </a>
       </p>
     </footer>
   );
 }
-
-
