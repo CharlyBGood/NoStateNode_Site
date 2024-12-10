@@ -8,23 +8,31 @@ import { Register } from "./components/Register";
 import { ResetPassword } from "./components/ResetPassword";
 import { Welcome } from "./components/Welcome";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { useEffect } from "react";
 
 function App() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Redirigir si el usuario está autenticado
-  if (user) {
-    navigate("/Home");
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/Home");
+    }
+  }, [user, navigate]);
+
+  const RouteRedirection = () => {
+    const { user } = useAuth();
+    return user ? <Home /> : <Welcome />;
+  };
+
   return (
-    <div className="todo-app">
-      <AuthProvider>
+    <AuthProvider>
+      <div className="todo-app">
         <Navbar />
         <Routes>
           <Route path="/" element={<RouteRedirection />} />
           <Route
-            path="/"
+            path="/Home"
             element={
               <ProtectedRoute>
                 <Home />
@@ -38,14 +46,9 @@ function App() {
           <Route path="/ResetPassword" element={<ResetPassword />} />
         </Routes>
         <Footer />
-      </AuthProvider>
-    </div>
+      </div>
+    </AuthProvider>
   );
 }
-
-const RouteRedirection = () => {
-  const { user } = useAuth(); // Aquí accedes al usuario desde el contexto
-  return user ? <Home /> : <Welcome />;
-};
 
 export default App;
