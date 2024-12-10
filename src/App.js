@@ -22,6 +22,7 @@ function App() {
       <AuthProvider>
         <Navbar />
         <Routes>
+          <Route path="/" element={<RouteRedirection />} />
           <Route
             path="/"
             element={
@@ -30,7 +31,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<RouteRedirection />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Welcome" element={<Welcome />} />
           <Route path="/Login" element={<Login />} />
@@ -44,7 +44,7 @@ function App() {
 }
 
 const RouteRedirection = () => {
-  const { user } = useAuth();  // Aquí accedes al usuario desde el contexto
+  const { user } = useAuth(); // Aquí accedes al usuario desde el contexto
   return user ? <Home /> : <Welcome />;
 };
 
