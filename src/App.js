@@ -30,6 +30,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/" element={<RouteRedirection />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Welcome" element={<Welcome />} />
           <Route path="/Login" element={<Login />} />
@@ -41,5 +42,10 @@ function App() {
     </div>
   );
 }
+
+const RouteRedirection = () => {
+  const { user } = useAuth();  // Aquí accedes al usuario desde el contexto
+  return user ? <Home /> : <Welcome />;
+};
 
 export default App;
