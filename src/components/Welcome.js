@@ -1,7 +1,13 @@
 import "../stylesheets/Form.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+// import { Navigate } from "react-router-dom";
 
 export function Welcome() {
+  const { user, loading } = useAuth();
+
+  if (loading) return <h1>Loading...</h1>
+
   return (
     <div className="bg-neutral w-85 max-w-prose text-center m-auto">
       <h2 className="font-bold">Te damos la bienvenida</h2>
@@ -14,12 +20,17 @@ export function Welcome() {
         comenzar debes crear una cuenta, si ya la tienes inicia sesión. Gracias.
       </p>
       <div className="m-4 py-2">
-        <Link
+        {!user ? <Link
           className="bg-orange-600 py-2 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
           to="/register"
         >
           Registrarse
-        </Link>
+        </Link> : <Link
+          className="bg-orange-600 py-2 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
+          to="/Home"
+        >
+          Inicio
+        </Link>}
       </div>
     </div>
   );
