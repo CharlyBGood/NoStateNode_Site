@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import { Home } from "./components/Home";
 import { Login } from "./components/Login";
@@ -7,46 +7,31 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Register } from "./components/Register";
 import { ResetPassword } from "./components/ResetPassword";
 import { Welcome } from "./components/Welcome";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import { useEffect } from "react";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/Home");
-    }
-  }, [user, navigate]);
-
-  const RouteRedirection = () => {
-    const { user } = useAuth();
-    return user ? <Home /> : <Welcome />;
-  };
-
   return (
-    <AuthProvider>
-      <div className="todo-app">
+    <div className="todo-app">
+      <AuthProvider>
         <Navbar />
         <Routes>
-          <Route path="/" element={<RouteRedirection />} />
           <Route
-            path="/Home"
+            path="/"
             element={
               <ProtectedRoute>
-                <Home />
+                <Welcome />
               </ProtectedRoute>
             }
           />
+          <Route path="/Home" element={<Home />} />
           <Route path="/Welcome" element={<Welcome />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/ResetPassword" element={<ResetPassword />} />
         </Routes>
         <Footer />
-      </div>
-    </AuthProvider>
+      </AuthProvider>
+    </div>
   );
 }
 
