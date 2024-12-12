@@ -34,6 +34,15 @@
   padding: .4em;
 }
 
+.todo-link {
+  color: var(--red-wheat);
+  text-decoration: underline;
+}
+
+.todo-link:hover {
+  text-decoration: none;
+}
+
 .todo-icon {
   font-size: 1em;
   margin: 0.5em;
