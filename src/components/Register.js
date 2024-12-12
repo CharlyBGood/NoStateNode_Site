@@ -37,8 +37,7 @@ export function Register() {
       if (error.code === "auth/email-already-in-use") {
         setError("El correo proporcionado ya tiene una cuenta existente.");
       }
-      // setError(error.message);
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 

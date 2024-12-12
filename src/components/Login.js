@@ -35,7 +35,6 @@ export function Login() {
       ) {
         setError("Proporciona un email válido y una contraseña.");
       }
-      // setError(error.message);
     }
   };
 
@@ -44,7 +43,7 @@ export function Login() {
       await loginWithGoogle();
       navigate("/Home");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -91,10 +90,10 @@ export function Login() {
         </button>
         <div className="mb-4 text-center py-2">
           <Link
-          to="/ResetPassword"
+            to="/ResetPassword"
             href="#!"
             className="inline-block align-center font-bold text-sm"
-            // onClick={handleResetPassword}
+          // onClick={handleResetPassword}
           >
             ¿Olvidaste tu contraseña?
           </Link>
@@ -106,17 +105,17 @@ export function Login() {
           >
             Ingresar con Google
           </button>
-        </div>        
+        </div>
         <div className="mb-4 flex items-center">
           <p className="mb-2 text-sm justify-between">
-            ¿No tienes cuenta?            
+            ¿No tienes cuenta?
           </p>
           <Link
-              className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
-              to="/register"
-            >
-              Registrarse
-            </Link>
+            className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
+            to="/register"
+          >
+            Registrarse
+          </Link>
         </div>
       </form>
       {error && <Alert message={error} />}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TaskForm from "./TaskForm";
 import Task from "./Task";
+import { ConfirmationModal } from "./ConfirmationModal";
 import "../stylesheets/TaskList.css";
 import { auth, db } from "../firebase";
 import {
@@ -17,6 +18,8 @@ import {
 function TaskList() {
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
+  const [isModalHidden, setIsModalHidden] = useState(true);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
@@ -41,33 +44,26 @@ function TaskList() {
     return () => unsubscribeAuth();
   }, []);
 
-  // const addTask = async (task) => {
-  //   if (task.text.trim()) {
-  //     task.text = task.text.trim();
-  //     const user = auth.currentUser;
-  //     if (user) {
-  //       const taskRef = db.collection("notes").doc();
-  //       await taskRef.set({
-  //         text: task.text,
-  //         complete: false,
-  //         userId: user.uid,
-  //         createdAt: new Date(),
-  //         updatedAt: new Date(),
-  //       });
-  //     }
-  //   }
-  // };
-
-  const deleteTask = async (id) => {
-    if (window.confirm("Quieres borrar esta entrada?")) {
-      try {
-        const taskRef = doc(db, "notes", id);
-        await deleteDoc(taskRef);
-      } catch (error) {
-        console.error("Error deleting task: ", error);
-      }
-    }
+  const deleteTask = (id) => {
+    setTaskToDelete(id);
+    setIsModalHidden(false);
   };
+
+  const cancelDelete = () => {
+    setIsModalHidden(true);
+  }
+
+  const confirmDelete = async () => {
+    try {
+      const taskRef = doc(db, "notes", taskToDelete);
+      await deleteDoc(taskRef);
+      setTasks(tasks.filter((task) => task.id !== taskToDelete));
+    } catch (error) {
+      console.error("Error deleting task: ", error);
+    }
+    setIsModalHidden(true);
+    setTaskToDelete(null);
+  }
 
   const completeTask = async (id) => {
     try {
@@ -87,7 +83,6 @@ function TaskList() {
 
   return (
     <>
-      {/* ... Authentication components (if needed) ... */}
       {user ? (
         <>
           <TaskForm />
@@ -103,6 +98,11 @@ function TaskList() {
               />
             ))}
           </div>
+          <ConfirmationModal
+            onDeleteCancel={cancelDelete}
+            onDeleteConfirm={confirmDelete}
+            isHidden={isModalHidden}
+          />
         </>
       ) : (
         <p>Por favor, inicia sesión para acceder a tus tareas.</p>

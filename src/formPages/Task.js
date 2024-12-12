@@ -1,5 +1,4 @@
 import "../stylesheets/Task.css";
-// import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 
 function Task({ id, text, complete, completeTask, deleteTask }) {
@@ -9,7 +8,6 @@ function Task({ id, text, complete, completeTask, deleteTask }) {
         {text}
       </div>
       <div className="todo-container-icons" onClick={() => deleteTask(id)}>
-        {/* <AiOutlineCloseCircle className="todo-icon" /> */}
         <FaTrash className="todo-icon" />
       </div>
     </div>

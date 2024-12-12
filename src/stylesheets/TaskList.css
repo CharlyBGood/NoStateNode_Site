@@ -6,9 +6,80 @@
   padding-bottom: 1em;
 }
 
+.modal-content {
+  width: 49%;
+  border: 1px solid #514c42;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1em;
+  border-radius: 0.5em;
+  background-color: #1e1e1e;
+}
+
+.hide-modal {
+  display: none;
+}
+
+.show-modal {
+  position: fixed;
+  z-index: 11;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  top: 50%;
+  left: 0;
+}
+
+.btn-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.btn-delete,
+.btn-cancel {
+  width: 35%;
+  padding: 0.5em 0;
+  color: #f5deb3;
+  background: transparent;
+  margin: 0.5em 0;
+  border-radius: .6em;
+  letter-spacing: 0.2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background-color: #c934349f;
+  width: 45%;
+}
+
+.btn-delete:hover {
+  background-color: #c93434;
+}
+
+.btn-cancel:hover {
+  background-color: #f5deb39a;
+  color: #1e1e1e;
+}
+
+.btn-delete:hover,
+.btn-cancel:hover {
+  padding: 0.4em;
+  transition: ease-in-out;
+}
+
+
 @media screen and (max-width: 850px) {
   .task-list-container {
     margin: 0.5em 0;
     padding-bottom: 3em;
+  }
+
+  .modal-content {
+    width: 70%;
   }
 }

@@ -5,7 +5,7 @@ import { collection, addDoc } from "firebase/firestore";
 
 import "../stylesheets/TaskForm.css";
 
-function TaskForm({ createInput }) {
+function TaskForm() {
   const [input, setInput] = useState("");
 
   const handleSend = async (e) => {

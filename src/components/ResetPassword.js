@@ -15,12 +15,6 @@ export function ResetPassword() {
   const handleChange = ({ target: { name, value } }) =>
     setUser({ ...user, [name]: value });
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   setError(error.message);
-  // };
-
   const handleResetPassword = async () => {
     if (!user.email) return setError("Por favor ingresa tu email.");
     try {

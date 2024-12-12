@@ -24,7 +24,6 @@ export function Navbar() {
         />
         {!user ? <LoginButton /> : <LogoutButton />}
       </nav>
-      {/* {!user ? <LoginButton /> : <LogoutButton />} */}
     </div>
   );
 }
