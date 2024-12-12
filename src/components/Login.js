@@ -38,7 +38,8 @@ export function Login() {
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
     try {
       await loginWithGoogle();
       navigate("/Home");
@@ -64,6 +65,8 @@ export function Login() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             name="email"
+            id="email"
+            autoComplete="Your@Email.com"
             placeholder="youremail@example.com"
             onChange={handleChange}
           />
