@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-// import { Navigate } from "react-router-dom";
 
 export function LoginButton() {
   const { loading } = useAuth();
@@ -18,7 +17,6 @@ export function LoginButton() {
       onClick={redirectLogin}
     >
       <a className="font-bold" href="#!">Ingresar</a>
-      {/* <Link to="./Login">Login</Link> */}
     </button>
   );
 }

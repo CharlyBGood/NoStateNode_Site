@@ -11,13 +11,13 @@ function TaskForm() {
   const handleSend = async (e) => {
     e.preventDefault();
 
-    const user = auth.currentUser; // Get the current user
+    const user = auth.currentUser;
     if (user) {
       try {
         const newTask = {
           text: input,
           complete: false,
-          userId: user.uid, // Add the user ID
+          userId: user.uid,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
@@ -36,7 +36,7 @@ function TaskForm() {
       <input
         className="task-input"
         type="text"
-        placeholder="Añade una nota"
+        placeholder="Añade una nota o enlace"
         value={input}
         name="text"
         onChange={(e) => setInput(e.target.value)}

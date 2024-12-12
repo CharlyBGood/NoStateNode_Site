@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-// import { Navigate } from "react-router-dom";
 
 export function LogoutButton() {
   const { logout, loading } = useAuth();
@@ -23,7 +22,6 @@ export function LogoutButton() {
       onClick={handleLogout}
     >
       <a className="font-bold" href="#!">Salir</a>
-      {/* <Link to="./Welcome">Logout</Link> */}
     </button>
   );
 }

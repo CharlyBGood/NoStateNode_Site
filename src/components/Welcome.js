@@ -1,8 +1,6 @@
 import "../stylesheets/Form.css";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-// import { Home } from "./Home";
-// import { Navigate } from "react-router-dom";
 
 export function Welcome() {
   const { user, loading } = useAuth();

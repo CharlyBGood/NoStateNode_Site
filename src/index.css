@@ -46,28 +46,19 @@
 }
 
 @layer base {
-  html, body {
+
+  html,
+  body {
     font-family: "Source Code Pro", monospace;
-    color: var(--wheat);    
+    color: var(--wheat);
     background-color: var(--dark-black);
-    width: 100%;  
+    width: 100%;
     font-size: 16px;
-    max-height: 100%;  
+    max-height: 100%;
   }
 
 
 }
-
-/* html,
-body {
-  font-family: "Source Code Pro", monospace;
-  padding: 0;
-  margin: 0;
-  max-height: 100%;
-  background-color: var(--dark-black);
-  color: var(--wheat);
-  font-size: 16px;
-} */
 
 footer svg {
   display: inline;
