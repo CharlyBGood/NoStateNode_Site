@@ -7,12 +7,19 @@ export function Footer() {
       <p>
         by
         <a
+          href="https://charlybgood.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="smedia-contact"
+        >
+          Charly BGood
+        </a>
+        <a
           href="https://github.com/CharlyBGood/"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Charly BGood
-          <FaGithub />
+          className="smedia-contact"
+        ><FaGithub />
         </a>
       </p>
     </footer>

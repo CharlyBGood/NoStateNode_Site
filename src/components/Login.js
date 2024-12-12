@@ -19,21 +19,26 @@ export function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!user.email.trim() || !user.password.trim()) {
+      setError("Por favor, completa todos los campos.");
+    }
+
     try {
       await login(user.email, user.password);
       navigate("/Home");
     } catch (error) {
       if (error.code === "auth/wrong-password") {
         setError("La contraseña no es válida.");
-      }
-      if (error.code === "auth/user-not-found") {
+      } else if (error.code === "auth/user-not-found") {
         setError("El usuario no existe.");
-      }
-      if (
+      } else if (
         error.code === "auth/invalid-email" ||
         error.code === "auth/internal-error"
       ) {
-        setError("Proporciona un email válido y una contraseña.");
+        setError("Proporciona un email válido.");
+      } else {
+        setError("Ocurrió un error inesperado. Intenta nuevamente.");
       }
     }
   };
