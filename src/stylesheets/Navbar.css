@@ -34,20 +34,25 @@
   text-shadow: 2px 2px 2px #363636;
 }
 
+.txt-title-span {
+  color: #d3852b;
+  font-weight: bold;
+}
+
 .logo-img {
   width: 5em;
   margin: 0.5em;
 }
 
-.log-button {
-  background-color: var(--soft-black);
-  color: #f0ab2a;
+.log-btn {
+  background-color: var(--main-orange);
+  color: var(--wheat);
   cursor: pointer;
-  border-radius: 0.4em;
-  border: 1px solid #000;
-  padding: 0.7em;
-  font-family: "Source Code Pro", monospace;
-  margin: 1em 3em;
+  border-radius: 0.4em;  
+}
+
+.log-btn:hover {
+  background-color: var(--dark-black);
 }
 
 .log-button a {

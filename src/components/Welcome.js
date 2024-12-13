@@ -23,7 +23,7 @@ export function Welcome() {
           </p>
           <div className="m-4 py-2">
             <Link
-              className="bg-orange-600 py-2 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
+              className="log-btn py-2 outline-none border-none px-3 font-bold border rounded"
               to="/register"
             >
               Registrarse

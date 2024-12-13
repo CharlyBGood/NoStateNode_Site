@@ -61,13 +61,13 @@ export function Login() {
       >
         <div className="mb-4">
           <label
-            className="block text-orange-300 text-sm font-fold mb-2"
+            className="block text-sm font-fold mb-2"
             htmlFor="email"
           >
             Email
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             name="email"
             id="email"
@@ -78,13 +78,13 @@ export function Login() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-orange-300 text-sm font-fold mb-2"
+            className="block text-sm font-fold mb-2"
             htmlFor="password"
           >
             Password
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
             name="password"
             id="password"
@@ -93,7 +93,7 @@ export function Login() {
           />
         </div>
 
-        <button className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
+        <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
           Iniciar sesión
         </button>
         <div className="mb-4 text-center py-2">
@@ -108,7 +108,7 @@ export function Login() {
         </div>
         <div className="mb-4">
           <button
-            className="bg-orange-600 hover:bg-orange-400 w-100 border-none text-black font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
+            className="log-btn w-100 border-none font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
           >
             Ingresar con Google
@@ -119,7 +119,7 @@ export function Login() {
             ¿No tienes cuenta?
           </p>
           <Link
-            className="bg-orange-600 py-1 outline-none hover:bg-orange-400 border-none px-3 text-black font-bold border rounded"
+            className="log-btn py-1 outline-none border-none px-3 font-bold border rounded"
             to="/register"
           >
             Registrarse

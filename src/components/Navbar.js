@@ -12,9 +12,9 @@ export function Navbar() {
       <nav className="navbar-logos">
         <Link to={!user ? "/" : "/Home"}>
           <h1>
-            <span className="text-orange-300">N</span>o
-            <span className="text-orange-300">S</span>tate
-            <span className="text-orange-300">N</span>ode
+            <span className="txt-title-span">N</span>o
+            <span className="txt-title-span">S</span>tate
+            <span className="txt-title-span">N</span>ode
           </h1>
         </Link>
         <img

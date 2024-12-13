@@ -49,13 +49,13 @@ export function Register() {
       >
         <div className="mb-4">
           <label
-            className="block text-orange-300 text-sm font-fold mb-2"
+            className="block text-sm font-fold mb-2"
             htmlFor="email"
           >
             Correo
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             name="email"
             id="email"
@@ -66,13 +66,13 @@ export function Register() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-orange-300 text-sm font-fold mb-2"
+            className="block text-sm font-fold mb-2"
             htmlFor="password"
           >
             Contraseña
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
             name="password"
             id="password"
@@ -80,13 +80,13 @@ export function Register() {
             placeholder="******"
           />
         </div>
-        <button className="bg-orange-600 hover:bg-slate-400 w-100 border-none text-black font-bold block border rounded mb-2 py-2 px-4 w-full">
+        <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
           Crear cuenta
         </button>
         <p className="my-4 text-sm flex justify-between">
           ¿Ya tienes cuenta?
           <Link
-            className="bg-orange-600 py-1 outline-none hover:bg-slate-400 border-none px-3 text-black font-bold border rounded mb-2"
+            className="log-btn py-1 outline-none border-none px-3 font-bold border rounded mb-2"
             to="/login"
           >
             Ingresar

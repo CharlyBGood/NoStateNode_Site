@@ -10,14 +10,12 @@
 .title-description {
   text-align: center;
   font-size: 1.1em;
-  color: #f5deb3;
-  font-family: Roboto, sans-serif;
-  /* margin: 1.1em 0; */
+  color: var(--wheat);
 }
+
 .todo-list-main {
   width: 65%;
   min-height: 31em;
-  /* background-color: #1e1e1e; */
   padding: 1.4em;
   margin: 0.8em;
   position: relative;

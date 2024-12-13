@@ -9,7 +9,9 @@
   --soft-black: #2e2b2b;
   --dark-black: #212121;
   --wheat: #e0d6c4;
+  --main-orange: #b94908;
   --orange-wheat: #f0ab2a;
+  --orange-dark: #915f02;
   --red-wheat: #eec8c3;
 }
 
@@ -18,15 +20,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  /* background: hsl(211 82% 11% / 1); */
   background: hsla(219, 70%, 4%, 0.81);
   border-radius: 100vw;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsla(33, 75%, 30%, 0.782);
+  /* background: hsla(33, 75%, 30%, 0.782); */
+  background: var(--orange-dark);
   border-radius: 100vw;
-  /* border: .25em solid hsl(211 82% 11% / 1); */
 }
 
 ::-webkit-scrollbar-thumb:hover {

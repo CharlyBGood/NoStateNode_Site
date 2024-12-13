@@ -4,7 +4,7 @@
   justify-content: space-between;
   border: 1px solid #2c1102;
   border-radius: 0.6em;
-  background-color: #b94908;
+  background-color: var(--main-orange);
   margin: 0.4em auto;
   padding: 0.6em 1em 0.6em 1.2em;
   width: 85%;
@@ -12,9 +12,9 @@
   cursor: pointer;
 }
 
-.todo-container:nth-child(3n + 1) {
+/* .todo-container:nth-child(3n + 1) {
   background-color: #b94908;
-}
+} */
 
 .todo-container:nth-child(3n + 2) {
   background-color: #d6611d;
