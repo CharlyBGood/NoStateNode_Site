@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #2c1102;
+  border: 1px solid var(--soft-black);
   border-radius: 0.6em;
   background-color: var(--main-orange);
   margin: 0.4em auto;
@@ -17,11 +17,11 @@
 } */
 
 .todo-container:nth-child(3n + 2) {
-  background-color: #d6611d;
+  background-color: var(--middle-orange);
 }
 
 .todo-container:nth-child(3n + 3) {
-  background-color: #d3852b;
+  background-color: var(--soft-orange);
 }
 
 .todo-txt {
@@ -49,7 +49,7 @@
 }
 
 .todo-container.complete {
-  background-color: #a71a01;
+  background-color: var(--red-danger);
   text-decoration: line-through;
 }
 

@@ -10,9 +10,12 @@
   --dark-black: #212121;
   --wheat: #e0d6c4;
   --main-orange: #b94908;
-  --orange-wheat: #f0ab2a;
+  --middle-orange: #d6611d;
+  --soft-orange: #d3852b;
   --orange-dark: #915f02;
   --red-wheat: #eec8c3;
+  --red-danger: #c934349f;
+  --red-danger-hover: #c93434;
 }
 
 ::-webkit-scrollbar {

@@ -31,7 +31,7 @@
   padding: 0.3em;
   text-decoration: none;
   letter-spacing: 0.1em;
-  text-shadow: 2px 2px 2px #363636;
+  text-shadow: 2px 2px 2px var(--dark-black);
 }
 
 .txt-title-span {
