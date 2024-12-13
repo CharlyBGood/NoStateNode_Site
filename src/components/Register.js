@@ -1,26 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
 
 export function Register() {
-  const [user, setUser] = useState({
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const [newUser, setNewUser] = useState({
     email: "",
     password: "",
   });
-
   const { signup } = useAuth();
-  const navigate = useNavigate();
   const [error, setError] = useState();
 
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/Home");
+    }
+  }, [user, loading, navigate]);
+
   const handleChange = ({ target: { name, value } }) =>
-    setUser({ ...user, [name]: value });
+    setNewUser({ ...newUser, [name]: value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password);
+      await signup(newUser.email, newUser.password);
       navigate("/Home");
     } catch (error) {
       if (
@@ -40,6 +47,8 @@ export function Register() {
       console.error(error.message);
     }
   };
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <div className="bg-black w-full max-w-xs m-auto">

@@ -1,31 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
 
 export function Login() {
-  const [user, setUser] = useState({
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const [logUser, setLogUser] = useState({
     email: "",
     password: "",
   });
 
   const { login, loginWithGoogle } = useAuth();
-  const navigate = useNavigate();
   const [error, setError] = useState();
 
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/Home");
+    }
+  }, [user, loading, navigate]);
+
   const handleChange = ({ target: { name, value } }) =>
-    setUser({ ...user, [name]: value });
+    setLogUser({ ...logUser, [name]: value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!user.email.trim() || !user.password.trim()) {
+    if (!logUser.email.trim() || !logUser.password.trim()) {
       setError("Por favor, completa todos los campos.");
     }
 
     try {
-      await login(user.email, user.password);
+      await login(logUser.email, logUser.password);
       navigate("/Home");
     } catch (error) {
       if (error.code === "auth/wrong-password") {
@@ -52,6 +60,8 @@ export function Login() {
       console.error(error);
     }
   };
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <div className="bg-black w-full max-w-xs m-auto">
