@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Alert } from "./Alert";
 
 export function ResetPassword() {
@@ -8,21 +8,23 @@ export function ResetPassword() {
     email: "",
   });
 
+
   const { resetPassword } = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [error, setError] = useState();
 
   const handleChange = ({ target: { name, value } }) =>
     setUser({ ...user, [name]: value });
 
-  const handleResetPassword = async () => {
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
     if (!user.email) return setError("Por favor ingresa tu email.");
     try {
       await resetPassword(user.email);
-      alert(
-        "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
-      );
-      navigate("/Welcome");
+      // navigate("/login");
+      // alert(
+      //   "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
+      // );      
       setError(
         "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
       );
@@ -55,13 +57,15 @@ export function ResetPassword() {
             className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             name="email"
+            id="email"
+            autoComplete="Your@Email.com"
             placeholder="youremail@example.com"
             onChange={handleChange}
           />
         </div>
 
-        <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
-          Reset Password
+        <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full" type="submit">
+          Cambiar Contraseña
         </button>
         <div className="mb-4 flex items-center">
           <p className="my-4 text-sm flex justify-between">

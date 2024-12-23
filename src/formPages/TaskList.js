@@ -24,22 +24,29 @@ function TaskList() {
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       setUser(user);
+      let unsuscribeTasks = null;
 
       if (user) {
         const tasksRef = collection(db, "notes");
         const tasksQuery = query(tasksRef, where("userId", "==", user.uid));
-        const unsuscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
+
+        unsuscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
           const tasksData = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
           setTasks(tasksData);
         });
-
-        return unsuscribeTasks;
       } else {
         setTasks([]);
       }
+
+      return () => {
+        if (unsuscribeTasks) {
+          unsuscribeTasks();
+        }
+      }
+
     });
     return () => unsubscribeAuth();
   }, []);
@@ -102,6 +109,9 @@ function TaskList() {
             onDeleteCancel={cancelDelete}
             onDeleteConfirm={confirmDelete}
             isHidden={isModalHidden}
+            modalTitle="¿Estás seguro de que deseas eliminar esta tarea?"
+            buttonOneText="Eliminar"
+            buttonTwoText="Cancelar"
           />
         </>
       ) : (

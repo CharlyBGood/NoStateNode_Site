@@ -2,25 +2,28 @@ export function ConfirmationModal({
   isHidden,
   onDeleteCancel,
   onDeleteConfirm,
+  modalTitle,
+  buttonOneText,
+  buttonTwoText
 }) {
   return (
     <div className={isHidden ? "hide-modal" : "show-modal"}>
       <div className="modal-content">
-        <p>¿Eliminar de la lista?</p>
+        <p>{modalTitle}</p>
         <div className="btn-container">
           <button
             title="Delete"
             className="btn-delete"
             onClick={onDeleteConfirm}
           >
-            Eliminar
+            {buttonOneText}
           </button>
           <button
             title="Cancel"
             className="btn-cancel"
             onClick={onDeleteCancel}
           >
-            Cancelar
+            {buttonTwoText}
           </button>
         </div>
       </div>
