@@ -50,12 +50,4 @@ Welcome to the Firebase Login project! This repository contains a simple and sec
 
 We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for more details.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-If you have any questions or feedback, feel free to reach out to us at [your-email@example.com](mailto:your-email@example.com).
-
 Happy coding!
