@@ -10,7 +10,9 @@ function TaskForm() {
 
   const handleSend = async (e) => {
     e.preventDefault();
-
+    if (!input) {
+      return;
+    }
     const user = auth.currentUser;
     if (user) {
       try {

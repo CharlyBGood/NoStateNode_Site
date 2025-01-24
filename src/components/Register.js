@@ -13,7 +13,7 @@ export function Register() {
   });
   const { signup } = useAuth();
   const [error, setError] = useState();
-  const { login, loginWithGoogle } = useAuth();
+  const { loginWithGoogle } = useAuth();
 
   useEffect(() => {
     if (!loading && user) {
