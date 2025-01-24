@@ -6,11 +6,8 @@ Welcome to the Firebase Login project! This repository contains a simple and sec
 
 - **User Authentication**: Secure user authentication using Firebase Authentication.
 - **Email and Password Login**: Allow users to sign up and log in with their email and password.
-- **Social Media Login**: Support for Google, Facebook, and other social media logins.
+- **Social Media Login**: Support for Google and other social media logins.
 - **Password Reset**: Enable users to reset their passwords via email.
-- **User Profile Management**: Allow users to update their profile information.
-
-## Getting Started
 
 ### Prerequisites
 
@@ -45,9 +42,5 @@ Welcome to the Firebase Login project! This repository contains a simple and sec
 
 - Open your browser and navigate to `http://localhost:3000`.
 - Sign up or log in using your email and password or social media accounts.
-
-## Contributing
-
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for more details.
 
 Happy coding!
