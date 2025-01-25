@@ -24,8 +24,8 @@ export function Home() {
           ¡Hola {user.displayName || user.email}!
         </h1>
       </div>
-      <p className="text-center text-sm py-2">¡Puedes comenzar añadiendo una lista de ideas, un recurso como enlace, o algún tipo de resúmen descriptivo.
-        Luego podrás compartir dicha información con otros usuarios.
+      <p className="text-center text-sm py-2">¡Puedes comenzar añadiendo textos, enlaces, o cualquier tipo de información.
+        Puedes compartir la lista de notas con otr@s usuari@s registrados, a través de su e-mail.
       </p>
       <TaskList />
     </div>
