@@ -8,6 +8,7 @@ import { Register } from "./components/Register";
 import { ResetPassword } from "./components/ResetPassword";
 import { Welcome } from "./components/Welcome";
 import { AuthProvider } from "./context/AuthContext";
+import { SharedTasksPage } from "./components/SharedTasksPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/ResetPassword" element={<ResetPassword />} />
+          <Route path="/shared/:userId" element={<SharedTasksPage />} />
         </Routes>
         <Footer />
       </AuthProvider>

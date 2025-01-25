@@ -10,7 +10,7 @@ const isValidUrl = (string) => {
   }
 }
 
-function Task({ id, text, complete, completeTask, deleteTask }) {
+function Task({ id, text, complete, completeTask, deleteTask, isReadOnly }) {
   const renderContent = () => {
     if (isValidUrl(text)) {
       return (
@@ -24,11 +24,11 @@ function Task({ id, text, complete, completeTask, deleteTask }) {
 
   return (
     <div className={complete ? "todo-container complete" : "todo-container"}>
-      <div className="todo-txt" onClick={() => completeTask(id)}>
+      <div className="todo-txt" onClick={() => !isReadOnly && completeTask(id)}>
         {renderContent()}
       </div>
       <div className="todo-container-icons" onClick={() => deleteTask(id)}>
-        <FaTrash className="todo-icon" />
+        {(isReadOnly ? "" : <FaTrash className="todo-icon" />)}
       </div>
     </div>
   );
