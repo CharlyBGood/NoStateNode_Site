@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
 import Task from "../formPages/Task";
 import "../stylesheets/TaskList.css";
 
 export function SharedTasksPage() {
   const { userId } = useParams();
+  const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user || !user.email) {
+      return;
+    }
     const tasksRef = collection(db, "notes");
     const q = query(tasksRef, where("userId", "==", userId));
 
@@ -17,12 +23,17 @@ export function SharedTasksPage() {
       const tasksData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }));
+      }))
+        .filter((task) => task.sharedWith.includes(user.email));
       setTasks(tasksData);
     });
 
     return () => unsubscribe();
-  }, [userId]);
+  }, [userId, user]);
+
+  if (!user) {
+    navigate("/Welcome");
+  }
 
   return (
     <div className="task-list-container">
