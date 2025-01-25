@@ -23,6 +23,55 @@
   top: 11%;
 }
 
+.sharing-modal {
+  display: flex;
+  position: fixed;
+  z-index: 11;
+  left: 0;
+  top: 0;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--dark-black);  
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.sharing-modal-content {
+  width: 85%;
+  border: 1px solid var(--dark-black);  
+  text-align: center;
+  padding: 1em;
+  border-radius: 0.5em;
+  background-color: var(--soft-black);
+  display: flex;
+  flex-direction: column;  
+  align-items: center;
+  gap: 1em;
+  opacity: 1;
+}
+
+.share-btn-container {
+  display: flex;
+}
+
+.share-btn {
+  padding: .2em 1em;
+  font-size: 1em;
+  border: 1px solid var(--dark-black);
+  margin: 0 1em;
+}
+
+.share-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.success {
+  margin: 1em;
+}
+
 @media screen and (max-width: 850px) {
   .todo-app {
     flex-direction: column;
