@@ -25,7 +25,7 @@ export function Home() {
         </h1>
       </div>
       <p className="text-center text-sm py-2">¡Puedes comenzar añadiendo textos, enlaces, o cualquier tipo de información.
-        Puedes compartir la lista de notas con otr@s usuari@s registrados, a través de su e-mail.
+        Comparte la lista con otr@s usuari@s, a través de su e-mail.
       </p>
       <TaskList />
     </div>
