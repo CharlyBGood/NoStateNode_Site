@@ -15,7 +15,7 @@ export function ShareButton() {
   const [isShared, setIsShared] = useState(false);
 
   const handleShare = async () => {
-    if (!email) {
+    if (!email.trim()) {
       setError("Por favor, escribe una dirección de e-mail.");
       return;
     }
@@ -55,27 +55,28 @@ export function ShareButton() {
 
   return (
     <>
-      <div className="share-btn-container">
-        <button className="share-btn task-btn" onClick={() => setIsModalOpen(true)}>Compartir notas</button>
-      </div>
-      
+      {/* <div className="share-btn-container">
+        
+      </div> */}
+      <button className="log-btn share-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={() => setIsModalOpen(true)}>Compartir notas</button>
+
       {isModalOpen && (
         <div className="sharing-modal">
-          <div className="sharing-modal-content">            
+          <div className="sharing-modal-content">
             {!isShared ? (
               <>
                 <input
-                  className="task-input"
+                  className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                   type="email"
-                  placeholder="Enter email"
+                  placeholder="Email del destinatario"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="share-btn-container">
-                  <button className="share-btn task-btn" onClick={handleShare}>Compartir</button>
-                  <button className="share-btn task-btn" onClick={closeModal}>Cancelar</button>
-                  {error && <p className="error">{error}</p>}
+                  <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={handleShare}>Compartir</button>
+                  <button className="w-100 border-gray-900 font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={closeModal}>Cancelar</button>
                 </div>
+                {error && <p className="error">{error}</p>}
               </>
             ) : (
               <div>

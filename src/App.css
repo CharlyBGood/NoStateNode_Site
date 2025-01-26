@@ -31,7 +31,7 @@
   top: 0;
   height: 100%;
   overflow: auto;
-  background-color: var(--dark-black);  
+  background-color: var(--dark-black);
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -40,13 +40,13 @@
 
 .sharing-modal-content {
   width: 85%;
-  border: 1px solid var(--dark-black);  
+  border: 1px solid var(--dark-black);
   text-align: center;
   padding: 1em;
   border-radius: 0.5em;
   background-color: var(--soft-black);
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   align-items: center;
   gap: 1em;
   opacity: 1;
@@ -54,18 +54,14 @@
 
 .share-btn-container {
   display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 1em;
 }
 
 .share-btn {
-  padding: .2em 1em;
-  font-size: 1em;
-  border: 1px solid var(--dark-black);
-  margin: 0 1em;
-}
-
-.share-btn-container {
-  display: flex;
-  justify-content: center;
+  width: 85%;
+  margin: 0 auto;
 }
 
 .success {
@@ -82,5 +78,9 @@
 
   .todo-list-main {
     width: 85%;
+  }
+
+  .share-btn {
+    width: 100%;
   }
 }
