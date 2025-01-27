@@ -56,7 +56,7 @@ export function ShareButton() {
   return (
     <>
       <div className="share-button-container">
-        <button onClick={() => setIsModalOpen(true)} className="share-button">Compartir</button>
+        <button onClick={() => setIsModalOpen(true)} className="share-btn task-btn">Compartir</button>
       </div>
       {isModalOpen && (
         <div className="sharing-modal">
