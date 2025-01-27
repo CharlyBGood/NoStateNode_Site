@@ -11,35 +11,7 @@ export function ShareButton() {
   // const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  // const [isShared, setIsShared] = useState(false);
-
-  // const handleShare = async () => {
-  //   if (!email.trim()) {
-  //     setError("Por favor, escribe una dirección de e-mail válida.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const tasksRef = collection(db, "notes");
-  //     const q = query(tasksRef, where("userId", "==", user.uid));
-
-  //     const querySnapshot = await getDocs(q);
-  //     querySnapshot.forEach(async (taskDoc) => {
-  //       await updateDoc(taskDoc.ref, {
-  //         sharedWith: arrayUnion(email),
-  //       });
-  //     });
-
-  //     const shareableLink = `${window.location.origin}/shared/${user.uid}`;
-  //     setSuccess(`Lista de notas compartida con ${email}. Envíale este enlace: ${shareableLink}`);
-  //     setEmail("");
-  //     setIsShared(true);
-  //   } catch (error) {
-  //     setError("Error al compartir la lista. Intenta otra vez.");
-  //     console.error(error);
-  //   }
-  // };
+  const [success, setSuccess] = useState("");  
 
   const closeModal = () => {
     setIsModalOpen(false);

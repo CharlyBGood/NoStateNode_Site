@@ -10,40 +10,63 @@ export function SharedTasksPage() {
   const { userId } = useParams();
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user.email) return;
+    if (!user) {
+      navigate("/Welcome");
+      return;
+    };
 
-    const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("userId", "==", userId), where("sharedWith", "array-contains", user.email));
+    const taskRef = collection(db, "notes");
+    const q = query(
+      taskRef,
+      where("userId", "==", userId),
+      where("shareWith", "array-contains", user.email)
+    );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const tasksData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }))
-        .filter((task) => task.sharedWith.includes(user.email));
-      setTasks(tasksData);
-    });
+    const unsusscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const taskData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTasks(taskData);
+        setLoading(false);
+      },
+      (error) => {
+        console.error(error);
+        setError("Error al cargar las notas. Intenta otra vez.");
+        setLoading(false);
+      }
+    );
 
-    return () => unsubscribe();
-  }, [userId, user]);
+    return unsusscribe();
+  }, [userId, user, navigate]);
 
   if (!user) navigate("/Welcome");
 
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <div className="task-list-container">
-      {tasks.length === 0 && <p>Nada para ver aquí. Asegurate de tener el enlace correcto.</p>}
-      {tasks.map((task) => (
-        <Task
-          key={task.id}
-          id={task.id}
-          text={task.text}
-          complete={task.complete}
-          isReadOnly={true}
-        />
-      ))}
+      {tasks.length === 0 ? (
+        <p>Nada para ver aquí. Asegurate de tener el enlace correcto.</p>
+      ) : (
+        tasks.map((task) => (
+          <Task
+            key={task.id}
+            id={task.id}
+            text={task.text}
+            complete={task.complete}
+            isReadOnly={true}
+          />
+        ))
+      )}
     </div>
   );
 }
