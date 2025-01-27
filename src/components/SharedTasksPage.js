@@ -37,7 +37,7 @@ export function SharedTasksPage() {
 
   return (
     <div className="task-list-container">
-      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
+      {tasks.length === 0 && <p>Nada para ver aquí. Asegurate de tener el enlace correcto.</p>}
       {tasks.map((task) => (
         <Task
           key={task.id}
