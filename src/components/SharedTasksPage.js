@@ -11,51 +11,58 @@ export function SharedTasksPage() {
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate("/Welcome");
+    if (!user || !user.email) {
+      navigate("/Welcome"); // Redirect if user is not logged in
       return;
-    };
+    }
 
-    const taskRef = collection(db, "notes");
+    const tasksRef = collection(db, "notes");
     const q = query(
-      taskRef,
-      where("userId", "==", userId),
-      where("shareWith", "array-contains", user.email)
+      tasksRef,
+      where("userId", "==", userId), // Tasks owned by the user
+      where("shareWith", "array-contains", user.email) // Tasks shared with the current user
     );
 
-    const unsusscribe = onSnapshot(
+    const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const taskData = snapshot.docs.map((doc) => ({
+        const tasksData = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setTasks(taskData);
+        setTasks(tasksData);
         setLoading(false);
       },
       (error) => {
-        console.error(error);
-        setError("Error al cargar las notas. Intenta otra vez.");
+        console.error("Error fetching tasks: ", error);
+        setError("Error al cargar las notas. Intenta nuevamente.");
         setLoading(false);
       }
     );
 
-    return unsusscribe();
+    return () => unsubscribe();
   }, [userId, user, navigate]);
 
-  if (!user) navigate("/Welcome");
+  if (!user) {
+    return null; // Redirect will handle this
+  }
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) {
+    return <p>Cargando notas...</p>;
+  }
+
+  if (error) {
+    return <p className="error">{error}</p>;
+  }
 
   return (
     <div className="task-list-container">
       {tasks.length === 0 ? (
-        <p>Nada para ver aquí. Asegurate de tener el enlace correcto.</p>
+        <p>Nada para ver aquí. Asegúrate de tener el enlace correcto.</p>
       ) : (
         tasks.map((task) => (
           <Task
