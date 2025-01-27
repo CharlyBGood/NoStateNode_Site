@@ -13,11 +13,10 @@ export function SharedTasksPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user.email) {
-      return;
-    }
+    if (!user || !user.email) return;
+
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("userId", "==", userId));
+    const q = query(tasksRef, where("userId", "==", userId), where("sharedWith", "array-contains", user.email));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const tasksData = snapshot.docs.map((doc) => ({
@@ -31,9 +30,7 @@ export function SharedTasksPage() {
     return () => unsubscribe();
   }, [userId, user]);
 
-  if (!user) {
-    navigate("/Welcome");
-  }
+  if (!user) navigate("/Welcome");
 
   return (
     <div className="task-list-container">
