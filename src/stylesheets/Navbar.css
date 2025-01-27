@@ -48,7 +48,7 @@
   background-color: var(--main-orange);
   color: var(--wheat);
   cursor: pointer;
-  border-radius: 0.4em;  
+  /* border-radius: 0.4em;   */
 }
 
 .log-btn:hover {

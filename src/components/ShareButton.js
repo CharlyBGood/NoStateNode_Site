@@ -55,10 +55,10 @@ export function ShareButton() {
 
   return (
     <>
-      {/* <div className="share-btn-container">
-        
-      </div> */}
-      <button className="log-btn share-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={() => setIsModalOpen(true)}>Compartir notas</button>
+      <div className="share-btn-container">
+        <button className="share-btn task-btn" onClick={() => setIsModalOpen(true)}>Compartir lista</button>
+      </div>
+
 
       {isModalOpen && (
         <div className="sharing-modal">
@@ -73,17 +73,19 @@ export function ShareButton() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="share-btn-container">
-                  <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={handleShare}>Compartir</button>
-                  <button className="w-100 border-gray-900 font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={closeModal}>Cancelar</button>
+                  <button className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={handleShare}>Compartir</button>
+                  <button className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full" onClick={closeModal}>Cancelar</button>
                 </div>
                 {error && <p className="error">{error}</p>}
               </>
             ) : (
-              <div>
+              <>
                 <p className="success">{success}</p>
-                <button className="share-btn task-btn" onClick={copyToClipboard}>Copiar enlace</button>
-                <button className="share-btn task-btn" onClick={closeModal}>Cerrar</button>
-              </div>
+                <div className="share-btn-container">
+                  <button className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" onClick={copyToClipboard}>Copiar enlace</button>
+                  <button className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full" onClick={closeModal}>Cerrar</button>
+                </div>
+              </>
             )}
           </div>
         </div>

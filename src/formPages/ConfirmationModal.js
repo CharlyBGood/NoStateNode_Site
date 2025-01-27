@@ -13,14 +13,14 @@ export function ConfirmationModal({
         <div className="btn-container">
           <button
             title="Delete"
-            className="btn-delete"
+            className="btn-delete font-bold block rounded mb-2 py-2 px-4 w-full"
             onClick={onDeleteConfirm}
           >
             {buttonOneText}
           </button>
           <button
             title="Cancel"
-            className="btn-cancel"
+            className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
             onClick={onDeleteCancel}
           >
             {buttonTwoText}

@@ -17,10 +17,12 @@
   width: 65%;
   min-height: 31em;
   padding: 1.4em;
-  margin: 0.8em;
-  position: relative;
+  /* margin: 0.8em; */
+  /* position: relative; */
+  position: absolute;
   border-radius: 0.6em;
-  top: 11%;
+  /* top: 11%; */
+  top: 15%;
 }
 
 .sharing-modal {
@@ -52,20 +54,36 @@
   opacity: 1;
 }
 
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0 auto;
+  text-wrap-style: balance;
+}
+
 .share-btn-container {
   display: flex;
   justify-content: center;
   width: 100%;
   gap: 1em;
+  margin: .5em auto;
 }
 
 .share-btn {
+  font-size: 1em;
+  /* margin: 0 1em; */
   width: 85%;
-  margin: 0 auto;
+  padding: .2em 1em;
+  border: 1px solid var(--dark-black);
+}
+
+.share-btn:hover {
+  background-color: var(--dark-black);
 }
 
 .success {
   margin: 1em;
+  overflow-wrap: anywhere;
 }
 
 @media screen and (max-width: 850px) {
