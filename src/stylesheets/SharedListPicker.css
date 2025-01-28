@@ -1,0 +1,34 @@
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--soft-dark);
+  border-radius: .3em;
+  background-color: var(--soft-dark);
+}
+
+.dropdown-header {
+  padding: .5em;
+  cursor: pointer;
+}
+
+.dropdown-list {
+  /* max-height: 100%; */
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  padding: .5em;
+}
+
+.dropdown-item span {
+  cursor: pointer;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: var(--main-orange);
+  cursor: pointer;
+}

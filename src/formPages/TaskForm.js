@@ -45,6 +45,7 @@ function TaskForm() {
     <>
       <AddUserForm onContactAdded={() => setSelectedUsers([])} />
       <ShareButton />
+      <SharedUserPicker onUserSelected={handleUserSelected} />
       <form id="form" className="task-form" onSubmit={handleSend}>
         <input
           className="task-input"
@@ -54,9 +55,8 @@ function TaskForm() {
           name="text"
           onChange={(e) => setInput(e.target.value)}
         />
-        <SharedUserPicker onUserSelected={handleUserSelected} />
         <button className="task-btn">Agregar</button>
-      </form>
+      </form>      
     </>
   );
 }

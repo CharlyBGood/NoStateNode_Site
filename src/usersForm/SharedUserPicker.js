@@ -36,12 +36,12 @@ const SharedUserPicker = ({ onUserSelected }) => {
           const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value);
           onUserSelected(selectedOptions);
         }}
-        className="task-input w-full mb-2 rounded-lg block w-full p-2.5 dark:placeholder-gray-900"
+        className="user-select task-input w-full mb-2 rounded-lg block w-full p-2.5 dark:placeholder-gray-900"
       >
         <option selected className="text-sm font-medium">Elige un contacto si quieres que puedan ver la nota</option>
         {users.map((user) => (
           <option key={user.id} value={user.email}>
-            {user.email}
+            {user.email}            
           </option>
         ))}
       </select>
