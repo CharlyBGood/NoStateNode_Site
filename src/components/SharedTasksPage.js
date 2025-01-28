@@ -37,8 +37,7 @@ export function SharedTasksPage() {
 
   return (
     <div className="task-list-container notes-link-container">
-      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-      <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo: </p>
+      {tasks.length === 0 && <p>No hay notas compartidas.</p>}      
       {tasks.map((task) => (
         <Task
           key={task.id}
