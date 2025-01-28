@@ -10,10 +10,12 @@ export function SharedTasksPage() {
   const { userId } = useParams();
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!user || !user.email) {
+      navigate("/Welcome");
       return;
     }
 
@@ -26,10 +28,13 @@ export function SharedTasksPage() {
         ...doc.data(),
       }));
       setTasks(tasksData);
+    }, (err) => {
+      console.error(err);
+      setError("Error fetching tasks");
     });
 
     return () => unsubscribe();
-  }, [userId, user]);
+  }, [userId, user, navigate]);
 
   if (!user) {
     navigate("/Welcome");
@@ -37,8 +42,11 @@ export function SharedTasksPage() {
 
   return (
     <div className="task-list-container notes-link-container">
+      {error && <p className="error-message">{error}</p>}
       {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-      <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo: </p>
+      {tasks.length > 0 && user && (
+        <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo:</p>
+      )}
       {tasks.map((task) => (
         <Task
           key={task.id}
