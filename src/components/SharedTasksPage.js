@@ -20,17 +20,15 @@ export function SharedTasksPage() {
     // }
 
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("shareWith", "==", userId));
+    const q = query(tasksRef, where("shareWith", "array-contains", user.email));
 
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const tasksData = snapshot.docs
-          .map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-          .filter((task) => task.shareWith.includes(user.email)); // Filter notes by shared user
+        const tasksData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
         setTasks(tasksData);
       },
       (err) => {
