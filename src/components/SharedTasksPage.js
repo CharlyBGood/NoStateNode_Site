@@ -7,7 +7,7 @@ import Task from "../formPages/Task";
 import "../stylesheets/TaskList.css";
 
 export function SharedTasksPage() {
-  const { userId } = useParams(); // This is the ID of the note creator
+  const { userId } = useParams(); 
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();

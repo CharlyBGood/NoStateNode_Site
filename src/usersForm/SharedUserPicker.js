@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db, auth } from "../firebase";
 
 const SharedUserPicker = ({ onUserSelected }) => {
@@ -8,36 +8,36 @@ const SharedUserPicker = ({ onUserSelected }) => {
   const currentUser = auth.currentUser;
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      if (!currentUser) return;
+    if (!currentUser) return;
 
-      try {
-        const usersRef = collection(db, "usersToShare");
-        const q = query(usersRef, where("ownerId", "==", currentUser.uid));
-        const querySnapshot = await getDocs(q);
+    const usersRef = collection(db, "usersToShare");
+    const q = query(usersRef, where("ownerId", "==", currentUser.uid));
 
-        const usersList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(usersList);
-      } catch (err) {
-        console.error(err);
-        setError("Error al intentar obtener los usuarios");
-      }
-    };
-    fetchUsers();
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const usersList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setUsers(usersList);
+    }, (err) => {
+      console.error(err);
+      setError("Error al intentar obtener los usuarios");
+    });
+
+    return () => unsubscribe();
   }, [currentUser]);
 
   return (
     <>
+      {error && <p>{error}</p>}
       <select
         id="select-email"
         onChange={(e) => {
-          const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value)
+          const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value);
           onUserSelected(selectedOptions);
         }}
-        class="task-input w-full mb-2 rounded-lg block w-full p-2.5 dark:placeholder-gray-900 ">
+        className="task-input w-full mb-2 rounded-lg block w-full p-2.5 dark:placeholder-gray-900"
+      >
         <option selected className="text-sm font-medium">Elige un contacto si quieres que puedan ver la nota</option>
         {users.map((user) => (
           <option key={user.id} value={user.email}>
@@ -45,10 +45,8 @@ const SharedUserPicker = ({ onUserSelected }) => {
           </option>
         ))}
       </select>
-
-      {error && <p className="error">{error}</p>}
     </>
   );
-}
+};
 
 export default SharedUserPicker;
