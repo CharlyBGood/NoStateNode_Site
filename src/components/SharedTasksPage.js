@@ -15,7 +15,7 @@ export function SharedTasksPage() {
 
   useEffect(() => {
     if (!user || !user.email) {
-      navigate("/Welcome"); // Redirect if user is not logged in
+      navigate("/Welcome"); 
       return;
     }
 
