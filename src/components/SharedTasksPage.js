@@ -14,13 +14,13 @@ export function SharedTasksPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user.email) {
-      navigate("/Welcome"); 
-      return;
-    }
+    // if (!user || !user.email) {
+    //   navigate("/Welcome"); 
+    //   return;
+    // }
 
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("userId", "==", userId));
+    const q = query(tasksRef, where("shareWith", "==", userId));
 
     const unsubscribe = onSnapshot(
       q,
