@@ -14,7 +14,8 @@ export function SharedTasksPage() {
 
   useEffect(() => {
     if (!user || !user.email) {
-      navigate("/Welcome"); 
+      // navigate("/Welcome"); 
+      alert("you are not " + user)
       return;
     }
 
