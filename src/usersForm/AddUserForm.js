@@ -1,19 +1,34 @@
 import { useState } from "react";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
+import { ConfirmationModal } from "../formPages/ConfirmationModal";
 
 const AddUserForm = ({ onContactAdded }) => {
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  // const validateEmail = (email) => {
-  //   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   return regex.test(email);
-  // }
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
 
   const handleAddUser = async (e) => {
     e.preventDefault();
     const currentUser = auth.currentUser;
+
+    if (!email.trim()) {
+      setModalMessage("El campo de email no puede estar vacío.");
+      setIsConfirmationModalOpen(true);
+      return;
+    }
+
+    if (!validateEmail(email.trim())) {
+      setModalMessage("Por favor, introduce un email válido.");
+      setIsConfirmationModalOpen(true);
+      return;
+    }
 
     if (currentUser) {
       try {
@@ -33,16 +48,18 @@ const AddUserForm = ({ onContactAdded }) => {
             createdAt: new Date(),
           };
           await addDoc(usersRef, newContact);
-          alert("usuario añadido")
           setEmail("");
           setIsModalOpen(false);
+          setModalMessage("Usuario añadido con éxito.");
           onContactAdded();
         } else {
-          alert("no se pudo añadir el usuario");
+          setModalMessage("El contacto ya existe.");
         }
+        setIsConfirmationModalOpen(true);
       } catch (err) {
         console.error(err);
-        alert("error adding")
+        setModalMessage("Error al añadir el contacto.");
+        setIsConfirmationModalOpen(true);
       }
     }
   };
@@ -58,7 +75,7 @@ const AddUserForm = ({ onContactAdded }) => {
       {isModalOpen &&
         <form id="users-form" onSubmit={handleAddUser} className="task-form">
           <input
-            id="contact email"
+            id="contact-email"
             className="task-input"
             type="email"
             placeholder="Email"
@@ -75,6 +92,15 @@ const AddUserForm = ({ onContactAdded }) => {
           </div>
         </form>
       }
+
+      <ConfirmationModal
+        isHidden={!isConfirmationModalOpen}
+        onDeleteCancel={() => setIsConfirmationModalOpen(false)}
+        onDeleteConfirm={() => setIsConfirmationModalOpen(false)}
+        modalTitle={modalMessage}
+        buttonOneText="Cerrar"
+        buttonTwoText=""
+      />
     </>
   );
 };
