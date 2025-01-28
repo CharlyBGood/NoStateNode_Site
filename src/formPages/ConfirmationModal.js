@@ -18,13 +18,15 @@ export function ConfirmationModal({
           >
             {buttonOneText}
           </button>
-          <button
-            title="Cancel"
-            className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
-            onClick={onDeleteCancel}
-          >
-            {buttonTwoText}
-          </button>
+          {buttonTwoText && (
+            <button
+              title="Cancel"
+              className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
+              onClick={onDeleteCancel}
+            >
+              {buttonTwoText}
+            </button>
+          )}
         </div>
       </div>
     </div>
