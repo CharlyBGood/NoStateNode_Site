@@ -14,7 +14,6 @@ export function SharedTasksPage() {
 
   useEffect(() => {
     if (!user || !user.email) {
-      navigate("/Welcome");
       return;
     }
 
@@ -30,7 +29,7 @@ export function SharedTasksPage() {
     });
 
     return () => unsubscribe();
-  }, [userId, user, navigate]);
+  }, [userId, user]);
 
   if (!user) {
     navigate("/Welcome");
@@ -38,22 +37,17 @@ export function SharedTasksPage() {
 
   return (
     <div className="task-list-container notes-link-container">
-      {tasks.length === 0 ? (
-        <p>No hay notas compartidas.</p>
-      ) : (
-        <>
-          <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo:</p>
-          {tasks.map((task) => (
-            <Task
-              key={task.id}
-              id={task.id}
-              text={task.text}
-              complete={task.complete}
-              isReadOnly={true}
-            />
-          ))}
-        </>
-      )}
+      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
+      <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo: </p>
+      {tasks.map((task) => (
+        <Task
+          key={task.id}
+          id={task.id}
+          text={task.text}
+          complete={task.complete}
+          isReadOnly={true}
+        />
+      ))}
     </div>
   );
 }
