@@ -87,6 +87,24 @@ option:disabled {
   color: var(--dark-black);
 }
 
+.user-picker-container {
+  display: flex;
+  align-items: center;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.remove-button:hover {
+  color: var(--red-danger-hover);
+}
+
 .share-btn {
   font-size: 1em;
   /* margin: 0 1em; */
