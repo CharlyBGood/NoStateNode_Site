@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
-import { useAuth } from "../context/AuthContext";
-import Task from "../formPages/Task";
-import "../stylesheets/TaskList.css";
 
-export function SharedTasksPage() {
-  const { userId } = useParams();
+const SharedTasksPage = () => {
   const { user } = useAuth();
+  const { userId } = useParams();
   const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (!user || !user.email) {
-    //   navigate("/Welcome"); 
-    //   return;
-    // }
+    if (!user) {
+      navigate("/Welcome"); // Redirect if user is not logged in
+      return;
+    }
 
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("shareWith", "array-contains", user.email));
+    const q = query(tasksRef, where("shareWith", "array-contains", user.email), where("userId", "==", userId));
 
     const unsubscribe = onSnapshot(
       q,
@@ -38,21 +36,22 @@ export function SharedTasksPage() {
     );
 
     return () => unsubscribe();
-  }, [userId, user, navigate]);
+  }, [user, userId, navigate]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div className="task-list-container">
-      {error && <p className="error">{error}</p>}
-      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-      {tasks.map((task) => (
-        <Task
-          key={task.id}
-          id={task.id}
-          text={task.text}
-          complete={task.complete}
-          isReadOnly={true}
-        />
-      ))}
+    <div>
+      <h1>Shared Tasks</h1>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>{task.title}</li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
+
+export default SharedTasksPage;
