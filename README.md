@@ -1,18 +1,18 @@
-# Project Name
+# NoStateNode
 
-NoStateNode is a web application that allows users to manage tasks, share them with other users, and collaborate effectively. The application leverages Firebase for authentication and real-time database functionalities.
+This is a web application that allows users to manage tasks and share them with other users. The application leverages Firebase for authentication and realtime database capabilities.
 
 
 ## Features
 
-- **User Authentication**: Secure login and registration system, reset password or login with yout Google account.
+- **User Authentication**: Secure login and registration system, password reset or login with your Google account.
 
-- **Notes Management**: Create, edit, and delete tasks.
+- **Note Management**: Create, edit and delete notes or links on separate cards and choose which ones to share with your contacts.
 
-- **Contacts Management**: Add users as Contacts with their e-mail and share desired tasks as a list.
+- **Contact Management**: Add users as contacts with their email and share desired tasks as a list.
 
-- **User Sharing Link**: Create a public link to share with your Contacts, they will get -read only- access to the notes in where you add them.
+- **User Shared Link**: Create a public link to share with your contacts, who will have read-only access to the notes you add them to.
 
 - **Responsive Design**: Works on both desktop and mobile devices.
 
-- **Accessibility**: Accessible to users with disabilities.
+- **Accessibility**: Accessible for users with disabilities.
