@@ -8,13 +8,13 @@ import "../stylesheets/TaskList.css";
 
 export function SharedTasksPage() {
   const { userId } = useParams();
-  const { user } = auth.currentUser;
+  const user  = auth.currentUser;
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!user || !user.email) {
-      navigate("/Welcome"); // Redirect if user is not logged in
+      navigate("/Welcome"); 
       return;
     }
 
