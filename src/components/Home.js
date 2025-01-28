@@ -24,7 +24,7 @@ export function Home() {
           ¡Hola {user.displayName || user.email}!
         </h1>
       </div>
-      <p className="text-center text-sm py-2">¡Comienza añadiendo notas, enlaces, información o recursos.</p>
+      <p className="text-center text-sm py-2">¡Comienza añadiendo notas, enlaces, información o recursos!</p>
       <p className="text-center text-sm py-2">Genera un enlace para compartir la lista con otr@s usuari@s a través de su e-mail. No te preocupes, no podrán editarla.</p> 
       <TaskList />
     </div>

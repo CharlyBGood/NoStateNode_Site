@@ -1,18 +1,23 @@
-// import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
-import { db, auth } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import "../stylesheets/TaskForm.css";
+import { db, auth } from "../firebase";
 import { ShareButton } from "../components/ShareButton";
+import SharedUserPicker from "../usersForm/SharedUserPicker";
+import AddUserForm from "../usersForm/AddUserForm";
+import "../stylesheets/TaskForm.css";
 
 function TaskForm() {
   const [input, setInput] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const handleUserSelected = (emails) => {
+    setSelectedUsers(emails);
+  };
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!input) {
-      return;
-    }
+    if (!input) return;
+
     const user = auth.currentUser;
     if (user) {
       try {
@@ -20,13 +25,14 @@ function TaskForm() {
           text: input,
           complete: false,
           userId: user.uid,
-          shareWith: [],
+          shareWith: selectedUsers,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
         await addDoc(collection(db, "notes"), newTask);
-        console.log(newTask);
         setInput("");
+        setSelectedUsers([]);
+        alert("Nota añadida con éxito.");
       } catch (error) {
         console.error("Error adding task: ", error);
       }
@@ -37,6 +43,7 @@ function TaskForm() {
 
   return (
     <>
+      <AddUserForm onContactAdded={() => setSelectedUsers([])} />
       <ShareButton />
       <form id="form" className="task-form" onSubmit={handleSend}>
         <input
@@ -47,6 +54,7 @@ function TaskForm() {
           name="text"
           onChange={(e) => setInput(e.target.value)}
         />
+        <SharedUserPicker onUserSelected={handleUserSelected} />
         <button className="task-btn">Agregar</button>
       </form>
     </>
