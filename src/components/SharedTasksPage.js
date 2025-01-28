@@ -1,57 +1,52 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
+import Task from "../formPages/Task";
+import "../stylesheets/TaskList.css";
 
-const SharedTasksPage = () => {
-  const { user } = useAuth();
+export function SharedTasksPage() {
   const { userId } = useParams();
+  const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate("/Welcome"); 
+    if (!user || !user.email) {
       return;
     }
-
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("shareWith", "array-contains", user.email), where("userId", "==", userId));
+    const q = query(tasksRef, where("userId", "==", userId));
 
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        const tasksData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setTasks(tasksData);
-      },
-      (err) => {
-        console.error(err);
-        setError("Error al cargar las notas compartidas.");
-      }
-    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const tasksData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+        .filter((task) => task.sharedWith.includes(user.email));
+      setTasks(tasksData);
+    });
 
     return () => unsubscribe();
-  }, [user, userId, navigate]);
+  }, [userId, user]);
 
-  if (error) {
-    return <div>{error}</div>;
+  if (!user) {
+    navigate("/Welcome");
   }
 
   return (
-    <div>
-      <h1>Shared Tasks</h1>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>{task.title}</li>
-        ))}
-      </ul>
+    <div className="task-list-container">
+      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
+      {tasks.map((task) => (
+        <Task
+          key={task.id}
+          id={task.id}
+          text={task.text}
+          complete={task.complete}
+          isReadOnly={true}
+        />
+      ))}
     </div>
   );
-};
-
-export default SharedTasksPage;
+}
