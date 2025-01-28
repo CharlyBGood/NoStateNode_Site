@@ -7,7 +7,7 @@ import Task from "../formPages/Task";
 import "../stylesheets/TaskList.css";
 
 export function SharedTasksPage() {
-  const { userId } = useParams();
+  const { userId } = useParams(); // This is the ID of the note creator
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
@@ -16,15 +16,15 @@ export function SharedTasksPage() {
     if (!user || !user.email) {
       return;
     }
+
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("userId", "==", userId));
+    const q = query(tasksRef, where("userId", "==", userId), where("shareWith", "array-contains", user.email));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const tasksData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }))
-        .filter((task) => task.sharedWith.includes(user.email));
+      }));
       setTasks(tasksData);
     });
 
@@ -50,3 +50,5 @@ export function SharedTasksPage() {
     </div>
   );
 }
+
+export default SharedTasksPage;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 
-export function ShareButton() {
+export const ShareButton = () => {
   const { user } = useAuth();
 
   const copyToClipboard = async () => {
@@ -19,15 +19,13 @@ export function ShareButton() {
     }
   };
 
-  return (
-    <div className="share-btn-container">
-      <button
-        type="button"
-        className="share-btn task-btn"
-        onClick={copyToClipboard}
-      >
-        Compartir lista
-      </button>
-    </div>
-  );
-}
+  return <div className="share-btn-container">
+    <button
+      type="button"
+      className="share-btn task-btn"
+      onClick={copyToClipboard}
+    >
+      Compartir lista
+    </button>
+  </div>;
+};
