@@ -29,7 +29,7 @@
   background-color: var(--soft-black);
   color: var(--wheat);
   text-transform: capitalize;
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
 }
 
 .task-btn:hover {

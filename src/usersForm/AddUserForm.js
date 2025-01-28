@@ -8,6 +8,7 @@ const AddUserForm = ({ onContactAdded }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,6 +32,7 @@ const AddUserForm = ({ onContactAdded }) => {
     }
 
     if (currentUser) {
+      setIsLoading(true);
       try {
         const usersRef = collection(db, "usersToShare");
         const q = query(
@@ -60,6 +62,8 @@ const AddUserForm = ({ onContactAdded }) => {
         console.error(err);
         setModalMessage("Error al añadir el contacto.");
         setIsConfirmationModalOpen(true);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -81,10 +85,11 @@ const AddUserForm = ({ onContactAdded }) => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
           />
           <div className="share-btn-container">
-            <button className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" type="submit">
-              Añadir contacto
+            <button className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" type="submit" disabled={isLoading}>
+              {isLoading ? "Añadiendo..." : "Añadir contacto"}
             </button>
             <button type="button" className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full" onClick={() => setIsModalOpen(false)}>
               Cancelar

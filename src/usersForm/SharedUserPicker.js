@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { collection, query, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa"; // Importing an icon for delete button
 
 const SharedUserPicker = ({ onUserSelected }) => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const currentUser = auth.currentUser;
 
   useEffect(() => {
@@ -21,9 +22,11 @@ const SharedUserPicker = ({ onUserSelected }) => {
         ...doc.data(),
       }));
       setUsers(usersList);
+      setIsLoading(false);
     }, (err) => {
       console.error(err);
       setError("Error al intentar obtener los usuarios");
+      setIsLoading(false);
     });
 
     return () => unsubscribe();
@@ -40,7 +43,7 @@ const SharedUserPicker = ({ onUserSelected }) => {
     if (selectedUser) {
       try {
         await deleteDoc(doc(db, "usersToShare", selectedUser.id));
-        setSelectedUser(null);
+        setSelectedUser(null); // Clear the selected user after deletion
       } catch (err) {
         console.error("Error removing user: ", err);
         setError("Error al intentar eliminar el usuario");
@@ -52,23 +55,29 @@ const SharedUserPicker = ({ onUserSelected }) => {
     <div>
       {error && <p>{error}</p>}
       <div className="user-picker-container">
-        <select
-          id="select-email"
-          onChange={handleUserSelect}
-          className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
-          defaultValue=""
-        >
-          <option value="" disabled className="placeholder-option">Comparte con un contacto de tu lista</option>
-          {users.map((user) => (
-            <option key={user.id} value={user.email}>
-              {user.email}
-            </option>
-          ))}
-        </select>
-        {selectedUser && (
-          <button onClick={handleRemoveUser} className="remove-button ml-2">
-            <FaTrash />
-          </button>
+        {isLoading ? (
+          <p>Cargando usuarios...</p>
+        ) : (
+          <>
+            <select
+              id="select-email"
+              onChange={handleUserSelect}
+              className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
+              defaultValue=""
+            >
+              <option value="" disabled className="placeholder-option">Comparte con un contacto de tu lista</option>
+              {users.map((user) => (
+                <option key={user.id} value={user.email}>
+                  {user.email}
+                </option>
+              ))}
+            </select>
+            {selectedUser && (
+              <button onClick={handleRemoveUser} className="remove-button ml-2">
+                <FaTrash /> {/* Using an icon for delete button */}
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

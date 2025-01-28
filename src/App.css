@@ -95,14 +95,14 @@ option:disabled {
 .remove-button {
   background: none;
   border: none;
-  color: red;
+  color: var(--red-danger-hover);
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
 .remove-button:hover {
-  color: var(--red-danger-hover);
+  color: var(--red-wheat);
 }
 
 .share-btn {

@@ -5,7 +5,6 @@ import { ShareButton } from "../components/ShareButton";
 import SharedUserPicker from "../usersForm/SharedUserPicker";
 import AddUserForm from "../usersForm/AddUserForm";
 import { ConfirmationModal } from "../formPages/ConfirmationModal";
-
 import "../stylesheets/TaskForm.css";
 
 function TaskForm() {
@@ -13,6 +12,7 @@ function TaskForm() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUserSelected = (emails) => {
     setSelectedUsers(emails);
@@ -24,6 +24,7 @@ function TaskForm() {
 
     const user = auth.currentUser;
     if (user) {
+      setIsLoading(true);
       try {
         const newTask = {
           text: input,
@@ -37,10 +38,11 @@ function TaskForm() {
         setInput("");
         setSelectedUsers([]);
         setModalMessage("Nota añadida con éxito.");
-        setIsModalHidden(false);
       } catch (error) {
         console.error("Error adding task: ", error);
         setModalMessage("Error al añadir la nota.");
+      } finally {
+        setIsLoading(false);
         setIsModalHidden(false);
       }
     } else {
@@ -61,10 +63,12 @@ function TaskForm() {
           type="text"
           placeholder="Añade una nota o enlace"
           value={input}
-          name="text"
           onChange={(e) => setInput(e.target.value)}
+          disabled={isLoading}
         />
-        <button className="task-btn">Agregar</button>
+        <button type="submit" className="task-btn" disabled={isLoading}>
+          {isLoading ? "Añadiendo..." : "Añadir Nota"}
+        </button>
       </form>
       <ConfirmationModal
         isHidden={isModalHidden}

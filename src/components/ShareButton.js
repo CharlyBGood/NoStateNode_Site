@@ -6,6 +6,7 @@ export const ShareButton = () => {
   const { user } = useAuth();
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const copyToClipboard = async () => {
     if (!user) {
@@ -14,14 +15,17 @@ export const ShareButton = () => {
       return;
     }
 
+    setIsLoading(true);
     const shareableLink = `${window.location.origin}/shared/${user.uid}`;
     try {
       await navigator.clipboard.writeText(shareableLink);
       setModalMessage("Enlace copiado al portapapeles.");
     } catch (err) {
       setModalMessage("Error al copiar enlace.");
+    } finally {
+      setIsLoading(false);
+      setIsModalHidden(false);
     }
-    setIsModalHidden(false);
   };
 
   return (
@@ -30,8 +34,9 @@ export const ShareButton = () => {
         type="button"
         className="share-btn task-btn"
         onClick={copyToClipboard}
+        disabled={isLoading}
       >
-        Compartir lista
+        {isLoading ? "Copiando..." : "Compartir lista"}
       </button>
       <ConfirmationModal
         isHidden={isModalHidden}
