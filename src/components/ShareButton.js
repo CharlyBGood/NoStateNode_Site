@@ -5,6 +5,11 @@ export function ShareButton() {
   const { user } = useAuth();
 
   const copyToClipboard = async () => {
+    if (!user) {
+      alert("Debes iniciar sesión para compartir la lista.");
+      return;
+    }
+
     const shareableLink = `${window.location.origin}/shared/${user.uid}`;
     try {
       await navigator.clipboard.writeText(shareableLink);

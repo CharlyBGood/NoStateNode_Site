@@ -14,26 +14,25 @@ export function SharedTasksPage() {
 
   useEffect(() => {
     if (!user || !user.email) {
+      navigate("/Welcome"); // Redirect if user is not logged in
       return;
     }
+
     const tasksRef = collection(db, "notes");
     const q = query(tasksRef, where("userId", "==", userId));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const tasksData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }))
-        .filter((task) => task.sharedWith.includes(user.email));
+      const tasksData = snapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((task) => task.shareWith.includes(user.email)); // Filter notes by shared user
       setTasks(tasksData);
     });
 
     return () => unsubscribe();
-  }, [userId, user]);
-
-  if (!user) {
-    navigate("/Welcome");
-  }
+  }, [userId, user, navigate]);
 
   return (
     <div className="task-list-container">
