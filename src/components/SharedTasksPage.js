@@ -57,7 +57,7 @@ export function SharedTasksPage() {
     <div className="task-list-container notes-link-container">
       {error && <p className="error-message">{error}</p>}
       {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-      {owner && <p className="text-center text-sm py-2">Estos son los recursos que {owner.email} compartió contigo:</p>}
+      {owner && <p className="text-center text-sm py-2">Estos son los recursos que {owner.displayName || owner.email} compartió contigo:</p>}
       {tasks.map((task) => (
         <Task
           key={task.id}
