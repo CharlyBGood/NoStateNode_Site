@@ -45,17 +45,19 @@ export function SharedTasksPage() {
       {error && <p className="error-message">{error}</p>}
       {tasks.length === 0 && <p>No hay notas compartidas.</p>}
       {tasks.length > 0 && user && (
-        <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo:</p>
+        <>
+          <p className="text-center text-sm py-2">Estos son los recursos compartidos contigo:</p>
+          {tasks.map((task) => (
+            <Task
+              key={task.id}
+              id={task.id}
+              text={task.text}
+              complete={task.complete}
+              isReadOnly={true}
+            />
+          ))}
+        </>
       )}
-      {tasks.map((task) => (
-        <Task
-          key={task.id}
-          id={task.id}
-          text={task.text}
-          complete={task.complete}
-          isReadOnly={true}
-        />
-      ))}
     </div>
   );
 }
