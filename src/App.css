@@ -78,9 +78,14 @@
   cursor: pointer;
 }
 
-.user-select option {
-  cursor: pointer;
-} 
+.placeholder-option {
+  background-color: var(--soft-black);
+}
+
+option:disabled {
+  background-color: var(--dark-black);
+  color: var(--dark-black);
+}
 
 .share-btn {
   font-size: 1em;
