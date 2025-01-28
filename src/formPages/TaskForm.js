@@ -4,11 +4,15 @@ import { db, auth } from "../firebase";
 import { ShareButton } from "../components/ShareButton";
 import SharedUserPicker from "../usersForm/SharedUserPicker";
 import AddUserForm from "../usersForm/AddUserForm";
+import { ConfirmationModal } from "../formPages/ConfirmationModal";
+
 import "../stylesheets/TaskForm.css";
 
 function TaskForm() {
   const [input, setInput] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [isModalHidden, setIsModalHidden] = useState(true);
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleUserSelected = (emails) => {
     setSelectedUsers(emails);
@@ -32,12 +36,17 @@ function TaskForm() {
         await addDoc(collection(db, "notes"), newTask);
         setInput("");
         setSelectedUsers([]);
-        alert("Nota añadida con éxito.");
+        setModalMessage("Nota añadida con éxito.");
+        setIsModalHidden(false);
       } catch (error) {
         console.error("Error adding task: ", error);
+        setModalMessage("Error al añadir la nota.");
+        setIsModalHidden(false);
       }
     } else {
       console.error("User is not logged in.");
+      setModalMessage("El usuario no ha iniciado sesión.");
+      setIsModalHidden(false);
     }
   };
 
@@ -56,7 +65,15 @@ function TaskForm() {
           onChange={(e) => setInput(e.target.value)}
         />
         <button className="task-btn">Agregar</button>
-      </form>      
+      </form>
+      <ConfirmationModal
+        isHidden={isModalHidden}
+        onDeleteCancel={() => setIsModalHidden(true)}
+        onDeleteConfirm={() => setIsModalHidden(true)}
+        modalTitle={modalMessage}
+        buttonOneText="Cerrar"
+        buttonTwoText=""
+      />
     </>
   );
 }
