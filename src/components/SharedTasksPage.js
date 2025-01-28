@@ -16,19 +16,23 @@ export function SharedTasksPage() {
 
   useEffect(() => {
     if (!user || !user.email) {
+      navigate("/Welcome");
       return;
     }
 
     const fetchOwner = async () => {
       try {
+        console.log("Fetching owner with userId:", userId); // Debug log
         const ownerDoc = await getDoc(doc(db, "users", userId));
         if (ownerDoc.exists()) {
+          console.log("Owner found:", ownerDoc.data()); // Debug log
           setOwner(ownerDoc.data());
         } else {
+          console.error("Owner not found"); // Debug log
           setError("Owner not found");
         }
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching owner information:", err); // Debug log
         setError("Error fetching owner information");
       }
     };
@@ -44,10 +48,13 @@ export function SharedTasksPage() {
         ...doc.data(),
       }));
       setTasks(tasksData);
+    }, (err) => {
+      console.error("Error fetching tasks:", err); // Debug log
+      setError("Error fetching tasks");
     });
 
     return () => unsubscribe();
-  }, [userId, user]);
+  }, [userId, user, navigate]);
 
   if (!user) {
     navigate("/Welcome");
@@ -57,7 +64,7 @@ export function SharedTasksPage() {
     <div className="task-list-container notes-link-container">
       {error && <p className="error-message">{error}</p>}
       {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-      {owner && <p className="text-center text-sm py-2">Estos son los recursos que {owner.displayName || owner.email} compartió contigo:</p>}
+      {owner && <p className="text-center text-sm py-2">Estos son los recursos que {owner.email} compartió contigo:</p>}
       {tasks.map((task) => (
         <Task
           key={task.id}
