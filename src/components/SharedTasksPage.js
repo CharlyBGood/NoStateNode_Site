@@ -18,20 +18,33 @@ export function SharedTasksPage() {
       return;
     }
 
-    const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("userId", "==", userId));
+    const fetchTasks = () => {
+      const tasksRef = collection(db, "notes");
+      const q = query(tasksRef, where("userId", "==", userId));
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const tasksData = snapshot.docs
-        .map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        .filter((task) => task.shareWith.includes(user.email)); // Filter notes by shared user
-      setTasks(tasksData);
-    });
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const tasksData = snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((task) => Array.isArray(task.shareWith) && task.shareWith.includes(user.email)); // Filter notes by shared user
+        setTasks(tasksData);
+      });
 
-    return () => unsubscribe();
+      return unsubscribe;
+    };
+
+    let unsubscribe;
+    if (user.email) {
+      unsubscribe = fetchTasks();
+    }
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [userId, user, navigate]);
 
   return (
