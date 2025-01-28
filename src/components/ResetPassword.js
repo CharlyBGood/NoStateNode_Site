@@ -9,8 +9,7 @@ export function ResetPassword() {
   });
 
 
-  const { resetPassword } = useAuth();
-  // const navigate = useNavigate();
+  const { resetPassword } = useAuth();  
   const [error, setError] = useState();
 
   const handleChange = ({ target: { name, value } }) =>
@@ -21,10 +20,7 @@ export function ResetPassword() {
     if (!user.email) return setError("Por favor ingresa tu email.");
     try {
       await resetPassword(user.email);
-      // navigate("/login");
-      // alert(
-      //   "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
-      // );      
+        
       setError(
         "¡Hemos enviado un correo con un enlace para resetear tu contraseña!"
       );
