@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
 const SharedTasksPage = () => {
@@ -13,7 +13,7 @@ const SharedTasksPage = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/Welcome"); // Redirect if user is not logged in
+      navigate("/Welcome"); 
       return;
     }
 
