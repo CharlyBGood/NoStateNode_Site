@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
-import { useAuth } from "../context/AuthContext";
+import { db, auth } from "../firebase";
+// import { useAuth } from "../context/AuthContext";
 import Task from "../formPages/Task";
 import "../stylesheets/TaskList.css";
 
 export function SharedTasksPage() {
   const { userId } = useParams();
-  const { user } = useAuth();
+  const { user } = auth.currentUser;
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export function SharedTasksPage() {
             id: doc.id,
             ...doc.data(),
           }))
-          .filter((task) => Array.isArray(task.shareWith) && task.shareWith.includes(user.email)); // Filter notes by shared user
+          .filter((task) => Array.isArray(task.shareWith) && task.shareWith.includes(user.email));
         setTasks(tasksData);
       });
 
