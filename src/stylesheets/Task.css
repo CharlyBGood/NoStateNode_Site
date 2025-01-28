@@ -50,7 +50,10 @@
   display: flex;
   align-items: center;
   overflow-wrap: anywhere;
-  padding: .4em;
+  padding: 1em;
+  font-weight: bolder;  
+  color: var(--red-wheat);
+  text-shadow: 0px 9px 20px var(--soft-black);
 }
 
 .todo-link {

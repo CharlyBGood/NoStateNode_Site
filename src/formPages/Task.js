@@ -49,7 +49,7 @@ function Task({ id, text, complete, completeTask, deleteTask, isReadOnly }) {
         </a>
       );
     }
-    return <span>{text}</span>;
+    return <p>{text}</p>;
   };
 
   return (
