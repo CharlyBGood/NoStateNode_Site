@@ -9,7 +9,7 @@ export function Home() {
   const navigate = useNavigate();
 
   if (loading) {
-    return <h1>Loading....</h1>;
+    return <h1>Cargando....</h1>;
   }
 
   if (!user) {

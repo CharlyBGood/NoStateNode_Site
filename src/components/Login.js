@@ -4,16 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
 
 export function Login() {
-  const { user, loading } = useAuth();
+  const { user, loading, login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
-
-  const [logUser, setLogUser] = useState({
-    email: "",
-    password: "",
-  });
-
-  const { login, loginWithGoogle } = useAuth();
+  const [logUser, setLogUser] = useState({ email: "", password: "" });
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!loading && user) {
@@ -29,39 +24,48 @@ export function Login() {
     setError("");
 
     if (!logUser.email.trim() || !logUser.password.trim()) {
-      setError("Por favor, completa todos los campos.");
+      setError("Por favor, completa ambos campos del formulario.");
+      return;
     }
 
+    setIsLoading(true);
     try {
       await login(logUser.email, logUser.password);
       navigate("/Home");
     } catch (error) {
+      console.error("Login error code:", error.code); // Log the error code for debugging
       if (error.code === "auth/wrong-password") {
         setError("La contraseña no es válida.");
       } else if (error.code === "auth/user-not-found") {
         setError("El usuario no existe.");
-      } else if (
-        error.code === "auth/invalid-email" ||
-        error.code === "auth/internal-error"
-      ) {
+      } else if (error.code === "auth/invalid-email" || error.code === "auth/internal-error") {
         setError("Proporciona un email válido.");
       } else {
         setError("Ocurrió un error inesperado. Intenta nuevamente.");
       }
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async (e) => {
-    e.preventDefault();
+    setError("");
+    setIsLoading(true);
     try {
       await loginWithGoogle();
       navigate("/Home");
     } catch (error) {
+      if (error.code !== "auth/popup-closed-by-user" && error.code !== "auth/cancelled-popup-request") {
+        setError("Ocurrió un error inesperado. Por favor, intenta nuevamente.");
+      }
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <h1>Cargando...</h1>;
 
   return (
     <div className="bg-black w-full max-w-xs m-auto">
@@ -83,7 +87,9 @@ export function Login() {
             id="login-email"
             autoComplete="Your@Email.com"
             placeholder="youremail@example.com"
+            value={logUser.email}
             onChange={handleChange}
+            disabled={isLoading}
           />
         </div>
         <div className="mb-4">
@@ -98,20 +104,23 @@ export function Login() {
             type="password"
             name="password"
             id="login-password"
-            onChange={handleChange}
             placeholder="******"
+            value={logUser.password}
+            onChange={handleChange}
+            disabled={isLoading}
           />
         </div>
-
-        <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
-          Iniciar sesión
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
+          {isLoading ? "Ingresando..." : "Iniciar sesión"}
         </button>
         <div className="mb-4 text-center">
           <Link
             to="/ResetPassword"
             href="#!"
             className="inline-block align-center font-bold text-sm"
-          // onClick={handleResetPassword}
           >
             ¿Olvidaste tu contraseña?
           </Link>

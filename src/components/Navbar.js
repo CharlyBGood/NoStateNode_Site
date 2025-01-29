@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import "../stylesheets/Navbar.css";
 
 export function Navbar() {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
 
   return (
     <div className="nav-container">
@@ -22,7 +22,7 @@ export function Navbar() {
           src={require("../img/horsecoin.png")}
           alt="nostatenode horse logo"
         />
-        {!user ? <LoginButton /> : <LogoutButton />}        
+        {!user ? <LoginButton /> : <LogoutButton />}
       </nav>
     </div>
   );
