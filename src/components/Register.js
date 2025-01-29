@@ -4,16 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
 
 export function Register() {
-  const { user, loading } = useAuth();
+  const { signup, user, loading, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
-
-  const [newUser, setNewUser] = useState({
-    email: "",
-    password: "",
-  });
-  const { signup } = useAuth();
+  const [newUser, setNewUser] = useState({ email: "", password: "", });
   const [error, setError] = useState();
-  const { loginWithGoogle } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!loading && user) {
@@ -27,6 +22,13 @@ export function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!newUser.email || !newUser.password) {
+      setError("¡Debes completar ambos campos del formulario!");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       await signup(newUser.email, newUser.password);
       navigate("/Home");
@@ -38,28 +40,36 @@ export function Register() {
         setError(
           "¡Debes completar ambos campos del formulario, y la información debe ser válida!"
         );
-      }
-      if (error.code === "auth/weak-password") {
+      } else if (error.code === "auth/weak-password") {
         setError("La contraseña debe tener al menos 6 caracteres.");
-      }
-      if (error.code === "auth/email-already-in-use") {
-        setError("El correo proporcionado ya tiene una cuenta existente.");
+      } else if (error.code === "auth/email-already-in-use") {
+        setError("El e-amil proporcionado ya tiene una cuenta existente.");
+      } else {
+        setError("Ocurrió un error inesperado. Por favor, inténtalo de nuevo.");
       }
       console.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async (e) => {
-    e.preventDefault();
+    setError("");
+    setIsLoading(true);
     try {
       await loginWithGoogle();
       navigate("/Home");
     } catch (error) {
+      if (error.code !== "auth/popup-closed-by-user" && error.code !== "auth/cancelled-popup-request") {
+        setError("Ocurrió un error inesperado. Por favor, intenta nuevamente.");
+      }
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <h1>Cargando...</h1>;
 
   return (
     <div className="bg-black w-full max-w-xs m-auto">
@@ -79,9 +89,11 @@ export function Register() {
             type="email"
             name="email"
             id="email"
+            value={newUser.email}
             autoComplete="Your@Email.com"
             placeholder="youremail@example.com"
             onChange={handleChange}
+            disabled={isLoading}
           />
         </div>
         <div className="mb-4">
@@ -92,12 +104,14 @@ export function Register() {
             Contraseña
           </label>
           <input
-            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
             name="password"
-            id="password"
-            onChange={handleChange}
             placeholder="******"
+            id="password"
+            value={newUser.password}
+            onChange={handleChange}
+            disabled={isLoading}
           />
         </div>
         <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
@@ -107,8 +121,9 @@ export function Register() {
           <button
             className="log-btn w-100 border-none font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
+            disabled={isLoading}
           >
-            Ingresar con Google
+            {isLoading ? "Ingresando..." : "Ingresar con Google"}
           </button>
         </div>
         <p className="my-4 text-sm flex justify-between">
