@@ -129,7 +129,7 @@ export function Register() {
           </button>
         </div>
         <div className="mb-4 flex items-center justify-between">
-          <p className="mb-2 text-sm ">
+          <p className="mb-2">
             ¿Ya tienes cuenta?
           </p>
           <LoginButton />

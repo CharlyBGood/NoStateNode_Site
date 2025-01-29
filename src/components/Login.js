@@ -125,7 +125,7 @@ export function Login() {
           </button>
         </div>
         <div className="mb-4 flex items-center">
-          <p className="mb-2 text-sm">
+          <p className="mb-2">
             ¿No tienes cuenta?
           </p>
           <Link
