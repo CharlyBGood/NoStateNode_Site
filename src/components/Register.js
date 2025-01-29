@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
+import { LoginButton } from "./LoginButton";
 
 export function Register() {
   const { signup, user, loading, loginWithGoogle } = useAuth();
@@ -74,21 +75,21 @@ export function Register() {
   return (
     <div className="bg-black w-full max-w-xs m-auto">
       <form
-        className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-black shadow-md rounded px-8 pt-6"
         onSubmit={handleSubmit}
       >
         <div className="mb-4">
           <label
             className="block text-sm font-fold mb-2"
-            htmlFor="email"
+            htmlFor="register-email"
           >
-            Correo
+            E-mail
           </label>
           <input
             className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             name="email"
-            id="email"
+            id="register-email"
             value={newUser.email}
             autoComplete="Your@Email.com"
             placeholder="youremail@example.com"
@@ -99,7 +100,7 @@ export function Register() {
         <div className="mb-4">
           <label
             className="block text-sm font-fold mb-2"
-            htmlFor="password"
+            htmlFor="register-password"
           >
             Contraseña
           </label>
@@ -108,7 +109,7 @@ export function Register() {
             type="password"
             name="password"
             placeholder="******"
-            id="password"
+            id="register-password"
             value={newUser.password}
             onChange={handleChange}
             disabled={isLoading}
@@ -117,6 +118,7 @@ export function Register() {
         <button className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
           Crear cuenta
         </button>
+        <div className="mb-4  py-2"></div>
         <div className="mb-4">
           <button
             className="log-btn w-100 border-none font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
@@ -126,15 +128,18 @@ export function Register() {
             {isLoading ? "Ingresando..." : "Ingresar con Google"}
           </button>
         </div>
-        <p className="my-4 text-sm flex justify-between">
-          ¿Ya tienes cuenta?
-          <Link
+        <div className="mb-4 flex items-center justify-between">
+          <p className="mb-2 text-sm ">
+            ¿Ya tienes cuenta?            
+          </p>
+          <LoginButton />
+            {/* <Link
             className="log-btn py-1 outline-none border-none px-3 font-bold border rounded mb-2"
             to="/login"
           >
             Ingresar
-          </Link>
-        </p>
+          </Link> */}
+        </div>
       </form>
       {error && <Alert message={error} />}
     </div>

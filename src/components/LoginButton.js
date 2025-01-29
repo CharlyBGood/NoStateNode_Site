@@ -13,7 +13,7 @@ export function LoginButton() {
 
   return (
     <button
-      className="log-btn w-50 border-none block border rounded py-1 px-3 m-3"
+      className="log-btn py-1 outline-none border-none px-3 font-bold border rounded mb-2"
       onClick={redirectLogin}
     >
       <a className="font-bold" href="#!">Ingresar</a>
