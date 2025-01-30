@@ -31,7 +31,8 @@
   padding: 0.3em;
   text-decoration: none;
   letter-spacing: 0.1em;
-  text-shadow: 2px 2px 2px var(--dark-black);
+  /* text-shadow: 2px 2px 2px var(--dark-black); */
+  text-shadow: 13px 20px 0px #ff843b8f;
 }
 
 .txt-title-span {

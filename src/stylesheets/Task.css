@@ -10,6 +10,7 @@
   width: 85%;
   min-height: 2.5em;
   cursor: pointer;
+  box-shadow: -1px 0em 1em 10px #d7693f;
 }
 
 .todo-edit-input {
@@ -73,6 +74,7 @@
 .todo-container.complete {
   background-color: var(--red-danger);
   text-decoration: line-through;
+  box-shadow: -1px 0em 1em 10px #d73f46;
 }
 
 @media screen and (max-width: 850px) {
