@@ -50,6 +50,7 @@ export function Login() {
   };
 
   const handleGoogleLogin = async (e) => {
+    e.preventDefault();
     setError("");
     setIsLoading(true);
     try {

@@ -16,15 +16,16 @@ export function Footer() {
           border='0'
           alt='Buy Me a Coffee at ko-fi.com' /></a>
       <p>
-        by
+        _
         <a
           href="https://charlybgood.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="smedia-contact"
         >
-          Charly BGood
+          by Charly BGood
         </a>
+        _
         <a
           href="https://github.com/CharlyBGood/"
           target="_blank"

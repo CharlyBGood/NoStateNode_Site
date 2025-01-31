@@ -25,7 +25,7 @@ export function Register() {
     setError("");
 
     if (!newUser.email || !newUser.password) {
-      setError("¡Debes completar ambos campos del formulario!");
+      setError("Por favor, completa ambos campos del formulario.");
       return;
     }
 
