@@ -75,11 +75,14 @@
 
 .btn-cancel {
   background-color: var(--dark-black);
+  box-shadow: 9px 11px 1pc 1px #000;
   flex: 1;
 }
 
 .btn-cancel:hover {
   background-color: var(--soft-black);
+  /* box-shadow: -2px 1px 0pc 0px #8ada7fe0; */
+  background-color: var(--red-danger);
   /* color: #1e1e1e; */
 }
 

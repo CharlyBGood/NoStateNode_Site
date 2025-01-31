@@ -17,23 +17,37 @@
   border: 2px solid var(--soft-black);
   outline: none;
   color: var(--wheat);
+  box-shadow: -4px 5px 0pc 0px black;
+  
+}
+
+.task-input:hover {
+  /* box-shadow: -2px 1px 0pc 0px #8ada7fe0; */
+  box-shadow: 7px -4px 0pc 0px black;
+
 }
 
 .task-btn {
   text-align: center;
-  padding: 0.6em;
-  outline: none;
-  border: none;
+  padding: .9em;
+  /* outline: none; */
+  border: 1px solid var(--soft-black);
   border-radius: 0.3em;
   cursor: pointer;
   background-color: var(--soft-black);
   color: var(--wheat);
   text-transform: capitalize;
-  /* font-size: 1.2em; */
+  box-shadow: -4px 5px 0pc 0px black;
+  font-size: .9em;
 }
 
 .task-btn:hover {
-  background-color: var(--main-orange);
+  /* background-color: #51d73f; */
+  /* box-shadow: -1px 0em 0pc 1px #51d73f; */
+  box-shadow: 7px -4px 0pc 0px black;
+  /* color: var(--dark-black); */
+  font-weight: bolder;
+  opacity: .9;
 }
 
 @media screen and (max-width: 850px) {
