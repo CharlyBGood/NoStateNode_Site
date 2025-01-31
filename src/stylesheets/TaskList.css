@@ -22,6 +22,7 @@
   padding: 1em;
   border-radius: 0.5em;
   background-color: var(--soft-black);
+  box-shadow: 9px 11px 1pc 1px #000;
 }
 
 .hide-modal {
@@ -51,26 +52,15 @@
   margin: 1em 0 0;
 }
 
-/* .btn-delete,
-.btn-cancel {
-  width: 35%;
-  padding: 0.5em 0;
-  color: var(--wheat);
-  background: transparent;
-  margin: 0.5em 0;
-  border-radius: .6em;
-  font-weight: bold;
-  cursor: pointer;
-} */
-
 .btn-delete {
   background-color: var(--red-danger);
   flex: 2;
-  /* width: 45%; */
+  box-shadow: 9px 11px 1pc 1px #000;
 }
 
 .btn-delete:hover {
   background-color: var(--red-danger-hover);
+  box-shadow: 3px 7px 1pc 1px var(--dark-black);
 }
 
 .btn-cancel {
@@ -81,9 +71,7 @@
 
 .btn-cancel:hover {
   background-color: var(--soft-black);
-  /* box-shadow: -2px 1px 0pc 0px #8ada7fe0; */
-  background-color: var(--red-danger);
-  /* color: #1e1e1e; */
+  box-shadow: 3px 7px 1pc 1px var(--dark-black);
 }
 
 .btn-delete:hover,

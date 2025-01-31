@@ -41,11 +41,8 @@
   font-size: .9em;
 }
 
-.task-btn:hover {
-  /* background-color: #51d73f; */
-  /* box-shadow: -1px 0em 0pc 1px #51d73f; */
+.task-btn:hover {  
   box-shadow: 7px -4px 0pc 0px black;
-  /* color: var(--dark-black); */
   font-weight: bolder;
   opacity: .9;
 }

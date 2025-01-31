@@ -8,7 +8,7 @@
   width: 85%;
   min-height: 2.5em;
   cursor: pointer;
-  box-shadow: -4px 5px 0pc 0px black;  
+  box-shadow: -4px 5px 0pc 0px black;
 }
 
 .todo-container:hover {
@@ -28,11 +28,6 @@
   flex-direction: column;
   gap: 1em;
   margin: .5em;
-}
-
-.todo-icon {
-  font-size: 1em;
-  margin: 0.5em;
 }
 
 /* .todo-container:nth-child(3n + 1) {
@@ -72,6 +67,14 @@
 .todo-icon {
   font-size: 1em;
   margin: 0.5em;
+}
+
+.todo-icon svg {
+  border: 1px solid black;
+}
+
+.todo-icon:nth-child(2n + 2):hover {
+  color: var(--red-wheat);
 }
 
 .todo-container.complete {
