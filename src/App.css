@@ -13,6 +13,18 @@
   color: var(--wheat);
 }
 
+.ko-fi-a {
+  background: #ff6433;
+  border-radius: 0px;
+  opacity: 0.9;
+  padding: 0;
+}
+
+.ko-fi-btn {
+  border: 0;
+  height: 2em;
+}
+
 .todo-list-main {
   width: 75%;
   min-height: 31em;

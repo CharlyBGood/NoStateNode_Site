@@ -4,6 +4,17 @@ import { FaGithub } from "react-icons/fa";
 export function Footer() {
   return (
     <footer>
+      <a
+        href='https://ko-fi.com/D1D819H6X6'
+        target='_blank'
+        rel="noopener noreferrer"
+        className="ko-fi-a">
+        <img
+          height='36'
+          className="ko-fi-btn"
+          src='https://storage.ko-fi.com/cdn/kofi6.png?v=6'
+          border='0'
+          alt='Buy Me a Coffee at ko-fi.com' /></a>
       <p>
         by
         <a
