@@ -86,14 +86,17 @@
   .navbar-logos {
     margin: 0;
     justify-content: center;
+    padding-bottom: .5em;
   }
 
   .navbar-logos h1 {
-    font-size: 1.2em;
+    font-size: 1em;
+    padding-top: 0;
   }
 
   .logo-img {
     margin: 0;
+    width: 4em;
   }
 
   .log-button {
