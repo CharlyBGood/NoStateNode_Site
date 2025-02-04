@@ -1,5 +1,5 @@
 import "../stylesheets/Footer.css";
-import { FaGithub } from "react-icons/fa";
+import { FaBolt } from "react-icons/fa";
 
 export function Footer() {
   return (
@@ -15,8 +15,9 @@ export function Footer() {
           src='https://storage.ko-fi.com/cdn/kofi6.png?v=6'
           border='0'
           alt='Buy Me a Coffee at ko-fi.com' /></a>
+
       <p>
-        by
+        <FaBolt />
         <a
           href="https://charlybgood.com/"
           target="_blank"
@@ -25,13 +26,14 @@ export function Footer() {
         >
           Charly BGood
         </a>
-        <a
+        <FaBolt />
+        {/* <a
           href="https://github.com/CharlyBGood/"
           target="_blank"
           rel="noopener noreferrer"
           className="smedia-contact"
         ><FaGithub />
-        </a>
+        </a> */}
       </p>
     </footer>
   );

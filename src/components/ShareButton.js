@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import ShareModal from "./ShareModal";
 
@@ -8,8 +8,8 @@ export const ShareButton = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const shareableLink = `${window.location.origin}/shared/${user.uid}`;
 
+  // const facebookLink = (`https://www.facebook.com/sharer/sharer.php?u=${yourLink}`, '_blank')
   const copyToClipboard = async () => {
     if (!user) {
       setModalMessage("Debes iniciar sesión para compartir la lista.");
@@ -18,7 +18,7 @@ export const ShareButton = () => {
     }
 
     setIsLoading(true);
-    
+    const shareableLink = `${window.location.origin}/shared/${user.uid}`;
     try {
       await navigator.clipboard.writeText(shareableLink);
       setModalMessage("Enlace copiado al portapapeles.");
@@ -44,10 +44,10 @@ export const ShareButton = () => {
         isHidden={isModalHidden}
         onClose={() => setIsModalHidden(true)}
         modalTitle={modalMessage}
-        copyToClipboard={copyToClipboard}
-        yourLink={shareableLink}
+        copyToClipboard={() => copyToClipboard()}
+      // yourLink={shareableLink}
       />
-      </>
+    </>
     // </div>
   );
 };

@@ -60,6 +60,7 @@ function TaskForm() {
         <input
           className="task-input"
           type="text"
+          id="task-input"
           placeholder="Añade una nota o enlace"
           value={input}
           onChange={(e) => setInput(e.target.value)}
