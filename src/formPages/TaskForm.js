@@ -56,7 +56,6 @@ function TaskForm() {
     <>
       <AddUserForm onContactAdded={() => setSelectedUsers([])} />
       <ShareButton />
-      <SharedUserPicker onUserSelected={handleUserSelected} />
       <form id="form" className="task-form" onSubmit={handleSend}>
         <input
           className="task-input"
@@ -70,6 +69,7 @@ function TaskForm() {
           {isLoading ? "Añadiendo..." : "Añadir Nota"}
         </button>
       </form>
+      <SharedUserPicker onUserSelected={handleUserSelected} />
       <ConfirmationModal
         isHidden={isModalHidden}
         onDeleteCancel={() => setIsModalHidden(true)}

@@ -52,35 +52,37 @@ const SharedUserPicker = ({ onUserSelected }) => {
   };
 
   return (
-    <div>
+    // <div>
+    <>
       {error && <p>{error}</p>}
-      <div className="user-picker-container">
-        {isLoading ? (
-          <p>Cargando usuarios...</p>
-        ) : (
-          <>
-            <select
-              id="select-email"
-              onChange={handleUserSelect}
-              className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
-              defaultValue=""
-            >
-              <option value="" disabled className="placeholder-option">Comparte con un contacto de tu lista</option>
-              {users.map((user) => (
-                <option key={user.id} value={user.email}>
-                  {user.email}
-                </option>
-              ))}
-            </select>
-            {selectedUser && (
-              <button onClick={handleRemoveUser} className="remove-button ml-2">
-                <FaTrash /> {/* Using an icon for delete button */}
-              </button>
-            )}
-          </>
-        )}
-      </div>
-    </div>
+      {/* <div className="user-picker-container"> */}
+      {isLoading ? (
+        <p>Cargando contactos...</p>
+      ) : (
+        <>
+          <select
+            id="select-email"
+            onChange={handleUserSelect}
+            className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
+            defaultValue=""
+          >
+            <option value="" disabled className="placeholder-option">Elige un contacto para compartir la nota</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.email}>
+                {user.email}
+              </option>
+            ))}
+          </select>
+          {selectedUser && (
+            <button onClick={handleRemoveUser} className="remove-button ml-2">
+              <FaTrash />
+            </button>
+          )}
+        </>
+      )}
+    </>
+    // </div>
+    // </div>
   );
 };
 

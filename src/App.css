@@ -13,22 +13,14 @@
   color: var(--wheat);
 }
 
-.ko-fi-a {
-  background: #ff6433;
-  border-radius: 0px;
-  opacity: 0.9;
-  padding: 0;
-}
-
-.ko-fi-btn {
-  border: 0;
-  height: 2em;
-}
-
 .todo-list-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4em;
   width: 75%;
   min-height: 31em;
-  padding: 1.4em;
+  padding: 1.4em;  
   /* margin: 0.8em; */
   /* position: relative; */
   position: absolute;
@@ -146,6 +138,18 @@ option:disabled {
 .success {
   margin: 1em;
   overflow-wrap: anywhere;
+}
+
+.ko-fi-a {
+  background: #ff6433;
+  border-radius: 0px;
+  opacity: 0.9;
+  padding: 0;
+}
+
+.ko-fi-btn {
+  border: 0;
+  height: 2em;
 }
 
 @media screen and (max-width: 850px) {
