@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { ConfirmationModal } from "../formPages/ConfirmationModal";
+import ShareModal from "./ShareModal";
 
 export const ShareButton = () => {
   const { user } = useAuth();
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const shareableLink = `${window.location.origin}/shared/${user.uid}`;
 
   const copyToClipboard = async () => {
     if (!user) {
@@ -16,7 +18,7 @@ export const ShareButton = () => {
     }
 
     setIsLoading(true);
-    const shareableLink = `${window.location.origin}/shared/${user.uid}`;
+    
     try {
       await navigator.clipboard.writeText(shareableLink);
       setModalMessage("Enlace copiado al portapapeles.");
@@ -24,7 +26,6 @@ export const ShareButton = () => {
       setModalMessage("Error al copiar enlace.");
     } finally {
       setIsLoading(false);
-      setIsModalHidden(false);
     }
   };
 
@@ -33,18 +34,17 @@ export const ShareButton = () => {
       <button
         type="button"
         className="share-btn task-btn"
-        onClick={copyToClipboard}
+        onClick={() => setIsModalHidden(false)}
         disabled={isLoading}
       >
         {isLoading ? "Copiando..." : "Compartir lista"}
       </button>
-      <ConfirmationModal
+      <ShareModal
         isHidden={isModalHidden}
-        onDeleteCancel={() => setIsModalHidden(true)}
-        onDeleteConfirm={() => setIsModalHidden(true)}
+        onClose={() => setIsModalHidden(true)}
         modalTitle={modalMessage}
-        buttonOneText="Cerrar"
-        buttonTwoText=""
+        copyToClipboard={copyToClipboard}
+        yourLink={shareableLink}
       />
     </div>
   );
