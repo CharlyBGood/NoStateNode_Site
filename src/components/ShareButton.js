@@ -4,12 +4,10 @@ import ShareModal from "./ShareModal";
 
 export const ShareButton = () => {
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
-
-  // const facebookLink = (`https://www.facebook.com/sharer/sharer.php?u=${yourLink}`, '_blank')
   const copyToClipboard = async () => {
     if (!user) {
       setModalMessage("Debes iniciar sesión para compartir la lista.");
@@ -29,26 +27,49 @@ export const ShareButton = () => {
     }
   };
 
+  const handleShare = () => {
+    if (!user) {
+      setModalMessage("Debes iniciar sesión para compartir la lista.");
+      setIsModalHidden(false);
+      return;
+    }
+
+    const shareableLink = `${window.location.origin}/shared/${user.uid}`;
+    if (navigator.share) {
+      navigator.share({
+        title: "NoStateNode",
+        text: "Mira mi lista de recursos en NoStateNode",
+        url: shareableLink,
+      })
+        .then(() => setIsLoading(false))
+        .catch((error) => {
+          console.log("Error sharing", error);
+          setIsLoading(false);
+        });
+    } else {
+      setModalMessage("Web Share API no soportada. Usa las opciones de abajo.");
+      setIsModalHidden(false);
+    }
+  };
+
   return (
-    // <div className="share-btn-container">
-    <>
+    <div className="share-btn-container">
       <button
         type="button"
         className="share-btn task-btn"
-        onClick={() => setIsModalHidden(false)}
+        onClick={handleShare}
         disabled={isLoading}
       >
-        {isLoading ? "Copiando..." : "Compartir lista"}
+        {isLoading ? "Compartiendo..." : "Compartir lista"}
       </button>
       <ShareModal
         isHidden={isModalHidden}
         onClose={() => setIsModalHidden(true)}
         modalTitle={modalMessage}
-        copyToClipboard={() => copyToClipboard()}
-      // yourLink={shareableLink}
+        copyToClipboard={copyToClipboard}
+        yourLink={`${window.location.origin}/shared/${user ? user.uid : ''}`}
       />
-    </>
-    // </div>
+    </div>
   );
 };
 
