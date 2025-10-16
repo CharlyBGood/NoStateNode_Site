@@ -70,11 +70,9 @@ const AddUserForm = ({ onContactAdded }) => {
 
   return (
     <>
-      {/* <div className="share-btn-container"> */}
-        <button className="share-btn task-btn" onClick={() => setIsModalOpen(true)}>
-          Añadir contacto
-        </button>
-      {/* </div> */}
+      <button className="share-btn task-btn" onClick={() => setIsModalOpen(true)}>
+        Añadir contacto
+      </button>
 
       {isModalOpen &&
         <form id="users-form" onSubmit={handleAddUser} className="task-form">

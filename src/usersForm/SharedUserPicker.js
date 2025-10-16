@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { collection, query, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase";
-import { FaTrash } from "react-icons/fa"; // Importing an icon for delete button
+import { FaTrash } from "react-icons/fa";
 
 const SharedUserPicker = ({ onUserSelected }) => {
   const [users, setUsers] = useState([]);
@@ -43,7 +43,7 @@ const SharedUserPicker = ({ onUserSelected }) => {
     if (selectedUser) {
       try {
         await deleteDoc(doc(db, "usersToShare", selectedUser.id));
-        setSelectedUser(null); // Clear the selected user after deletion
+        setSelectedUser(null);
       } catch (err) {
         console.error("Error removing user: ", err);
         setError("Error al intentar eliminar el usuario");
@@ -52,10 +52,8 @@ const SharedUserPicker = ({ onUserSelected }) => {
   };
 
   return (
-    // <div>
     <>
       {error && <p>{error}</p>}
-      {/* <div className="user-picker-container"> */}
       {isLoading ? (
         <p>Cargando contactos...</p>
       ) : (
@@ -81,8 +79,6 @@ const SharedUserPicker = ({ onUserSelected }) => {
         </>
       )}
     </>
-    // </div>
-    // </div>
   );
 };
 

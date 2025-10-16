@@ -60,7 +60,7 @@ export const ShareButton = () => {
   }
 
   return (
-    <div className="share-btn-container">
+    <>
       <button
         type="button"
         className="share-btn task-btn"
@@ -76,7 +76,7 @@ export const ShareButton = () => {
         copyToClipboard={copyToClipboard}
         yourLink={getShareableLink()}
       />
-    </div>
+    </>
   );
 };
 
