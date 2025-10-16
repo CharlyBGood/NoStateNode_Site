@@ -103,7 +103,7 @@ const AddUserForm = ({ onContactAdded }) => {
               />
               <div className="share-btn-container">
                 <button
-                  className="log-btn border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full"
+                  className="log-btn border-0 font-bold block rounded-sm mb-2 py-2 px-4 w-full"
                   type="submit"
                   disabled={isLoading}
                 >

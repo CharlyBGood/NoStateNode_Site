@@ -1,7 +1,6 @@
+@import "tailwindcss";
+
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');
-
-
-
 
 
 :root {
@@ -60,7 +59,9 @@ body {
   max-height: 100%;
 }
 
-
+a {
+  text-decoration: none;
+}
 
 
 footer svg {

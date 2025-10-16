@@ -81,8 +81,8 @@ export function Login() {
           >
             E-mail
           </label>
-          <input
-            className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 leading-tight focus:outline-hidden focus:shadow-outline"
+            <input
+              className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 leading-tight focus:outline-none"
             type="email"
             name="email"
             id="login-email"
@@ -100,8 +100,8 @@ export function Login() {
           >
             Contraseña
           </label>
-          <input
-            className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 leading-tight focus:outline-hidden focus:shadow-outline"
+            <input
+              className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 leading-tight focus:outline-none"
             type="password"
             name="password"
             id="login-password"
@@ -114,21 +114,21 @@ export function Login() {
         <button
           type="submit"
           disabled={isLoading}
-          className="log-btn border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full">
+            className="log-btn border-0 font-bold block rounded-sm mb-2 py-2 px-4 w-full">
           {isLoading ? "Ingresando..." : "Iniciar sesión"}
         </button>
         <div className="mb-4 text-center">
           <Link
             to="/ResetPassword"
             href="#!"
-            className="inline-block align-center font-bold text-sm"
+            className="inline-block font-bold text-sm"
           >
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
         <div className="mb-4">
           <button
-            className="log-btn border-none font-bold text-sm block border rounded-sm mb-2 py-2 px-4 w-full"
+              className="log-btn border-0 font-bold text-sm block rounded-sm mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
           >
             Ingresar con Google
@@ -139,7 +139,7 @@ export function Login() {
             ¿No tienes cuenta?
           </p>
           <Link
-            className="log-btn py-1 outline-hidden border-none px-3 font-bold border rounded-sm mb-2"
+              className="log-btn py-1 outline-none border-0 px-3 font-bold rounded-sm mb-2"
             to="/register"
           >
             Registrarse

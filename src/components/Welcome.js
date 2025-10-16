@@ -10,7 +10,7 @@ export function Welcome() {
   return (
     <>
       {!user ? (
-        <div className="bg-neutral w-85 max-w-prose text-center m-auto">
+  <div className="bg-neutral-900 w-[85%] max-w-prose text-center m-auto">
           <h2 className="font-bold">¡Bienvenid@!</h2>
           <p>
             {/* <span className="text-bold text-orange-500">NoStateNode</span> */}
@@ -23,7 +23,7 @@ export function Welcome() {
           </p>
           <div className="m-4 py-2">
             <Link
-              className="log-btn py-2 outline-hidden border-none px-3 font-bold border rounded-sm"
+              className="log-btn py-2 outline-none border-0 px-3 font-bold rounded-sm"
               to="/register"
             >
               Registrarse
