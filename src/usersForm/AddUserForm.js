@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { ConfirmationModal } from "../formPages/ConfirmationModal";
 
 const AddUserForm = ({ onContactAdded }) => {
   const [email, setEmail] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +51,7 @@ const AddUserForm = ({ onContactAdded }) => {
           };
           await addDoc(usersRef, newContact);
           setEmail("");
-          setIsModalOpen(false);
+          setIsDropdownOpen(false);
           setModalMessage("Usuario añadido con éxito.");
           onContactAdded();
         } else {
@@ -68,33 +68,59 @@ const AddUserForm = ({ onContactAdded }) => {
     }
   };
 
+  // Cerrar con tecla ESC
+  useEffect(() => {
+    const onKey = (ev) => {
+      if (ev.key === 'Escape') setIsDropdownOpen(false);
+    };
+    if (isDropdownOpen) {
+      window.addEventListener('keydown', onKey);
+    }
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isDropdownOpen]);
+
   return (
     <>
-      <button className="share-btn task-btn" onClick={() => setIsModalOpen(true)}>
+      <button className="share-btn task-btn" onClick={() => setIsDropdownOpen((o) => !o)}>
         Añadir contacto
       </button>
 
-      {isModalOpen &&
-        <form id="users-form" onSubmit={handleAddUser} className="task-form">
-          <input
-            id="contact-email"
-            className="task-input"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isLoading}
-          />
-          <div className="share-btn-container">
-            <button className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full" type="submit" disabled={isLoading}>
-              {isLoading ? "Añadiendo..." : "Añadir contacto"}
-            </button>
-            <button type="button" className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full" onClick={() => setIsModalOpen(false)}>
-              Cancelar
-            </button>
+      {isDropdownOpen && (
+        <>
+          {/* backdrop para cerrar al hacer click fuera */}
+          <div className="dropdown-backdrop" onClick={() => setIsDropdownOpen(false)} />
+          <div className="dropdown-panel" role="dialog" aria-modal="true">
+            <form id="users-form" onSubmit={handleAddUser} className="task-form m-0">
+              <input
+                id="contact-email"
+                className="task-input"
+                type="email"
+                placeholder="Email del contacto"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
+                autoFocus
+              />
+              <div className="share-btn-container">
+                <button
+                  className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Añadiendo..." : "Añadir contacto"}
+                </button>
+                <button
+                  type="button"
+                  className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      }
+        </>
+      )}
 
       <ConfirmationModal
         isHidden={!isConfirmationModalOpen}

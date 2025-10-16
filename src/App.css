@@ -59,6 +59,29 @@
   opacity: 1;
 }
 
+/* Dropdown menu (AddUserForm) */
+.dropdown-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 20;
+}
+
+.dropdown-panel {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 560px;
+  background: var(--soft-black);
+  border: 1px solid var(--dark-black);
+  border-radius: .5em;
+  padding: 1em;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  z-index: 21;
+}
+
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
