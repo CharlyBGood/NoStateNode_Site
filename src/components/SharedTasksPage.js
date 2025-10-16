@@ -68,32 +68,59 @@ export function SharedTasksPage() {
     }
   }, [loading, user, navigate]);
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/Home');
+    }
+  };
+
   const isOwner = user && user.uid === userId;
 
   // Vista del dueño: si no hay filtro "recipient", mostrar tarjetas por destinatario
   if (isOwner && !recipient) {
-    return <SharedRecipientsGrid notes={tasks} />;
+    return (
+      <div className="todo-list-main">
+        <div className="back-btn-container">
+          <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+        </div>
+        <SharedRecipientsGrid notes={tasks} />
+      </div>
+    );
   }
 
   // Vista por lista filtrada o invitado
   if (isOwner && recipient) {
     // Dueño viendo una lista específica: reutiliza TaskList con filtro
-    return <TaskList filterRecipient={recipient} />;
+    return (
+      <div className="todo-list-main">
+        <div className="back-btn-container">
+          <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+        </div>
+        <TaskList filterRecipient={recipient} />
+      </div>
+    );
   }
 
   // Invitado: render read-only de las tareas
   return (
-    <div className="task-list-container notes-link-container">
-      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-      {tasks.map((task) => (
-        <Task
-          key={task.id}
-          id={task.id}
-          text={task.text}
-          complete={task.complete}
-          isReadOnly={true}
-        />
-      ))}
+    <div className="todo-list-main">
+      <div className="back-btn-container">
+        <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+      </div>
+      <div className="task-list-container notes-link-container">
+        {tasks.length === 0 && <p>No hay notas compartidas.</p>}
+        {tasks.map((task) => (
+          <Task
+            key={task.id}
+            id={task.id}
+            text={task.text}
+            complete={task.complete}
+            isReadOnly={true}
+          />
+        ))}
+      </div>
     </div>
   );
 }

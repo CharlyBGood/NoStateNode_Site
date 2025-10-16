@@ -19,21 +19,14 @@ export function Footer() {
       <p>
         <FaBolt />
         <a
-          href="https://charlybgood.com/"
+          href="https://sinapsialab.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="smedia-contact"
         >
-          Charly BGood
+          SinapsiaLab
         </a>
-        <FaBolt />
-        {/* <a
-          href="https://github.com/CharlyBGood/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="smedia-contact"
-        ><FaGithub />
-        </a> */}
+        <FaBolt />        
       </p>
     </footer>
   );
