@@ -8,17 +8,23 @@ import "../stylesheets/TaskList.css";
 
 export function SharedTasksPage() {
   const { userId } = useParams();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user.email) {
-      return;
-    }
+    if (loading || !user) return;
 
     const tasksRef = collection(db, "notes");
-    const q = query(tasksRef, where("userId", "==", userId), where("shareWith", "array-contains", user.email));
+    const isOwner = user.uid === userId;
+
+    const q = isOwner
+      ? query(tasksRef, where("userId", "==", userId))
+      : query(
+          tasksRef,
+          where("userId", "==", userId),
+          where("shareWith", "array-contains", user.email)
+        );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const tasksData = snapshot.docs.map((doc) => ({
@@ -29,13 +35,13 @@ export function SharedTasksPage() {
     });
 
     return () => unsubscribe();
-  }, [userId, user]);
+  }, [userId, user, loading]);
 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       navigate("/Welcome");
     }
-  }, [user, navigate]);
+  }, [loading, user, navigate]);
 
   return (
     <div className="task-list-container notes-link-container">
