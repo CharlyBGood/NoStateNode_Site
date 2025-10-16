@@ -1,52 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap')
+layer(utilities);
 
-:root {
-  color-scheme: light only;
-  --soft-black: #2e2b2b;
-  --dark-black: #212121;
-  --wheat: #e0d6c4;
-  --main-orange: #b94908;
-  --middle-orange: #d6611d;
-  --soft-orange: #d3852b;
-  --orange-dark: #915f02;
-  --red-wheat: #eec8c3;
-  --red-danger: #c934349f;
-  --red-danger-hover: #c93434;
-}
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-::-webkit-scrollbar {
-  width: 0.7em;
-}
-
-::-webkit-scrollbar-track {
-  background: hsla(219, 70%, 4%, 0.81);
-  border-radius: 100vw;
-}
-
-::-webkit-scrollbar-thumb {
-  /* background: hsla(33, 75%, 30%, 0.782); */
-  background: var(--orange-dark);
-  border-radius: 100vw;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(210, 19%, 38%);
-}
-
-@supports (scrollbar-color: red blue) {
-  * {
-    scrollbar-color: hsla(220 67% 4% 0.81 / 1) hsla(39, 66%, 44%, 0.782);
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer utilities {
+  :root {
+    color-scheme: light only;
+    --soft-black: #2e2b2b;
+    --dark-black: #212121;
+    --wheat: #e0d6c4;
+    --main-orange: #b94908;
+    --middle-orange: #d6611d;
+    --soft-orange: #d3852b;
+    --orange-dark: #915f02;
+    --red-wheat: #eec8c3;
+    --red-danger: #c934349f;
+    --red-danger-hover: #c93434;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.7em;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsla(219, 70%, 4%, 0.81);
+    border-radius: 100vw;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    /* background: hsla(33, 75%, 30%, 0.782); */
+    background: var(--orange-dark);
+    border-radius: 100vw;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(210, 19%, 38%);
+  }
+
+  @supports (scrollbar-color: red blue) {
+    * {
+      scrollbar-color: hsla(220 67% 4% 0.81 / 1) hsla(39, 66%, 44%, 0.782);
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 @layer base {
