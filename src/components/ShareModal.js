@@ -1,4 +1,3 @@
-import React from 'react';
 
 const ShareModal = ({ isHidden, onClose, modalTitle, copyToClipboard, yourLink }) => {
   if (isHidden) return null;
@@ -15,11 +14,19 @@ const ShareModal = ({ isHidden, onClose, modalTitle, copyToClipboard, yourLink }
           onClick={() => window.open(`https://web.whatsapp.com/send?text=Mira+mi+lista+de+recursos+en+NoStateNode&url=${yourLink}`, '_blank')}>WhatsApp</button> */}
         <button
           className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
-          onClick={() => navigator.share({
-            title: "NoStateNode",
-            text: "Mira mi lista de recursos en NoStateNode",
-            url: {yourLink},
-          })}>Compartir por:</button>
+          onClick={() => {
+            if (navigator.share) {
+              navigator.share({
+                title: "NoStateNode",
+                text: "Mira mi lista de recursos en NoStateNode",
+                url: yourLink,
+              }).catch(() => {/* user canceled or share failed */});
+            } else {
+              // Fallback: instruct user to copy the link if Web Share API isn't supported
+              alert("Tu navegador no soporta compartir nativo. Copia el enlace con el botón de abajo.");
+            }
+          }}
+        >Compartir por:</button>
 
         <button
           title="Copiar enlace"

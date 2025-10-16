@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
@@ -31,13 +31,15 @@ export function SharedTasksPage() {
     return () => unsubscribe();
   }, [userId, user]);
 
-  if (!user) {
-    navigate("/Welcome");
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/Welcome");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="task-list-container notes-link-container">
-      {tasks.length === 0 && <p>No hay notas compartidas.</p>}      
+      {tasks.length === 0 && <p>No hay notas compartidas.</p>}
       {tasks.map((task) => (
         <Task
           key={task.id}
