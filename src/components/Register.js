@@ -115,13 +115,13 @@ export function Register() {
             disabled={isLoading}
           />
         </div>
-        <button className="log-btn w-100 border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full">
+        <button className="log-btn border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full">
           Crear cuenta
         </button>
         <div className="mb-4  py-2"></div>
         <div className="mb-4">
           <button
-            className="log-btn w-100 border-none font-bold text-sm block border rounded-sm mb-2 py-2 px-4 w-full"
+            className="log-btn border-none font-bold text-sm block border rounded-sm mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
             disabled={isLoading}
           >

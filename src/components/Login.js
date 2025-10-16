@@ -114,7 +114,7 @@ export function Login() {
         <button
           type="submit"
           disabled={isLoading}
-          className="log-btn w-100 border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full">
+          className="log-btn border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full">
           {isLoading ? "Ingresando..." : "Iniciar sesión"}
         </button>
         <div className="mb-4 text-center">
@@ -128,7 +128,7 @@ export function Login() {
         </div>
         <div className="mb-4">
           <button
-            className="log-btn w-100 border-none font-bold text-sm block border rounded-sm mb-2 py-2 px-4 w-full"
+            className="log-btn border-none font-bold text-sm block border rounded-sm mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
           >
             Ingresar con Google

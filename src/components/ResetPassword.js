@@ -60,7 +60,7 @@ export function ResetPassword() {
           />
         </div>
 
-        <button className="log-btn w-100 border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full" type="submit">
+        <button className="log-btn border-none font-bold block border rounded-sm mb-2 py-2 px-4 w-full" type="submit">
           Cambiar Contraseña
         </button>
         <div className="mb-4 flex items-center">
