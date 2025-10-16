@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { ShareButton } from "../components/ShareButton";
 import SharedUserPicker from "../usersForm/SharedUserPicker";
@@ -31,8 +31,8 @@ function TaskForm() {
           complete: false,
           userId: user.uid,
           shareWith: selectedUsers,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
         };
         await addDoc(collection(db, "notes"), newTask);
         setInput("");

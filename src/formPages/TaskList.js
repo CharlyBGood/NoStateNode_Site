@@ -22,15 +22,21 @@ function TaskList() {
   const [taskToDelete, setTaskToDelete] = useState(null);
 
   useEffect(() => {
-    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      let unsuscribeTasks = null;
+    let unsubscribeTasks = null;
+    const unsubscribeAuth = auth.onAuthStateChanged((currentUser) => {
+      // Cleanup previous tasks listener if any
+      if (unsubscribeTasks) {
+        unsubscribeTasks();
+        unsubscribeTasks = null;
+      }
 
-      if (user) {
+      setUser(currentUser);
+
+      if (currentUser) {
         const tasksRef = collection(db, "notes");
-        const tasksQuery = query(tasksRef, where("userId", "==", user.uid));
+        const tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid));
 
-        unsuscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
+        unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
           const tasksData = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -40,15 +46,12 @@ function TaskList() {
       } else {
         setTasks([]);
       }
-
-      return () => {
-        if (unsuscribeTasks) {
-          unsuscribeTasks();
-        }
-      }
-
     });
-    return () => unsubscribeAuth();
+
+    return () => {
+      if (unsubscribeTasks) unsubscribeTasks();
+      unsubscribeAuth();
+    };
   }, []);
 
   const deleteTask = (id) => {

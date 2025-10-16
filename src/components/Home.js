@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import TaskList from "../formPages/TaskList";
@@ -8,12 +9,14 @@ export function Home() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/");
+    }
+  }, [loading, user, navigate]);
+
   if (loading) {
     return <h1>Cargando....</h1>;
-  }
-
-  if (!user) {
-    navigate("/");
   }
 
   return (
