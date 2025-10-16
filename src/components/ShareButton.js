@@ -16,7 +16,7 @@ export const ShareButton = () => {
     }
 
     setIsLoading(true);
-    const shareableLink = `${window.location.origin}/shared/${user.uid}`;
+    const shareableLink = getShareableLink();
     try {
       await navigator.clipboard.writeText(shareableLink);
       setModalMessage("Enlace copiado al portapapeles.");
@@ -34,7 +34,9 @@ export const ShareButton = () => {
       return;
     }
 
-    const shareableLink = `${window.location.origin}/shared/${user.uid}`;
+    setIsLoading(true);
+    const shareableLink = getShareableLink();
+
     if (navigator.share) {
       navigator.share({
         title: "NoStateNode",
@@ -49,8 +51,13 @@ export const ShareButton = () => {
     } else {
       setModalMessage("Web Share API no soportada. Usa las opciones de abajo.");
       setIsModalHidden(false);
+      setIsLoading(false);
     }
   };
+
+  const getShareableLink = () => {
+    return `${window.location.origin}/shared/${user?.uid ?? ''}`;
+  }
 
   return (
     <div className="share-btn-container">
@@ -67,7 +74,7 @@ export const ShareButton = () => {
         onClose={() => setIsModalHidden(true)}
         modalTitle={modalMessage}
         copyToClipboard={copyToClipboard}
-        yourLink={`${window.location.origin}/shared/${user ? user.uid : ''}`}
+        yourLink={getShareableLink()}
       />
     </div>
   );

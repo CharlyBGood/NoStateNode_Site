@@ -4,18 +4,9 @@ import Task from "./Task";
 import { ConfirmationModal } from "./ConfirmationModal";
 import "../stylesheets/TaskList.css";
 import { auth, db } from "../firebase";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-  doc,
-  deleteDoc,
-  updateDoc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 
-function TaskList() {
+function TaskList({ filterRecipient }) {
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -37,10 +28,21 @@ function TaskList() {
         const tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid));
 
         unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
-          const tasksData = snapshot.docs.map((doc) => ({
+          let tasksData = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
+          if (filterRecipient) {
+            if (filterRecipient === "__private") {
+              tasksData = tasksData.filter(
+                (t) => !Array.isArray(t.shareWith) || t.shareWith.length === 0
+              );
+            } else {
+              tasksData = tasksData.filter(
+                (t) => Array.isArray(t.shareWith) && t.shareWith.includes(filterRecipient)
+              );
+            }
+          }
           setTasks(tasksData);
         });
       } else {
@@ -52,7 +54,7 @@ function TaskList() {
       if (unsubscribeTasks) unsubscribeTasks();
       unsubscribeAuth();
     };
-  }, []);
+  }, [filterRecipient]);
 
   const deleteTask = (id) => {
     setTaskToDelete(id);
@@ -61,7 +63,7 @@ function TaskList() {
 
   const cancelDelete = () => {
     setIsModalHidden(true);
-  }
+  };
 
   const confirmDelete = async () => {
     try {
@@ -73,7 +75,7 @@ function TaskList() {
     }
     setIsModalHidden(true);
     setTaskToDelete(null);
-  }
+  };
 
   const completeTask = async (id) => {
     try {
