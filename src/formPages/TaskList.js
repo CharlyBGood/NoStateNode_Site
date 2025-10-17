@@ -4,7 +4,7 @@ import Task from "./Task";
 import { ConfirmationModal } from "./ConfirmationModal";
 import "../stylesheets/TaskList.css";
 import { auth, db } from "../firebase";
-import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc, orderBy } from "firebase/firestore";
 
 function TaskList({ filterRecipient }) {
   const [tasks, setTasks] = useState([]);
@@ -25,7 +25,7 @@ function TaskList({ filterRecipient }) {
 
       if (currentUser) {
         const tasksRef = collection(db, "notes");
-        const tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid));
+  const tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
 
         unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
           let tasksData = snapshot.docs.map((doc) => ({
@@ -108,6 +108,7 @@ function TaskList({ filterRecipient }) {
                 id={task.id}
                 text={task.text}
                 complete={task.complete}
+                createdAt={task.createdAt}
                 completeTask={completeTask}
                 deleteTask={deleteTask}
               />

@@ -13,7 +13,7 @@ const isValidUrl = (string) => {
   }
 }
 
-function Task({ id, text, complete, completeTask, deleteTask, isReadOnly }) {
+function Task({ id, text, complete, completeTask, deleteTask, isReadOnly, createdAt }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(text);
 
@@ -52,11 +52,29 @@ function Task({ id, text, complete, completeTask, deleteTask, isReadOnly }) {
     return <p>{text}</p>;
   };
 
+  // Format date if present
+  let createdDateStr = "";
+  if (createdAt) {
+    let dateObj;
+    if (createdAt.seconds) {
+      // Firestore Timestamp
+      dateObj = new Date(createdAt.seconds * 1000);
+    } else {
+      // Fallback: try to parse
+      dateObj = new Date(createdAt);
+    }
+    if (!isNaN(dateObj)) {
+      createdDateStr = dateObj.toLocaleString();
+    }
+  }
   return (
     <div className={complete ? "todo-container complete rounded" : "todo-container rounded"}>
       <div className="todo-txt" onClick={() => !isReadOnly && !isEditing && completeTask(id)}>
         {renderContent()}
       </div>
+      {createdDateStr && (
+        <span className="task-date">Agregado: {createdDateStr}</span>
+      )}
       <div className="todo-container-icons">
         {!isReadOnly && (
           <>
