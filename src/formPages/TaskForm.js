@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useEffect, useMemo, useState } from "react";
+import { collection, addDoc, serverTimestamp, onSnapshot, query, where } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { ConfirmationModal } from "../formPages/ConfirmationModal";
 import "../stylesheets/TaskForm.css";
@@ -9,6 +9,65 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [contacts, setContacts] = useState([]);
+  const [isLoadingContacts, setIsLoadingContacts] = useState(true);
+
+  // Determine initial mode from selectedUsers
+  const initialMode = useMemo(() => {
+    if (Array.isArray(selectedUsers)) {
+      if (selectedUsers.length === 0) return "private";
+      if (selectedUsers.length === 1) return "single";
+      return "multi";
+    }
+    return "private";
+  }, [selectedUsers]);
+
+  const [recipientsMode, setRecipientsMode] = useState(initialMode);
+  const [selectedSingle, setSelectedSingle] = useState(
+    Array.isArray(selectedUsers) && selectedUsers.length === 1 ? selectedUsers[0] : ""
+  );
+  const [selectedMulti, setSelectedMulti] = useState(
+    Array.isArray(selectedUsers) && selectedUsers.length > 1 ? selectedUsers : []
+  );
+
+  // Keep internal state in sync if parent changes selection
+  useEffect(() => {
+    if (Array.isArray(selectedUsers)) {
+      if (selectedUsers.length === 0) {
+        setRecipientsMode("private");
+        setSelectedSingle("");
+        setSelectedMulti([]);
+      } else if (selectedUsers.length === 1) {
+        setRecipientsMode("single");
+        setSelectedSingle(selectedUsers[0]);
+        setSelectedMulti([]);
+      } else {
+        setRecipientsMode("multi");
+        setSelectedSingle("");
+        setSelectedMulti(selectedUsers);
+      }
+    }
+  }, [selectedUsers]);
+
+  // Load contacts for current owner
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const usersRef = collection(db, "usersToShare");
+    const q = query(usersRef, where("ownerId", "==", user.uid));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        setContacts(list);
+        setIsLoadingContacts(false);
+      },
+      () => setIsLoadingContacts(false)
+    );
+    return () => unsub();
+  }, []);
+
+  const hasContacts = contacts.length > 0;
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -18,16 +77,42 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
     if (user) {
       setIsLoading(true);
       try {
+        // Determine recipients according to mode
+        let shareWith = [];
+        if (recipientsMode === "private") {
+          shareWith = [];
+        } else if (recipientsMode === "single") {
+          if (!selectedSingle) {
+            setModalMessage("Selecciona un contacto");
+            setIsModalHidden(false);
+            setIsLoading(false);
+            return;
+          }
+          shareWith = [selectedSingle];
+        } else if (recipientsMode === "multi") {
+          if (!selectedMulti || selectedMulti.length === 0) {
+            setModalMessage("Selecciona al menos un contacto");
+            setIsModalHidden(false);
+            setIsLoading(false);
+            return;
+          }
+          shareWith = selectedMulti;
+        }
+
         const newTask = {
           text: input,
           complete: false,
           userId: user.uid,
-          shareWith: selectedUsers,
+          shareWith,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
         };
         await addDoc(collection(db, "notes"), newTask);
         setInput("");
+        // Reset selections after create
+        setRecipientsMode("private");
+        setSelectedSingle("");
+        setSelectedMulti([]);
         onClearSelectedUsers && onClearSelectedUsers();
         setModalMessage("Nota añadida con éxito.");
       } catch (error) {
@@ -56,6 +141,82 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
         />
+
+        {/* Guardar en: destino de la nota */}
+        <fieldset className="w-full" style={{ border: "none", padding: 0, margin: 0 }}>
+          <legend className="sr-only">Guardar en</legend>
+          <div className="flex flex-wrap gap-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="recipientsMode"
+                value="private"
+                checked={recipientsMode === "private"}
+                onChange={() => setRecipientsMode("private")}
+              />
+              <span>Solo tú</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="recipientsMode"
+                value="single"
+                checked={recipientsMode === "single"}
+                onChange={() => setRecipientsMode("single")}
+                disabled={!hasContacts}
+              />
+              <span>Un contacto</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="recipientsMode"
+                value="multi"
+                checked={recipientsMode === "multi"}
+                onChange={() => setRecipientsMode("multi")}
+                disabled={!hasContacts}
+              />
+              <span>Varios</span>
+            </label>
+          </div>
+        </fieldset>
+
+        {recipientsMode === "single" && (
+          <select
+            className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
+            value={selectedSingle}
+            onChange={(e) => setSelectedSingle(e.target.value)}
+            disabled={isLoadingContacts || !hasContacts}
+          >
+            <option value="" disabled>
+              {isLoadingContacts ? "Cargando contactos..." : "Elige un contacto"}
+            </option>
+            {contacts.map((c) => (
+              <option key={c.id} value={c.email}>
+                {c.email}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {recipientsMode === "multi" && (
+          <select
+            multiple
+            className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
+            value={selectedMulti}
+            onChange={(e) =>
+              setSelectedMulti(Array.from(e.target.selectedOptions).map((o) => o.value))
+            }
+            disabled={isLoadingContacts || !hasContacts}
+            size={Math.min(4, Math.max(2, contacts.length))}
+          >
+            {contacts.map((c) => (
+              <option key={c.id} value={c.email}>
+                {c.email}
+              </option>
+            ))}
+          </select>
+        )}
         <button type="submit" className="log-btn border-none border rounded py-1 px-3" disabled={isLoading}>
           {isLoading ? "Añadiendo..." : "Añadir"}
         </button>
