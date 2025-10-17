@@ -13,7 +13,7 @@ const isValidUrl = (string) => {
   }
 }
 
-function Task({ id, text, complete, completeTask, deleteTask, isReadOnly, createdAt }) {
+function Task({ id, text, complete, completeTask, deleteTask, isReadOnly, createdAt, shareWith, ownerId }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(text);
 

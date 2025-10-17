@@ -47,7 +47,7 @@ export function Home() {
             onClearSelectedUsers={() => setSelectedUsers([])}
           />
           <div className="share-btn-container">
-            <ShareButton />
+            <ShareButton mode="perfil" />
           </div>
         </section>
 

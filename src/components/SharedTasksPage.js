@@ -7,19 +7,21 @@ import Task from "../formPages/Task";
 import TaskList from "../formPages/TaskList";
 import "../stylesheets/TaskList.css";
 import SharedRecipientsGrid from "./SharedRecipientsGrid";
-
 export function SharedTasksPage() {
-  const { userId } = useParams();
+  const { userId, listId } = useParams();
   const location = useLocation();
   const { user, loading } = useAuth();
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
-  const recipient = useMemo(() => {
+  // Siempre llamar useMemo, luego decidir recipient
+  const memoRecipient = useMemo(() => {
     const params = new URLSearchParams(location.search);
     const r = params.get("recipient");
     return r ? decodeURIComponent(r) : null;
   }, [location.search]);
+  // Si accedemos por /shared/:userId/list/:listId, ese es el filtro de recipient
+  const recipient = listId ? decodeURIComponent(listId) : memoRecipient;
 
   useEffect(() => {
     if (loading || !user) return;
@@ -92,13 +94,13 @@ export function SharedTasksPage() {
 
   // Vista por lista filtrada o invitado
   if (isOwner && recipient) {
-    // Dueño viendo una lista específica: reutiliza TaskList con filtro
+    // Dueño viendo una lista específica: reutiliza TaskList con filtro, pero solo lectura
     return (
       <div className="todo-list-main">
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
-        <TaskList filterRecipient={recipient} />
+        <TaskList filterRecipient={recipient} isReadOnly />
       </div>
     );
   }

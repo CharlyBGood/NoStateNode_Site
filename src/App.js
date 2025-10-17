@@ -30,6 +30,7 @@ function App() {
           <Route path="/Register" element={<Register />} />
           <Route path="/ResetPassword" element={<ResetPassword />} />
           <Route path="/shared/:userId" element={<SharedTasksPage />} />
+          <Route path="/shared/:userId/list/:listId" element={<SharedTasksPage />} />
         </Routes>
         <Footer />
       </AuthProvider>
