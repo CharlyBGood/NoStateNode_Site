@@ -57,10 +57,8 @@ function Task({ id, text, complete, completeTask, deleteTask, isReadOnly, create
   if (createdAt) {
     let dateObj;
     if (createdAt.seconds) {
-      // Firestore Timestamp
       dateObj = new Date(createdAt.seconds * 1000);
     } else {
-      // Fallback: try to parse
       dateObj = new Date(createdAt);
     }
     if (!isNaN(dateObj)) {
@@ -68,25 +66,27 @@ function Task({ id, text, complete, completeTask, deleteTask, isReadOnly, create
     }
   }
   return (
-    <div className={complete ? "todo-container complete rounded" : "todo-container rounded"}>
-      <div className="todo-txt" onClick={() => !isReadOnly && !isEditing && completeTask(id)}>
-        {renderContent()}
+    <div className="flex flex-col bg-black p-2 rounded">
+      <div className={complete ? "todo-container complete rounded" : "todo-container rounded"}>
+        <div className="todo-txt" onClick={() => !isReadOnly && !isEditing && completeTask(id)}>
+          {renderContent()}
+        </div>
+        <div className="todo-container-icons">
+          {!isReadOnly && (
+            <>
+              {isEditing ? (
+                <FaSave className="todo-icon" onClick={handleSave} />
+              ) : (
+                <FaEdit className="todo-icon" onClick={handleEdit} />
+              )}
+              <FaTrash className="todo-icon" onClick={() => deleteTask(id)} />
+            </>
+          )}
+        </div>
       </div>
       {createdDateStr && (
         <span className="task-date">Agregado: {createdDateStr}</span>
       )}
-      <div className="todo-container-icons">
-        {!isReadOnly && (
-          <>
-            {isEditing ? (
-              <FaSave className="todo-icon" onClick={handleSave} />
-            ) : (
-              <FaEdit className="todo-icon" onClick={handleEdit} />
-            )}
-            <FaTrash className="todo-icon" onClick={() => deleteTask(id)} />
-          </>
-        )}
-      </div>
     </div>
   );
 }
