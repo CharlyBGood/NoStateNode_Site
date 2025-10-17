@@ -4,7 +4,7 @@ import { db, auth } from "../firebase";
 import { ConfirmationModal } from "../formPages/ConfirmationModal";
 import "../stylesheets/TaskForm.css";
 
-function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
+function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelector = false }) {
   const [input, setInput] = useState("");
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
@@ -12,15 +12,25 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
   const [contacts, setContacts] = useState([]);
   const [isLoadingContacts, setIsLoadingContacts] = useState(true);
 
-  // Determine initial mode from selectedUsers
+
+  // Recipients logic: if hideRecipientSelector, always use selectedUsers as shareWith
   const initialMode = useMemo(() => {
-    if (Array.isArray(selectedUsers)) {
-      if (selectedUsers.length === 0) return "private";
-      if (selectedUsers.length === 1) return "single";
-      return "multi";
+    if (hideRecipientSelector) {
+      if (Array.isArray(selectedUsers)) {
+        if (selectedUsers.length === 0) return "private";
+        if (selectedUsers.length === 1) return "single";
+        return "multi";
+      }
+      return "private";
+    } else {
+      if (Array.isArray(selectedUsers)) {
+        if (selectedUsers.length === 0) return "private";
+        if (selectedUsers.length === 1) return "single";
+        return "multi";
+      }
+      return "private";
     }
-    return "private";
-  }, [selectedUsers]);
+  }, [selectedUsers, hideRecipientSelector]);
 
   const [recipientsMode, setRecipientsMode] = useState(initialMode);
   const [selectedSingle, setSelectedSingle] = useState(
@@ -33,21 +43,38 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
   // Keep internal state in sync if parent changes selection
   useEffect(() => {
     if (!Array.isArray(selectedUsers)) return;
-    // Only update if values actually changed
-    if (selectedUsers.length === 0 && recipientsMode !== "private") {
-      setRecipientsMode("private");
-      setSelectedSingle("");
-      setSelectedMulti([]);
-    } else if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) {
-      setRecipientsMode("single");
-      setSelectedSingle(selectedUsers[0]);
-      setSelectedMulti([]);
-    } else if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) {
-      setRecipientsMode("multi");
-      setSelectedSingle("");
-      setSelectedMulti(selectedUsers);
+    if (hideRecipientSelector) {
+      // In contextual mode, always sync state to selectedUsers
+      if (selectedUsers.length === 0 && recipientsMode !== "private") {
+        setRecipientsMode("private");
+        setSelectedSingle("");
+        setSelectedMulti([]);
+      } else if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) {
+        setRecipientsMode("single");
+        setSelectedSingle(selectedUsers[0]);
+        setSelectedMulti([]);
+      } else if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) {
+        setRecipientsMode("multi");
+        setSelectedSingle("");
+        setSelectedMulti(selectedUsers);
+      }
+    } else {
+      // Only update if values actually changed
+      if (selectedUsers.length === 0 && recipientsMode !== "private") {
+        setRecipientsMode("private");
+        setSelectedSingle("");
+        setSelectedMulti([]);
+      } else if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) {
+        setRecipientsMode("single");
+        setSelectedSingle(selectedUsers[0]);
+        setSelectedMulti([]);
+      } else if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) {
+        setRecipientsMode("multi");
+        setSelectedSingle("");
+        setSelectedMulti(selectedUsers);
+      }
     }
-  }, [selectedUsers, recipientsMode, selectedSingle, selectedMulti]);
+  }, [selectedUsers, recipientsMode, selectedSingle, selectedMulti, hideRecipientSelector]);
 
   // Load contacts for current owner
   useEffect(() => {
@@ -79,24 +106,29 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
       try {
         // Determine recipients according to mode
         let shareWith = [];
-        if (recipientsMode === "private") {
-          shareWith = [];
-        } else if (recipientsMode === "single") {
-          if (!selectedSingle) {
-            setModalMessage("Selecciona un contacto");
-            setIsModalHidden(false);
-            setIsLoading(false);
-            return;
+        if (hideRecipientSelector) {
+          // Always use selectedUsers as shareWith
+          shareWith = Array.isArray(selectedUsers) ? selectedUsers : [];
+        } else {
+          if (recipientsMode === "private") {
+            shareWith = [];
+          } else if (recipientsMode === "single") {
+            if (!selectedSingle) {
+              setModalMessage("Selecciona un contacto");
+              setIsModalHidden(false);
+              setIsLoading(false);
+              return;
+            }
+            shareWith = [selectedSingle];
+          } else if (recipientsMode === "multi") {
+            if (!selectedMulti || selectedMulti.length === 0) {
+              setModalMessage("Selecciona al menos un contacto");
+              setIsModalHidden(false);
+              setIsLoading(false);
+              return;
+            }
+            shareWith = selectedMulti;
           }
-          shareWith = [selectedSingle];
-        } else if (recipientsMode === "multi") {
-          if (!selectedMulti || selectedMulti.length === 0) {
-            setModalMessage("Selecciona al menos un contacto");
-            setIsModalHidden(false);
-            setIsLoading(false);
-            return;
-          }
-          shareWith = selectedMulti;
         }
 
         const newTask = {
@@ -143,45 +175,47 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
         />
 
         {/* Guardar en: destino de la nota */}
-        <fieldset className="w-full" style={{ border: "none", padding: 0, margin: 0 }}>
-          <legend className="sr-only">Guardar en</legend>
-          <div className="flex flex-wrap gap-2">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="recipientsMode"
-                value="private"
-                checked={recipientsMode === "private"}
-                onChange={() => setRecipientsMode("private")}
-              />
-              <span>Solo tú</span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="recipientsMode"
-                value="single"
-                checked={recipientsMode === "single"}
-                onChange={() => setRecipientsMode("single")}
-                disabled={!hasContacts}
-              />
-              <span>Un contacto</span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="recipientsMode"
-                value="multi"
-                checked={recipientsMode === "multi"}
-                onChange={() => setRecipientsMode("multi")}
-                disabled={!hasContacts}
-              />
-              <span>Varios</span>
-            </label>
-          </div>
-        </fieldset>
+        {!hideRecipientSelector && (
+          <fieldset className="w-full" style={{ border: "none", padding: 0, margin: 0 }}>
+            <legend className="sr-only">Guardar en</legend>
+            <div className="flex flex-wrap gap-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="recipientsMode"
+                  value="private"
+                  checked={recipientsMode === "private"}
+                  onChange={() => setRecipientsMode("private")}
+                />
+                <span>Solo tú</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="recipientsMode"
+                  value="single"
+                  checked={recipientsMode === "single"}
+                  onChange={() => setRecipientsMode("single")}
+                  disabled={!hasContacts}
+                />
+                <span>Un contacto</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="recipientsMode"
+                  value="multi"
+                  checked={recipientsMode === "multi"}
+                  onChange={() => setRecipientsMode("multi")}
+                  disabled={!hasContacts}
+                />
+                <span>Varios</span>
+              </label>
+            </div>
+          </fieldset>
+        )}
 
-        {recipientsMode === "single" && (
+        {!hideRecipientSelector && recipientsMode === "single" && (
           <select
             className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
             value={selectedSingle}
@@ -199,7 +233,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
           </select>
         )}
 
-        {recipientsMode === "multi" && (
+        {!hideRecipientSelector && recipientsMode === "multi" && (
           <select
             multiple
             className="user-select task-input w-full mb-2 rounded-lg block p-2.5"

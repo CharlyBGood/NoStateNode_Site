@@ -97,7 +97,10 @@ function TaskList({ filterRecipient }) {
     <>
       {user ? (
         <>
-          <TaskForm />
+          <TaskForm
+            selectedUsers={filterRecipient === "__private" ? [] : filterRecipient ? [filterRecipient] : []}
+            hideRecipientSelector={!!filterRecipient}
+          />
           <div className="task-list-container">
             {tasks.map((task) => (
               <Task
