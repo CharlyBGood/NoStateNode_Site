@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
-import Task from "../formPages/Task";
+// import Task from "../formPages/Task";
 import TaskList from "../formPages/TaskList";
 import "../stylesheets/TaskList.css";
 import SharedRecipientsGrid from "./SharedRecipientsGrid";
@@ -92,39 +92,51 @@ export function SharedTasksPage() {
     );
   }
 
-  // Vista por lista filtrada o invitado
-  if (isOwner && recipient) {
-    // Dueño viendo una lista específica: reutiliza TaskList con filtro, pero solo lectura
+  // Invitado: dashboard compartido (grid de cards donde su email está en shareWith)
+  if (!isOwner && !recipient) {
+    // Filtrar las notas para mostrar solo las que incluyen el email del usuario
+    const filteredNotes = tasks.filter(
+      (n) => Array.isArray(n.shareWith) && n.shareWith.includes(user.email)
+    );
     return (
       <div className="todo-list-main">
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
-        <TaskList filterRecipient={recipient} isReadOnly />
+        <div className="shared-list-header">
+          Accede a los recursos compartidos por <b>{userId}</b>
+        </div>
+        <SharedRecipientsGrid notes={filteredNotes} />
       </div>
     );
   }
 
-  // Invitado: render read-only de las tareas
-  return (
-    <div className="todo-list-main">
-      <div className="back-btn-container">
-        <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+  // Vista por lista filtrada: dueño ve TaskList editable, invitado ve solo lectura
+  if (isOwner && recipient) {
+    return (
+      <div className="todo-list-main">
+        <div className="back-btn-container">
+          <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+        </div>
+        <TaskList filterRecipient={recipient} />
       </div>
-      <div className="task-list-container notes-link-container">
-        {tasks.length === 0 && <p>No hay notas compartidas.</p>}
-        {tasks.map((task) => (
-          <Task
-            key={task.id}
-            id={task.id}
-            text={task.text}
-            complete={task.complete}
-            isReadOnly={true}
-          />
-        ))}
+    );
+  }
+
+  // Invitado: lista filtrada, solo lectura
+  if (!isOwner && recipient) {
+    return (
+      <div className="todo-list-main">
+        <div className="back-btn-container">
+          <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+        </div>
+        <div className="shared-list-header">
+          Accede a los recursos compartidos por <b>{userId}</b>
+        </div>
+        <TaskList filterRecipient={recipient} isReadOnly />
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default SharedTasksPage;
