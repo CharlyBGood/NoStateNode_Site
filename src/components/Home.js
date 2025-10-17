@@ -28,7 +28,13 @@ export function Home() {
     <div className="todo-list-main">
       <div className="user-info">
         {/* <img src={user.photoURL} alt="user pic" /> */}
-        <h1 className="title-description">¡Hola {user.displayName || user.email}!</h1>
+        <h1 className="title-description">
+          ¡Hola {(
+            user?.displayName
+              ? user.displayName.trim().split(/\s+/)[0]
+              : user?.email
+          )}!
+        </h1>
       </div>
       <div className="home-grid">
         {/* Columna izquierda: intro + crear nota + compartir lista */}
@@ -46,7 +52,7 @@ export function Home() {
         {/* Columna derecha: añadir contacto + selector + tarjetas compartidas */}
         <section className="home-right">
           <p className="text-center text-sm py-2">
-            Añade contactos con su e-mail y comparte el link a la lista de notas. No te preocupes, no podrán editarla.
+            Añade contactos y comparte el enlace para que puedan ver los recursos compartidos.
           </p>
           <AddUserForm onContactAdded={() => setSelectedUsers([])} />
           <div className="user-select-wrapper">
