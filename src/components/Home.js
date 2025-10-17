@@ -39,7 +39,9 @@ export function Home() {
       <div className="home-grid">
         {/* Columna izquierda: intro + crear nota + compartir lista */}
         <section className="home-left">
-          <p className="text-center text-sm py-2">¡Comienza creando notas, enlaces, información o recursos!</p>
+          <p className="text-center text-sm py-2">
+            Podrás agregar notas, enlaces o recursos
+          </p>
           <TaskForm
             selectedUsers={selectedUsers}
             onClearSelectedUsers={() => setSelectedUsers([])}
