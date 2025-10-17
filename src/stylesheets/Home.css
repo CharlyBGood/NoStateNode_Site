@@ -27,6 +27,7 @@
   align-items: stretch;
   padding: .5em;
   min-width: 0; /* permite que el contenido en grid pueda encoger sin desbordar */
+  justify-content: center;
 }
 
 .user-select-wrapper {

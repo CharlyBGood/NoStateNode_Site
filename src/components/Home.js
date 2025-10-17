@@ -39,7 +39,7 @@ export function Home() {
       <div className="home-grid">
         {/* Columna izquierda: intro + crear nota + compartir lista */}
         <section className="home-left">
-          <p className="text-center text-sm py-2">¡Comienza añadiendo notas, enlaces, información o recursos!</p>
+          <p className="text-center text-sm py-2">¡Comienza creando notas, enlaces, información o recursos!</p>
           <TaskForm
             selectedUsers={selectedUsers}
             onClearSelectedUsers={() => setSelectedUsers([])}
@@ -52,12 +52,12 @@ export function Home() {
         {/* Columna derecha: añadir contacto + selector + tarjetas compartidas */}
         <section className="home-right">
           <p className="text-center text-sm py-2">
-            Añade contactos y comparte el enlace para que puedan ver los recursos compartidos.
+            Añade contactos para que puedan compartir una lista.
           </p>
           <AddUserForm onContactAdded={() => setSelectedUsers([])} />
           <div className="user-select-wrapper">
             <SharedUserPicker onUserSelected={setSelectedUsers} />
-          </div>          
+          </div>
         </section>
         <section className="home-bottom">
           <OwnerRecipientsDashboard />
