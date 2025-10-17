@@ -53,7 +53,9 @@ export function Home() {
             <SharedUserPicker onUserSelected={setSelectedUsers} />
           </div>          
         </section>
-        <OwnerRecipientsDashboard />
+        <section className="home-bottom">
+          <OwnerRecipientsDashboard />
+        </section>
       </div>
     </div>
   );

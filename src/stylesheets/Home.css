@@ -31,6 +31,20 @@
   width: 100%;
 }
 
+/* Bottom section: span full grid width */
+.home-bottom {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+/* Make the recipients list display in a responsive grid on desktop */
+.home-bottom .task-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
 @media (max-width: 900px) {
   .home-grid {
     grid-template-columns: 1fr;
@@ -40,5 +54,11 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  /* On mobile, fall back to a simple vertical list to match current style */
+  .home-bottom .task-list-container {
+    display: flex;
+    flex-direction: column;
   }
 }
