@@ -28,7 +28,6 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  /* background: hsla(33, 75%, 30%, 0.782); */
   background: var(--orange-dark);
   border-radius: 100vw;
 }
