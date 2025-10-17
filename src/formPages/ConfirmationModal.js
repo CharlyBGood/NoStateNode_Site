@@ -13,7 +13,7 @@ export function ConfirmationModal({
         <div className="btn-container">
           <button
             title="Delete"
-            className="btn-delete font-bold block rounded-sm mb-2 py-2 px-4 w-full"
+            className="btn-delete font-bold block rounded-xs mb-2 py-2 px-4 w-full"
             onClick={onDeleteConfirm}
           >
             {buttonOneText}
@@ -21,7 +21,7 @@ export function ConfirmationModal({
           {buttonTwoText && (
             <button
               title="Cancel"
-              className="btn-cancel font-bold block rounded-sm mb-2 py-2 px-4 w-full"
+              className="btn-cancel font-bold block rounded-xs mb-2 py-2 px-4 w-full"
               onClick={onDeleteCancel}
             >
               {buttonTwoText}

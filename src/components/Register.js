@@ -75,7 +75,7 @@ export function Register() {
   return (
     <div className="bg-black w-full max-w-xs m-auto">
       <form
-        className="bg-black shadow-md rounded-sm px-8 pt-6"
+        className="bg-black shadow-md rounded-xs px-8 pt-6"
         onSubmit={handleSubmit}
       >
         <div className="mb-4">
@@ -86,7 +86,7 @@ export function Register() {
             E-mail
           </label>
           <input
-            className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 leading-tight focus:outline-none"
+            className="bg-transparent shadow-xs appearance-none border border-gray-700 rounded-xs w-full py-2 px-3 leading-tight focus:outline-hidden"
             type="email"
             name="email"
             id="register-email"
@@ -105,7 +105,7 @@ export function Register() {
             Contraseña
           </label>
           <input
-            className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 leading-tight focus:outline-none"
+            className="bg-transparent shadow-xs appearance-none border border-gray-700 rounded-xs w-full py-2 px-3 leading-tight focus:outline-hidden"
             type="password"
             name="password"
             placeholder="******"
@@ -115,13 +115,13 @@ export function Register() {
             disabled={isLoading}
           />
         </div>
-  <button className="log-btn border-0 font-bold block rounded-sm mb-2 py-2 px-4 w-full">
+  <button className="log-btn border-0 font-bold block rounded-xs mb-2 py-2 px-4 w-full">
           Crear cuenta
         </button>
         <div className="mb-4  py-2"></div>
         <div className="mb-4">
           <button
-            className="log-btn border-0 font-bold text-sm block rounded-sm mb-2 py-2 px-4 w-full"
+            className="log-btn border-0 font-bold text-sm block rounded-xs mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
             disabled={isLoading}
           >

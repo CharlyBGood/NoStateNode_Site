@@ -34,7 +34,7 @@ export function ResetPassword() {
       {error && <Alert message={error} />}
 
       <form
-        className="bg-black shadow-md rounded-sm px-8 pt-6 pb-8 mb-4"
+        className="bg-black shadow-md rounded-xs px-8 pt-6 pb-8 mb-4"
         onSubmit={handleResetPassword}
       >
         <div className="mb-4">
@@ -50,7 +50,7 @@ export function ResetPassword() {
             Email
           </label>
           <input
-            className="bg-transparent shadow-sm appearance-none border border-gray-700 rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+            className="bg-transparent shadow-xs appearance-none border border-gray-700 rounded-xs w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden"
             type="email"
             name="email"
             id="email"
@@ -60,7 +60,7 @@ export function ResetPassword() {
           />
         </div>
 
-  <button className="log-btn border-0 font-bold block rounded-sm mb-2 py-2 px-4 w-full" type="submit">
+  <button className="log-btn border-0 font-bold block rounded-xs mb-2 py-2 px-4 w-full" type="submit">
           Cambiar Contraseña
         </button>
         <div className="mb-4 flex items-center">
@@ -68,7 +68,7 @@ export function ResetPassword() {
             ¿No tienes cuenta?
           </p>
           <Link
-            className="log-btn py-1 outline-none border-0 px-3 font-bold rounded-sm mb-2"
+            className="log-btn py-1 outline-hidden border-0 px-3 font-bold rounded-xs mb-2"
             to="/register"
           >
             Registrarse
@@ -77,7 +77,7 @@ export function ResetPassword() {
         <div className="mb-4">
           <p className="my-4 text-sm flex justify-between">
             <Link
-              className="w-full py-1 outline-none hover:text-orange-200 border-0 text-center font-bold rounded-sm mb-2 "
+              className="w-full py-1 outline-hidden hover:text-orange-200 border-0 text-center font-bold rounded-xs mb-2 "
               to="/login"
             >
               Volver a Inicio

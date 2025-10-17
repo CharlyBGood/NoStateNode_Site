@@ -23,7 +23,7 @@ export function Welcome() {
           </p>
           <div className="m-4 py-2">
             <Link
-              className="log-btn py-2 outline-none border-0 px-3 font-bold rounded-sm"
+              className="log-btn py-2 outline-hidden border-0 px-3 font-bold rounded-xs"
               to="/register"
             >
               Registrarse
