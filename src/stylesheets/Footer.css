@@ -10,7 +10,7 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 0;
-  box-shadow: -4px 5px 3pc 2px black;  
+  box-shadow: -4px 5px 3pc 2px black;
 }
 
 footer p,
@@ -22,16 +22,14 @@ footer a {
   text-decoration: none;
 }
 
-footer a:hover {
-  text-shadow: 0px -1px 0px #8ada7fe0;
-}
-
 .gradient-link {
   @apply font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500;
   @apply relative drop-shadow-lg hover:drop-shadow-xl;
   @apply before:content-[''] before:absolute before:left-0 before:-bottom-1 before:w-full before:h-0.5;
   @apply before:bg-gradient-to-r before:from-pink-500 before:via-yellow-400 before:to-blue-500;
   @apply before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition-transform before:duration-300;
+  /* Fix: fuerza el color final del gradiente para que no sea transparente */
+  --tw-gradient-to: #3b82f6;
 }
 
 @media screen and (max-width: 850px) {

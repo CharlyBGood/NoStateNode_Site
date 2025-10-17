@@ -20,7 +20,7 @@
   gap: .4em;
   width: 75%;
   min-height: 31em;
-  padding: 1.4em;  
+  padding: 1.4em;
   /* margin: 0.8em; */
   /* position: relative; */
   position: absolute;
@@ -63,7 +63,7 @@
 .dropdown-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 20;
 }
 
@@ -78,7 +78,7 @@
   border: 1px solid var(--dark-black);
   border-radius: .5em;
   padding: 1em;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
   z-index: 21;
 }
 
@@ -97,13 +97,11 @@
   margin: .5em auto;
 }
 
-/* Smaller, left-aligned back button container */
 .back-btn-container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 85%;
-  margin: .4em auto 0;
+  width: 100%;
 }
 
 /* Compact back button variant */
