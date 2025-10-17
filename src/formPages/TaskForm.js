@@ -32,22 +32,22 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
 
   // Keep internal state in sync if parent changes selection
   useEffect(() => {
-    if (Array.isArray(selectedUsers)) {
-      if (selectedUsers.length === 0) {
-        setRecipientsMode("private");
-        setSelectedSingle("");
-        setSelectedMulti([]);
-      } else if (selectedUsers.length === 1) {
-        setRecipientsMode("single");
-        setSelectedSingle(selectedUsers[0]);
-        setSelectedMulti([]);
-      } else {
-        setRecipientsMode("multi");
-        setSelectedSingle("");
-        setSelectedMulti(selectedUsers);
-      }
+    if (!Array.isArray(selectedUsers)) return;
+    // Only update if values actually changed
+    if (selectedUsers.length === 0 && recipientsMode !== "private") {
+      setRecipientsMode("private");
+      setSelectedSingle("");
+      setSelectedMulti([]);
+    } else if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) {
+      setRecipientsMode("single");
+      setSelectedSingle(selectedUsers[0]);
+      setSelectedMulti([]);
+    } else if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) {
+      setRecipientsMode("multi");
+      setSelectedSingle("");
+      setSelectedMulti(selectedUsers);
     }
-  }, [selectedUsers]);
+  }, [selectedUsers, recipientsMode, selectedSingle, selectedMulti]);
 
   // Load contacts for current owner
   useEffect(() => {

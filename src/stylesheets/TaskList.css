@@ -5,6 +5,7 @@
   justify-content: flex-start;
   margin: .3em 0 3% 0;
   padding-bottom: 1em;
+  width: 100%;
 }
 
 .notes-link-container {
