@@ -51,9 +51,9 @@ export function Home() {
           <AddUserForm onContactAdded={() => setSelectedUsers([])} />
           <div className="user-select-wrapper">
             <SharedUserPicker onUserSelected={setSelectedUsers} />
-          </div>
-          <OwnerRecipientsDashboard />
+          </div>          
         </section>
+        <OwnerRecipientsDashboard />
       </div>
     </div>
   );

@@ -10,8 +10,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Users are now handled by Home
-
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input) return;
@@ -30,7 +28,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
         };
         await addDoc(collection(db, "notes"), newTask);
         setInput("");
-  onClearSelectedUsers && onClearSelectedUsers();
+        onClearSelectedUsers && onClearSelectedUsers();
         setModalMessage("Nota añadida con éxito.");
       } catch (error) {
         console.error("Error adding task: ", error);
@@ -48,7 +46,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
 
   return (
     <>
-  {/* Moved AddUserForm and ShareButton to Home layout */}
       <form id="form" className="task-form" onSubmit={handleSend}>
         <input
           className="task-input"
@@ -59,11 +56,10 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
         />
-        <button type="submit" className="task-btn" disabled={isLoading}>
-          {isLoading ? "Añadiendo..." : "Añadir Nota"}
+        <button type="submit" className="log-btn border-none border rounded py-1 px-3" disabled={isLoading}>
+          {isLoading ? "Añadiendo..." : "Añadir"}
         </button>
       </form>
-  {/* User selection now handled in Home */}
       <ConfirmationModal
         isHidden={isModalHidden}
         onDeleteCancel={() => setIsModalHidden(true)}
