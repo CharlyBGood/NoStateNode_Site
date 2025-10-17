@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../firebase";
-import { ShareButton } from "../components/ShareButton";
-import SharedUserPicker from "../usersForm/SharedUserPicker";
-import AddUserForm from "../usersForm/AddUserForm";
 import { ConfirmationModal } from "../formPages/ConfirmationModal";
 import "../stylesheets/TaskForm.css";
 
-function TaskForm() {
+function TaskForm({ selectedUsers = [], onClearSelectedUsers }) {
   const [input, setInput] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState([]);
   const [isModalHidden, setIsModalHidden] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUserSelected = (emails) => {
-    setSelectedUsers(emails);
-  };
+  // Users are now handled by Home
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -36,7 +30,7 @@ function TaskForm() {
         };
         await addDoc(collection(db, "notes"), newTask);
         setInput("");
-        setSelectedUsers([]);
+  onClearSelectedUsers && onClearSelectedUsers();
         setModalMessage("Nota añadida con éxito.");
       } catch (error) {
         console.error("Error adding task: ", error);
@@ -54,8 +48,7 @@ function TaskForm() {
 
   return (
     <>
-      <AddUserForm onContactAdded={() => setSelectedUsers([])} />
-      <ShareButton />
+  {/* Moved AddUserForm and ShareButton to Home layout */}
       <form id="form" className="task-form" onSubmit={handleSend}>
         <input
           className="task-input"
@@ -70,7 +63,7 @@ function TaskForm() {
           {isLoading ? "Añadiendo..." : "Añadir Nota"}
         </button>
       </form>
-      <SharedUserPicker onUserSelected={handleUserSelected} />
+  {/* User selection now handled in Home */}
       <ConfirmationModal
         isHidden={isModalHidden}
         onDeleteCancel={() => setIsModalHidden(true)}

@@ -9,3 +9,36 @@
   width: 3em;
   border-radius: 50%;
 }
+
+/* New grid layout for Home */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.home-left,
+.home-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.user-select-wrapper {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .share-btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

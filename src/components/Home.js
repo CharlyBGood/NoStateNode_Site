@@ -1,14 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import TaskForm from "../formPages/TaskForm";
 import OwnerRecipientsDashboard from "./OwnerRecipientsDashboard";
+import AddUserForm from "../usersForm/AddUserForm";
+import SharedUserPicker from "../usersForm/SharedUserPicker";
+import { ShareButton } from "./ShareButton";
 import "../App.css"
 import "../stylesheets/Home.css";
 
 export function Home() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -24,14 +28,33 @@ export function Home() {
     <div className="todo-list-main">
       <div className="user-info">
         {/* <img src={user.photoURL} alt="user pic" /> */}
-        <h1 className="title-description">
-          ¡Hola {user.displayName || user.email}!
-        </h1>
+        <h1 className="title-description">¡Hola {user.displayName || user.email}!</h1>
       </div>
-      <p className="text-center text-sm py-2">¡Comienza añadiendo notas, enlaces, información o recursos!</p>
-      <p className="text-center text-sm py-2">Añade contactos con su e-mail y comparte el link a la lista de notas. No te preocupes, no podrán editarla.</p>
-      <TaskForm />
-      <OwnerRecipientsDashboard />
+      <div className="home-grid">
+        {/* Columna izquierda: intro + crear nota + compartir lista */}
+        <section className="home-left">
+          <p className="text-center text-sm py-2">¡Comienza añadiendo notas, enlaces, información o recursos!</p>
+          <TaskForm
+            selectedUsers={selectedUsers}
+            onClearSelectedUsers={() => setSelectedUsers([])}
+          />
+          <div className="share-btn-container">
+            <ShareButton />
+          </div>
+        </section>
+
+        {/* Columna derecha: añadir contacto + selector + tarjetas compartidas */}
+        <section className="home-right">
+          <p className="text-center text-sm py-2">
+            Añade contactos con su e-mail y comparte el link a la lista de notas. No te preocupes, no podrán editarla.
+          </p>
+          <AddUserForm onContactAdded={() => setSelectedUsers([])} />
+          <div className="user-select-wrapper">
+            <SharedUserPicker onUserSelected={setSelectedUsers} />
+          </div>
+          <OwnerRecipientsDashboard />
+        </section>
+      </div>
     </div>
   );
 }

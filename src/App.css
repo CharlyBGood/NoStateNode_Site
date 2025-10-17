@@ -116,7 +116,7 @@
 }
 
 .user-select {
-  width: 85%;
+  /* width: 85%; */
   margin: 0 auto;
   padding: .5em;
   font-size: .9em;
@@ -158,7 +158,7 @@ option:disabled {
 
 .share-btn {
   font-size: .9em;
-  width: 85%;
+  width: 100%;
   padding: 0.2em 1em;
   border: 1px solid var(--dark-black);
   text-shadow: 1px 3px 4px #101d0a;

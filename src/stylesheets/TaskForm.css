@@ -1,14 +1,16 @@
+/* Mobile-first: columna por defecto, ocupa todo el ancho */
 .task-form {
   display: flex;
-  /* flex-wrap: wrap; */
-  align-items: center;
-  justify-content: center;
-  width: 85%;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
   margin: 0 auto;
 }
 
 .task-input {
-  width: 75%;
+  width: 100%;
   font-size: 1.1em;
   background-color: var(--dark-black);
   padding: 0.6em 1em;
@@ -18,7 +20,7 @@
   outline: none;
   color: var(--wheat);
   box-shadow: -4px 5px 0pc 0px black;
-  
+  min-width: 0; /* evita overflow en flex */
 }
 
 .task-input:hover {
@@ -28,8 +30,10 @@
 }
 
 .task-btn {
-  text-align: center;
-  padding: .9em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .9em 1.1em;
   /* outline: none; */
   border: 1px solid var(--soft-black);
   border-radius: 0.3em;
@@ -47,15 +51,20 @@
   opacity: .9;
 }
 
-@media screen and (max-width: 850px) {
+/* Desktop: alinear input + botón en fila y centrar ancho */
+@media screen and (min-width: 900px) {
   .task-form {
-    flex-direction: column;
-    width: 100%;
-    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
   }
 
-  .task-input,
+  .task-input {
+    flex: 1 1 auto;
+  }
+
   .task-btn {
-    width: 100%;
+    width: auto;
   }
 }
