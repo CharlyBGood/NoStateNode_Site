@@ -7,7 +7,7 @@ import { auth, db } from "../firebase";
 import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc, orderBy } from "firebase/firestore";
 import ShareButton from "../components/ShareButton";
 
-function TaskList({ filterRecipient, isReadOnly = false }) {
+function TaskList({ filterRecipient }) {
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -98,14 +98,11 @@ function TaskList({ filterRecipient, isReadOnly = false }) {
     <>
       {user ? (
         <>
-          {!isReadOnly && (
-            <TaskForm
-              selectedUsers={filterRecipient === "__private" ? [] : filterRecipient ? [filterRecipient] : []}
-              hideRecipientSelector={!!filterRecipient}
-            />
-          )}
+          <TaskForm
+            selectedUsers={filterRecipient === "__private" ? [] : filterRecipient ? [filterRecipient] : []}
+            hideRecipientSelector={!!filterRecipient}
+          />
           <div className="task-list-container">
-          
             {tasks.map((task) => (
               <Task
                 key={task.id}
@@ -115,30 +112,27 @@ function TaskList({ filterRecipient, isReadOnly = false }) {
                 createdAt={task.createdAt}
                 shareWith={task.shareWith}
                 ownerId={user?.uid}
-                completeTask={isReadOnly ? undefined : completeTask}
-                deleteTask={isReadOnly ? undefined : deleteTask}
-                isReadOnly={isReadOnly}
+                completeTask={completeTask}
+                deleteTask={deleteTask}
               />
             ))}
           </div>
           {/* Mostrar botón de compartir solo si es una lista filtrada (no dashboard ni privado) */}
-          {!isReadOnly && filterRecipient && filterRecipient !== "__private" && (
+          {filterRecipient && filterRecipient !== "__private" && (
             <ShareButton 
               mode="lista" 
               userId={user?.uid} 
               listId={filterRecipient}
             />
           )}
-          {!isReadOnly && (
-            <ConfirmationModal
-              onDeleteCancel={cancelDelete}
-              onDeleteConfirm={confirmDelete}
-              isHidden={isModalHidden}
-              modalTitle="¿Estás seguro de que deseas eliminar esta tarea?"
-              buttonOneText="Eliminar"
-              buttonTwoText="Cancelar"
-            />
-          )}
+          <ConfirmationModal
+            onDeleteCancel={cancelDelete}
+            onDeleteConfirm={confirmDelete}
+            isHidden={isModalHidden}
+            modalTitle="¿Estás seguro de que deseas eliminar esta tarea?"
+            buttonOneText="Eliminar"
+            buttonTwoText="Cancelar"
+          />
         </>
       ) : (
         <p>Por favor, inicia sesión para acceder a tus tareas.</p>
