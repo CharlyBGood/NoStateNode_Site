@@ -5,6 +5,7 @@ import { ConfirmationModal } from "./ConfirmationModal";
 import "../stylesheets/TaskList.css";
 import { auth, db } from "../firebase";
 import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc, orderBy } from "firebase/firestore";
+import ShareButton from "../components/ShareButton";
 
 function TaskList({ filterRecipient }) {
   const [tasks, setTasks] = useState([]);
@@ -114,6 +115,7 @@ function TaskList({ filterRecipient }) {
               />
             ))}
           </div>
+          <ShareButton user={user} />
           <ConfirmationModal
             onDeleteCancel={cancelDelete}
             onDeleteConfirm={confirmDelete}

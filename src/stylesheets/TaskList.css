@@ -4,17 +4,13 @@
   gap: 0.6rem;
   justify-content: flex-start;
   margin: .3em 0 3% 0;
-  padding-bottom: 1em;
+  /* padding-bottom: 1em; */
   width: 100%;
 }
 
 .notes-link-container {
   width: 85%;
 }
-
-/* .notes-link-container p {
-
-} */
 
 .modal-content {
   width: 49%;
@@ -86,7 +82,7 @@
 @media screen and (max-width: 850px) {
   .task-list-container {
     margin: 0.5em 0;
-    padding-bottom: 3em;
+    /* padding-bottom: 3em; */
   }
 
   .modal-content {
