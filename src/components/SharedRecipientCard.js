@@ -9,8 +9,8 @@ export default function SharedRecipientCard({ email, count, onClick }) {
       title={`Ver ${count} notas compartidas con ${email}`}
     >
       <div className="flex items-center justify-between">
-        <div>
-          <div className="font-bold">{email}</div>
+        <div className="min-w-0 pr-3">
+          <div className="font-bold recipient-email break-words">{email}</div>
           <div className="text-sm opacity-80">{count} recursos compartidos</div>
         </div>
         <span aria-hidden>→</span>

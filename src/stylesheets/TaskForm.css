@@ -15,7 +15,7 @@
   background-color: var(--dark-black);
   padding: 0.6em 1em;
   border-radius: 0.3em;
-  margin: 0.3em;
+  margin: 0.3em 0;
   border: 2px solid var(--soft-black);
   outline: none;
   color: var(--wheat);
@@ -43,6 +43,8 @@
   text-transform: capitalize;
   box-shadow: -4px 5px 0pc 0px black;
   font-size: .9em;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .task-btn:hover {  
