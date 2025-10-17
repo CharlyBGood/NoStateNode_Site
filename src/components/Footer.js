@@ -4,30 +4,19 @@ import { FaBolt } from "react-icons/fa";
 export function Footer() {
   return (
     <footer>
-      <a
-        href='https://ko-fi.com/D1D819H6X6'
-        target='_blank'
-        rel="noopener noreferrer"
-        className="ko-fi-a">
-        <img
-          height='36'
-          className="ko-fi-btn"
-          src='https://storage.ko-fi.com/cdn/kofi6.png?v=6'
-          border='0'
-          alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-      <p>
-        <FaBolt />
-        <a
-          href="https://sinapsialab.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="smedia-contact"
-        >
-          SinapsiaLab
-        </a>
-        <FaBolt />        
+      <p className="text-xs">
+        © {new Date().getFullYear()} Creado con ❤️ por
       </p>
+
+      <a
+        href="https://sinapsialab.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="gradient-link"
+      >
+        SinapsiaLab
+      </a>
+      <FaBolt />
     </footer>
   );
 }
