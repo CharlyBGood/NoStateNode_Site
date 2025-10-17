@@ -41,40 +41,52 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
   );
 
   // Keep internal state in sync if parent changes selection
+  // Only sync state from selectedUsers if it actually changes from outside (not after local radio button changes)
   useEffect(() => {
     if (!Array.isArray(selectedUsers)) return;
+    // Use a ref to track last selectedUsers to avoid loop
+    let shouldSync = false;
     if (hideRecipientSelector) {
-      // In contextual mode, always sync state to selectedUsers
-      if (selectedUsers.length === 0 && recipientsMode !== "private") {
+      if (selectedUsers.length === 0 && recipientsMode !== "private") shouldSync = true;
+      if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) shouldSync = true;
+      if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) shouldSync = true;
+    } else {
+      if (selectedUsers.length === 0 && recipientsMode !== "private") shouldSync = true;
+      if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) shouldSync = true;
+      if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) shouldSync = true;
+    }
+    if (!shouldSync) return;
+    // Only update if values actually changed from outside
+    if (hideRecipientSelector) {
+      if (selectedUsers.length === 0) {
         setRecipientsMode("private");
         setSelectedSingle("");
         setSelectedMulti([]);
-      } else if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) {
+      } else if (selectedUsers.length === 1) {
         setRecipientsMode("single");
         setSelectedSingle(selectedUsers[0]);
         setSelectedMulti([]);
-      } else if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) {
+      } else if (selectedUsers.length > 1) {
         setRecipientsMode("multi");
         setSelectedSingle("");
         setSelectedMulti(selectedUsers);
       }
     } else {
-      // Only update if values actually changed
-      if (selectedUsers.length === 0 && recipientsMode !== "private") {
+      if (selectedUsers.length === 0) {
         setRecipientsMode("private");
         setSelectedSingle("");
         setSelectedMulti([]);
-      } else if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) {
+      } else if (selectedUsers.length === 1) {
         setRecipientsMode("single");
         setSelectedSingle(selectedUsers[0]);
         setSelectedMulti([]);
-      } else if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) {
+      } else if (selectedUsers.length > 1) {
         setRecipientsMode("multi");
         setSelectedSingle("");
         setSelectedMulti(selectedUsers);
       }
     }
-  }, [selectedUsers, recipientsMode, selectedSingle, selectedMulti, hideRecipientSelector]);
+  }, [selectedUsers, hideRecipientSelector, recipientsMode, selectedSingle, selectedMulti]);
 
   // Load contacts for current owner
   useEffect(() => {
@@ -195,7 +207,11 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
                   name="recipientsMode"
                   value="single"
                   checked={recipientsMode === "single"}
-                  onChange={() => setRecipientsMode("single")}
+                  onChange={() => {
+                    setRecipientsMode("single");
+                    // Always set to first contact if available
+                    setSelectedSingle(contacts[0]?.email || "");
+                  }}
                   disabled={!hasContacts}
                 />
                 <span>Un contacto</span>
@@ -206,7 +222,11 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
                   name="recipientsMode"
                   value="multi"
                   checked={recipientsMode === "multi"}
-                  onChange={() => setRecipientsMode("multi")}
+                  onChange={() => {
+                    setRecipientsMode("multi");
+                    // Always set to all contacts if available, else empty
+                    setSelectedMulti(contacts.length > 0 ? contacts.map((c) => c.email) : []);
+                  }}
                   disabled={!hasContacts}
                 />
                 <span>Varios</span>
@@ -218,7 +238,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
         {!hideRecipientSelector && recipientsMode === "single" && (
           <select
             className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
-            value={selectedSingle}
+            value={contacts.find(c => c.email === selectedSingle) ? selectedSingle : (contacts[0]?.email || "")}
             onChange={(e) => setSelectedSingle(e.target.value)}
             disabled={isLoadingContacts || !hasContacts}
           >
@@ -237,7 +257,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
           <select
             multiple
             className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
-            value={selectedMulti}
+            value={selectedMulti.filter(email => contacts.some(c => c.email === email))}
             onChange={(e) =>
               setSelectedMulti(Array.from(e.target.selectedOptions).map((o) => o.value))
             }

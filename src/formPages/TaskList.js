@@ -7,7 +7,7 @@ import { auth, db } from "../firebase";
 import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc, orderBy } from "firebase/firestore";
 import ShareButton from "../components/ShareButton";
 
-function TaskList({ filterRecipient }) {
+function TaskList({ filterRecipient, isReadOnly = false }) {
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -16,24 +16,27 @@ function TaskList({ filterRecipient }) {
   useEffect(() => {
     let unsubscribeTasks = null;
     const unsubscribeAuth = auth.onAuthStateChanged((currentUser) => {
-      // Cleanup previous tasks listener if any
       if (unsubscribeTasks) {
         unsubscribeTasks();
         unsubscribeTasks = null;
       }
-
       setUser(currentUser);
-
       if (currentUser) {
         const tasksRef = collection(db, "notes");
-  const tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
-
+        let tasksQuery;
+        if (isReadOnly) {
+          // Invitado: ver solo notas donde su email está en shareWith
+          tasksQuery = query(tasksRef, where("shareWith", "array-contains", filterRecipient), orderBy("createdAt", "desc"));
+        } else {
+          // Owner: ver notas propias filtradas por destinatario
+          tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+        }
         unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
           let tasksData = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          if (filterRecipient) {
+          if (!isReadOnly && filterRecipient) {
             if (filterRecipient === "__private") {
               tasksData = tasksData.filter(
                 (t) => !Array.isArray(t.shareWith) || t.shareWith.length === 0
@@ -50,12 +53,11 @@ function TaskList({ filterRecipient }) {
         setTasks([]);
       }
     });
-
     return () => {
       if (unsubscribeTasks) unsubscribeTasks();
       unsubscribeAuth();
     };
-  }, [filterRecipient]);
+  }, [filterRecipient, isReadOnly]);
 
   const deleteTask = (id) => {
     setTaskToDelete(id);
@@ -98,10 +100,12 @@ function TaskList({ filterRecipient }) {
     <>
       {user ? (
         <>
-          <TaskForm
-            selectedUsers={filterRecipient === "__private" ? [] : filterRecipient ? [filterRecipient] : []}
-            hideRecipientSelector={!!filterRecipient}
-          />
+          {!isReadOnly && (
+            <TaskForm
+              selectedUsers={filterRecipient === "__private" ? [] : filterRecipient ? [filterRecipient] : []}
+              hideRecipientSelector={!!filterRecipient}
+            />
+          )}
           <div className="task-list-container">
             {tasks.map((task) => (
               <Task
@@ -112,13 +116,14 @@ function TaskList({ filterRecipient }) {
                 createdAt={task.createdAt}
                 shareWith={task.shareWith}
                 ownerId={user?.uid}
-                completeTask={completeTask}
-                deleteTask={deleteTask}
+                completeTask={isReadOnly ? undefined : completeTask}
+                deleteTask={isReadOnly ? undefined : deleteTask}
+                isReadOnly={isReadOnly}
               />
             ))}
           </div>
           {/* Mostrar botón de compartir solo si es una lista filtrada (no dashboard ni privado) */}
-          {filterRecipient && filterRecipient !== "__private" && (
+          {!isReadOnly && filterRecipient && filterRecipient !== "__private" && (
             <ShareButton 
               mode="lista" 
               userId={user?.uid} 

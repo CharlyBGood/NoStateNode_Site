@@ -113,27 +113,44 @@ export function SharedTasksPage() {
 
   // Vista por lista filtrada: dueño ve TaskList editable, invitado ve solo lectura
   if (isOwner && recipient) {
+    // Owner: editable list for recipient
     return (
       <div className="todo-list-main">
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
-        <TaskList filterRecipient={recipient} />
+        <TaskList filterRecipient={recipient} isReadOnly={false} />
       </div>
     );
   }
 
   // Invitado: lista filtrada, solo lectura
   if (!isOwner && recipient) {
+    if (!user) {
+      return (
+        <div className="todo-list-main">
+          <div className="back-btn-container">
+            <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+          </div>
+          <div className="shared-list-header">
+            Debes iniciar sesión para ver esta lista compartida.
+          </div>
+        </div>
+      );
+    }
+    let ownerDisplay = 'el propietario';
+    if (tasks.length > 0) {
+      ownerDisplay = tasks[0].ownerDisplayName || tasks[0].ownerEmail || 'el propietario';
+    }
     return (
       <div className="todo-list-main">
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Accede a los recursos compartidos por <b>{userId}</b>
+          Accede a los recursos compartidos por <b>{ownerDisplay}</b>
         </div>
-        <TaskList filterRecipient={recipient} isReadOnly />
+        <TaskList filterRecipient={user.email} isReadOnly={true} />
       </div>
     );
   }
