@@ -5,7 +5,7 @@ export default function SharedRecipientCard({ email, count, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="task-btn w-full text-left mb-3 p-4 rounded-xs shadow-xs hover:opacity-90"
+      className="task-btn w-full text-left mb-3 p-4 rounded shadow hover:opacity-90"
       title={`Ver ${count} notas compartidas con ${email}`}
     >
       <div className="flex items-center justify-between">

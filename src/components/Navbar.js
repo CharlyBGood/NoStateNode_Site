@@ -10,7 +10,7 @@ export function Navbar() {
   return (
     <div className="nav-container">
       <nav className="navbar-logos">
-        <Link to={!user ? "/" : "/Home"} className="no-underline">
+        <Link to={!user ? "/" : "/Home"}>
           <h1>
             <span className="txt-title-span">N</span>o
             <span className="txt-title-span">S</span>tate

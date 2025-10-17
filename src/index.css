@@ -1,25 +1,8 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap')
-layer(utilities);
-
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
-}
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');
 
 :root {
   color-scheme: light only;
@@ -33,54 +16,53 @@ layer(utilities);
   --red-wheat: #eec8c3;
   --red-danger: #c934349f;
   --red-danger-hover: #c93434;
+}
 
+::-webkit-scrollbar {
+  width: 0.7em;
+}
 
-  ::-webkit-scrollbar {
-    width: 0.7em;
-  }
+::-webkit-scrollbar-track {
+  background: hsla(219, 70%, 4%, 0.81);
+  border-radius: 100vw;
+}
 
-  ::-webkit-scrollbar-track {
-    background: hsla(219, 70%, 4%, 0.81);
-    border-radius: 100vw;
-  }
+::-webkit-scrollbar-thumb {
+  /* background: hsla(33, 75%, 30%, 0.782); */
+  background: var(--orange-dark);
+  border-radius: 100vw;
+}
 
-  ::-webkit-scrollbar-thumb {
-    /* background: hsla(33, 75%, 30%, 0.782); */
-    background: var(--orange-dark);
-    border-radius: 100vw;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(210, 19%, 38%);
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(210, 19%, 38%);
-  }
-
-  @supports (scrollbar-color: red blue) {
-    * {
-      scrollbar-color: hsla(220 67% 4% 0.81 / 1) hsla(39, 66%, 44%, 0.782);
-    }
-  }
-
+@supports (scrollbar-color: red blue) {
   * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    scrollbar-color: hsla(220 67% 4% 0.81 / 1) hsla(39, 66%, 44%, 0.782);
   }
 }
 
-html,
-body {
-  font-family: "Source Code Pro", monospace;
-  color: var(--wheat);
-  background-color: var(--dark-black);
-  width: 100%;
-  font-size: 16px;
-  max-height: 100%;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  text-decoration: none;
-}
+@layer base {
 
+  html,
+  body {
+    font-family: "Source Code Pro", monospace;
+    color: var(--wheat);
+    background-color: var(--dark-black);
+    width: 100%;
+    font-size: 16px;
+    max-height: 100%;
+  }
+
+
+}
 
 footer svg {
   display: inline;

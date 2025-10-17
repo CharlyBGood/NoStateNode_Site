@@ -53,7 +53,7 @@ function Task({ id, text, complete, completeTask, deleteTask, isReadOnly }) {
   };
 
   return (
-    <div className={complete ? "todo-container complete rounded-xs" : "todo-container rounded-xs"}>
+    <div className={complete ? "todo-container complete rounded" : "todo-container rounded"}>
       <div className="todo-txt" onClick={() => !isReadOnly && !isEditing && completeTask(id)}>
         {renderContent()}
       </div>

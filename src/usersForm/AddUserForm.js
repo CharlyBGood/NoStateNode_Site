@@ -103,7 +103,7 @@ const AddUserForm = ({ onContactAdded }) => {
               />
               <div className="share-btn-container">
                 <button
-                  className="log-btn border-0 font-bold block rounded-xs mb-2 py-2 px-4 w-full"
+                  className="log-btn border-none font-bold block border rounded mb-2 py-2 px-4 w-full"
                   type="submit"
                   disabled={isLoading}
                 >
@@ -111,7 +111,7 @@ const AddUserForm = ({ onContactAdded }) => {
                 </button>
                 <button
                   type="button"
-                  className="btn-cancel font-bold block rounded-xs mb-2 py-2 px-4 w-full"
+                  className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Cancelar

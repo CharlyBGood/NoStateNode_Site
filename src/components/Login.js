@@ -71,7 +71,7 @@ export function Login() {
   return (
     <div className="bg-black w-full max-w-xs m-auto">
       <form
-        className="bg-black shadow-md rounded-xs px-8 pt-6"
+        className="bg-black shadow-md rounded px-8 pt-6"
         onSubmit={handleSubmit}
       >
         <div className="mb-4">
@@ -81,8 +81,8 @@ export function Login() {
           >
             E-mail
           </label>
-            <input
-              className="bg-transparent shadow-xs appearance-none border border-gray-700 rounded-xs w-full py-2 px-3 leading-tight focus:outline-hidden"
+          <input
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             name="email"
             id="login-email"
@@ -100,8 +100,8 @@ export function Login() {
           >
             Contraseña
           </label>
-            <input
-              className="bg-transparent shadow-xs appearance-none border border-gray-700 rounded-xs w-full py-2 px-3 leading-tight focus:outline-hidden"
+          <input
+            className="bg-transparent shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
             name="password"
             id="login-password"
@@ -114,21 +114,21 @@ export function Login() {
         <button
           type="submit"
           disabled={isLoading}
-            className="log-btn border-0 font-bold block rounded-xs mb-2 py-2 px-4 w-full">
+          className="log-btn w-100 border-none font-bold block border rounded mb-2 py-2 px-4 w-full">
           {isLoading ? "Ingresando..." : "Iniciar sesión"}
         </button>
         <div className="mb-4 text-center">
           <Link
             to="/ResetPassword"
             href="#!"
-            className="inline-block font-bold text-sm"
+            className="inline-block align-center font-bold text-sm"
           >
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
         <div className="mb-4">
           <button
-              className="log-btn border-0 font-bold text-sm block rounded-xs mb-2 py-2 px-4 w-full"
+            className="log-btn w-100 border-none font-bold text-sm block border rounded mb-2 py-2 px-4 w-full"
             onClick={handleGoogleLogin}
           >
             Ingresar con Google
@@ -139,7 +139,7 @@ export function Login() {
             ¿No tienes cuenta?
           </p>
           <Link
-              className="log-btn py-1 outline-hidden border-0 px-3 font-bold rounded-xs mb-2"
+            className="log-btn py-1 outline-none border-none px-3 font-bold border rounded mb-2"
             to="/register"
           >
             Registrarse
