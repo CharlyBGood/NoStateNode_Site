@@ -53,12 +53,12 @@
 
 /* Desktop: alinear input + botón en fila y centrar ancho */
 @media screen and (min-width: 900px) {
-  .task-form {
+  /* .task-form {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 85%;
-  }
+  } */
 
   .task-input {
     flex: 1 1 auto;
