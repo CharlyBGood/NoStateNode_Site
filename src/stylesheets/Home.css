@@ -26,6 +26,7 @@
   gap: 0.75rem;
   align-items: stretch;
   padding: .5em;
+  min-width: 0; /* permite que el contenido en grid pueda encoger sin desbordar */
 }
 
 .user-select-wrapper {
@@ -36,6 +37,7 @@
 .home-bottom {
   grid-column: 1 / -1;
   margin-top: 0.5rem;
+  min-width: 0;
 }
 
 /* Make the recipients list display in a responsive grid on desktop */

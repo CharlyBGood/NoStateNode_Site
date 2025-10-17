@@ -44,7 +44,8 @@
   box-shadow: -4px 5px 0pc 0px black;
   font-size: .9em;
   max-width: 100%;
-  white-space: nowrap;
+  white-space: normal; /* permite que el contenido envuelva */
+  word-break: break-word;
 }
 
 .task-btn:hover {  
