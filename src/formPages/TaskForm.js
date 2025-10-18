@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { collection, addDoc, serverTimestamp, onSnapshot, query, where } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { ConfirmationModal } from "../formPages/ConfirmationModal";
@@ -40,23 +40,18 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
     Array.isArray(selectedUsers) && selectedUsers.length > 1 ? selectedUsers : []
   );
 
-  // Keep internal state in sync if parent changes selection
-  // Only sync state from selectedUsers if it actually changes from outside (not after local radio button changes)
+  // Mantener el estado interno en sync SOLO si selectedUsers cambia realmente desde el padre
+  const prevSelectedUsersRef = useRef(selectedUsers);
   useEffect(() => {
     if (!Array.isArray(selectedUsers)) return;
-    // Use a ref to track last selectedUsers to avoid loop
-    let shouldSync = false;
-    if (hideRecipientSelector) {
-      if (selectedUsers.length === 0 && recipientsMode !== "private") shouldSync = true;
-      if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) shouldSync = true;
-      if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) shouldSync = true;
-    } else {
-      if (selectedUsers.length === 0 && recipientsMode !== "private") shouldSync = true;
-      if (selectedUsers.length === 1 && (recipientsMode !== "single" || selectedSingle !== selectedUsers[0])) shouldSync = true;
-      if (selectedUsers.length > 1 && (recipientsMode !== "multi" || selectedMulti.join() !== selectedUsers.join())) shouldSync = true;
-    }
-    if (!shouldSync) return;
-    // Only update if values actually changed from outside
+    // Compara referencias y contenido para evitar loops
+    const prev = prevSelectedUsersRef.current;
+    const changed =
+      prev !== selectedUsers &&
+      (prev?.length !== selectedUsers.length ||
+        prev.some((v, i) => v !== selectedUsers[i]));
+    if (!changed) return;
+    prevSelectedUsersRef.current = selectedUsers;
     if (hideRecipientSelector) {
       if (selectedUsers.length === 0) {
         setRecipientsMode("private");
@@ -86,7 +81,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
         setSelectedMulti(selectedUsers);
       }
     }
-  }, [selectedUsers, hideRecipientSelector, recipientsMode, selectedSingle, selectedMulti]);
+  }, [selectedUsers, hideRecipientSelector]);
 
   // Load contacts for current owner
   useEffect(() => {
