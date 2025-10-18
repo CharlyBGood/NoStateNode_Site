@@ -150,7 +150,7 @@ export function SharedTasksPage() {
         <div className="shared-list-header">
           Accede a los recursos compartidos por <b>{ownerDisplay}</b>
         </div>
-        <TaskList filterRecipient={user.email} isReadOnly={true} />
+  <TaskList filterRecipient={user.email} isReadOnly={true} ownerId={userId} />
       </div>
     );
   }

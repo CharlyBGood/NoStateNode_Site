@@ -7,7 +7,9 @@ import { auth, db } from "../firebase";
 import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc, orderBy } from "firebase/firestore";
 import ShareButton from "../components/ShareButton";
 
-function TaskList({ filterRecipient, isReadOnly = false }) {
+
+function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
+  console.log('[TaskList] ownerId:', ownerId, 'filterRecipient:', filterRecipient, 'isReadOnly:', isReadOnly);
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -25,8 +27,17 @@ function TaskList({ filterRecipient, isReadOnly = false }) {
         const tasksRef = collection(db, "notes");
         let tasksQuery;
         if (isReadOnly) {
-          // Invitado: ver solo notas donde su email está en shareWith
-          tasksQuery = query(tasksRef, where("shareWith", "array-contains", filterRecipient), orderBy("createdAt", "desc"));
+          // Invitado: ver solo notas donde su email está en shareWith Y userId == ownerId
+          if (!ownerId) {
+            setTasks([]);
+            return;
+          }
+          tasksQuery = query(
+            tasksRef,
+            where("userId", "==", ownerId),
+            where("shareWith", "array-contains", filterRecipient),
+            orderBy("createdAt", "desc")
+          );
         } else {
           // Owner: ver notas propias filtradas por destinatario
           tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
@@ -57,7 +68,7 @@ function TaskList({ filterRecipient, isReadOnly = false }) {
       if (unsubscribeTasks) unsubscribeTasks();
       unsubscribeAuth();
     };
-  }, [filterRecipient, isReadOnly]);
+  }, [filterRecipient, isReadOnly, ownerId]);
 
   const deleteTask = (id) => {
     setTaskToDelete(id);
