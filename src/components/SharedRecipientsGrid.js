@@ -9,6 +9,7 @@ export default function SharedRecipientsGrid({ notes }) {
   const ownerId = user?.uid;
 
   // Agrupa por email en shareWith y cuenta
+  // Agrupa por email y junta ids y alias
   const { groups, privateCount } = useMemo(() => {
     const map = new Map();
     let priv = 0;
@@ -18,11 +19,18 @@ export default function SharedRecipientsGrid({ notes }) {
         priv += 1;
       }
       for (const email of list) {
-        map.set(email, (map.get(email) || 0) + 1);
+        // Si ya existe, agrega el id a la lista
+        if (!map.has(email)) {
+          map.set(email, { count: 1, ids: [n.id], alias: n.alias });
+        } else {
+          const entry = map.get(email);
+          entry.count += 1;
+          entry.ids.push(n.id);
+        }
       }
     }
     return {
-      groups: Array.from(map.entries()).map(([email, count]) => ({ email, count })),
+      groups: Array.from(map.entries()).map(([email, { count, ids, alias }]) => ({ email, count, id: ids[0], alias })),
       privateCount: priv,
     };
   }, [notes]);
@@ -41,12 +49,18 @@ export default function SharedRecipientsGrid({ notes }) {
           onClick={() => navigate(`/shared/${ownerId}?recipient=${encodeURIComponent("__private")}`)}
         />
       )}
-      {groups.map(({ email, count }) => (
+      {groups.map(({ email, count, id, alias }) => (
         <SharedRecipientCard
           key={email}
+          id={id}
           email={email}
           count={count}
-          onClick={() => ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(email)}`)}
+          alias={alias}
+          onClick={e => {
+            // Si está editando, no navegar
+            if (e.target.tagName === 'INPUT') return;
+            ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(email)}`);
+          }}
         />)
       )}
     </div>
