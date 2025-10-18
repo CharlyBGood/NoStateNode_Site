@@ -19,7 +19,6 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
         priv += 1;
       }
       for (const email of list) {
-        // Buscar el contacto real por email
         const contact = contacts.find(c => c.email === email);
         const contactId = contact?.id || null;
         const contactAlias = contact?.alias || "";

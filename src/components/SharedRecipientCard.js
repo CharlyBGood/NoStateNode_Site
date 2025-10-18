@@ -41,6 +41,11 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias }
                   className="border rounded px-2 py-1 bg-slate-800 text-white"
                   placeholder="Alias"
                   onClick={e => e.stopPropagation()}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") {
+                      handleAliasSave(e);
+                    }
+                  }}
                 />
                 <button
                   type="button"
