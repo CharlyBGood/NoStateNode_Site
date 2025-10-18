@@ -7,6 +7,7 @@ import SharedRecipientsGrid from "./SharedRecipientsGrid";
 export default function OwnerRecipientsDashboard() {
   const { user } = useAuth();
   const [notes, setNotes] = useState([]);
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     if (!user) return;
@@ -19,7 +20,18 @@ export default function OwnerRecipientsDashboard() {
     return () => unsubscribe();
   }, [user]);
 
+  useEffect(() => {
+    if (!user) return;
+    const contactsRef = collection(db, "usersToShare");
+    const q = query(contactsRef, where("ownerId", "==", user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+      setContacts(data);
+    });
+    return () => unsubscribe();
+  }, [user]);
+
   if (!user) return null;
 
-  return <SharedRecipientsGrid notes={notes} />;
+  return <SharedRecipientsGrid notes={notes} contacts={contacts} />;
 }

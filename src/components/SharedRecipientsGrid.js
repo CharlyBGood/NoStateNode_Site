@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import SharedRecipientCard from "./SharedRecipientCard";
 
-export default function SharedRecipientsGrid({ notes }) {
+export default function SharedRecipientsGrid({ notes, contacts }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const ownerId = user?.uid;
@@ -19,21 +19,23 @@ export default function SharedRecipientsGrid({ notes }) {
         priv += 1;
       }
       for (const email of list) {
-        // Si ya existe, agrega el id a la lista
+        // Buscar el contacto real por email
+        const contact = contacts.find(c => c.email === email);
+        const contactId = contact?.id || null;
+        const contactAlias = contact?.alias || "";
         if (!map.has(email)) {
-          map.set(email, { count: 1, ids: [n.id], alias: n.alias });
+          map.set(email, { count: 1, id: contactId, alias: contactAlias });
         } else {
           const entry = map.get(email);
           entry.count += 1;
-          entry.ids.push(n.id);
         }
       }
     }
     return {
-      groups: Array.from(map.entries()).map(([email, { count, ids, alias }]) => ({ email, count, id: ids[0], alias })),
+      groups: Array.from(map.entries()).map(([email, { count, id, alias }]) => ({ email, count, id, alias })),
       privateCount: priv,
     };
-  }, [notes]);
+  }, [notes, contacts]);
 
   if (groups.length === 0 && privateCount === 0) {
     return <p>No hay notas aún. ¡Crea una y compártela con tus contactos!</p>;
