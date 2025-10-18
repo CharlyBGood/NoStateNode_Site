@@ -138,19 +138,16 @@ export function SharedTasksPage() {
         </div>
       );
     }
-    let ownerDisplay = 'el propietario';
-    if (tasks.length > 0) {
-      ownerDisplay = tasks[0].ownerDisplayName || tasks[0].ownerEmail || 'el propietario';
-    }
+
     return (
       <div className="todo-list-main">
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Accede a los recursos compartidos por <b>{ownerDisplay}</b>
+          Te han compartido estos recursos:
         </div>
-  <TaskList filterRecipient={user.email} isReadOnly={true} ownerId={userId} />
+        <TaskList filterRecipient={user.email} isReadOnly={true} ownerId={userId} />
       </div>
     );
   }

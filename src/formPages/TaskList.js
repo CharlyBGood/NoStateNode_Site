@@ -8,8 +8,7 @@ import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc
 import ShareButton from "../components/ShareButton";
 
 
-function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
-  console.log('[TaskList] ownerId:', ownerId, 'filterRecipient:', filterRecipient, 'isReadOnly:', isReadOnly);
+function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {  
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
