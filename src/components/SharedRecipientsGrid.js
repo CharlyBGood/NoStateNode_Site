@@ -1,4 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import SharedRecipientCard from "./SharedRecipientCard";
@@ -46,6 +48,26 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
     };
   }, [notes, contacts]);
 
+  // Leer alias de grupo desde Firestore
+  const [groupAliases, setGroupAliases] = useState({});
+  useEffect(() => {
+    async function fetchAliases() {
+      const aliases = {};
+      for (const { key } of groupCards) {
+        try {
+          const snap = await getDoc(doc(db, "sharedGroups", key));
+          if (snap.exists()) {
+            aliases[key] = snap.data().alias || null;
+          }
+        } catch {}
+      }
+      setGroupAliases(aliases);
+    }
+    if (groupCards && groupCards.length > 0) {
+      fetchAliases();
+    }
+  }, [groupCards]);
+
   if (individualGroups.length === 0 && groupCards.length === 0 && privateCount === 0) {
     return <p>No hay notas aún. ¡Crea una y compártela con tus contactos!</p>;
   }
@@ -61,18 +83,18 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
         />
       )}
       {groupCards.map(({ key, emails, count }) => (
-            <SharedRecipientCard
-              key={key}
-              email={emails.length > 2 ? "Varios" : emails.join(", ")}
-              count={count}
-              alias={emails.length > 2 ? "Varios" : emails.join(", ")}
-              groupKey={key}
-              groupEmails={emails}
-              onClick={e => {
-                if (e.target.tagName === 'INPUT') return;
-                ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
-              }}
-            />
+        <SharedRecipientCard
+          key={key}
+          email={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
+          count={count}
+          alias={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
+          groupKey={key}
+          groupEmails={emails}
+          onClick={e => {
+            if (e.target.tagName === 'INPUT') return;
+            ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
+          }}
+        />
       ))}
       {individualGroups.map(({ email, count, id, alias }) => (
         <SharedRecipientCard
