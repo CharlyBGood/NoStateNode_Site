@@ -51,9 +51,13 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
               tasksData = tasksData.filter(
                 (t) => !Array.isArray(t.shareWith) || t.shareWith.length === 0
               );
+            } else if (filterRecipient === "multi-shared") {
+              tasksData = tasksData.filter(
+                (t) => Array.isArray(t.shareWith) && t.shareWith.length > 1
+              );
             } else {
               tasksData = tasksData.filter(
-                (t) => Array.isArray(t.shareWith) && t.shareWith.includes(filterRecipient)
+                (t) => Array.isArray(t.shareWith) && t.shareWith.length === 1 && t.shareWith[0] === filterRecipient
               );
             }
           }
