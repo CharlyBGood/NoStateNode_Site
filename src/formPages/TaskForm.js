@@ -249,7 +249,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
         {!hideRecipientSelector && recipientsMode === "multi" && (
           <select
             multiple
-            className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
+            className="user-select task-input w-full mb-2 rounded-lg block p-2.5 bg-neutral-900 text-zinc-300"
             value={selectedMulti.filter(email => contacts.some(c => c.email === email))}
             onChange={(e) =>
               setSelectedMulti(Array.from(e.target.selectedOptions).map((o) => o.value))
@@ -258,7 +258,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
             size={Math.min(4, Math.max(2, contacts.length))}
           >
             {contacts.map((c) => (
-              <option key={c.id} value={c.email}>
+              <option key={c.id} value={c.email} className="bg-neutral-900 text-zinc-300 p-2">
                 {c.email}
               </option>
             ))}
