@@ -51,10 +51,17 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
               tasksData = tasksData.filter(
                 (t) => !Array.isArray(t.shareWith) || t.shareWith.length === 0
               );
-            } else if (filterRecipient === "multi-shared") {
-              tasksData = tasksData.filter(
-                (t) => Array.isArray(t.shareWith) && t.shareWith.length > 1
-              );
+            } else if (filterRecipient.startsWith("[") && filterRecipient.endsWith("]")) {
+              // Filtro por grupo exacto de destinatarios
+              try {
+                const group = JSON.parse(filterRecipient);
+                const sortedGroup = [...group].sort();
+                tasksData = tasksData.filter(
+                  (t) => Array.isArray(t.shareWith) && t.shareWith.length > 1 && JSON.stringify([...t.shareWith].sort()) === JSON.stringify(sortedGroup)
+                );
+              } catch {
+                tasksData = [];
+              }
             } else {
               tasksData = tasksData.filter(
                 (t) => Array.isArray(t.shareWith) && t.shareWith.length === 1 && t.shareWith[0] === filterRecipient
