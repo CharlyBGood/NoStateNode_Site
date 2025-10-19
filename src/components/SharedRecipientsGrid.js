@@ -8,35 +8,38 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
   const { user } = useAuth();
   const ownerId = user?.uid;
 
-  // Agrupa por email en shareWith y cuenta
-  // Agrupa por email y junta ids y alias
-  const { groups, privateCount } = useMemo(() => {
-    const map = new Map();
+  // Agrupamiento: una card "Varios" para notas con múltiples usuarios, y cards individuales para las demás
+  const { multiShared, individualGroups, privateCount } = useMemo(() => {
     let priv = 0;
+    const multiSharedNotes = [];
+    const individualMap = new Map();
     for (const n of notes) {
       const list = Array.isArray(n.shareWith) ? n.shareWith : [];
       if (list.length === 0) {
         priv += 1;
-      }
-      for (const email of list) {
+      } else if (list.length > 1) {
+        multiSharedNotes.push(n);
+      } else if (list.length === 1) {
+        const email = list[0];
         const contact = (contacts || []).find(c => c.email === email);
         const contactId = contact?.id || null;
         const contactAlias = contact?.alias || "";
-        if (!map.has(email)) {
-          map.set(email, { count: 1, id: contactId, alias: contactAlias });
+        if (!individualMap.has(email)) {
+          individualMap.set(email, { count: 1, id: contactId, alias: contactAlias });
         } else {
-          const entry = map.get(email);
+          const entry = individualMap.get(email);
           entry.count += 1;
         }
       }
     }
     return {
-      groups: Array.from(map.entries()).map(([email, { count, id, alias }]) => ({ email, count, id, alias })),
+      multiShared: multiSharedNotes,
+      individualGroups: Array.from(individualMap.entries()).map(([email, { count, id, alias }]) => ({ email, count, id, alias })),
       privateCount: priv,
     };
   }, [notes, contacts]);
 
-  if (groups.length === 0 && privateCount === 0) {
+  if (individualGroups.length === 0 && multiShared.length === 0 && privateCount === 0) {
     return <p>No hay notas aún. ¡Crea una y compártela con tus contactos!</p>;
   }
 
@@ -50,7 +53,19 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
           onClick={() => navigate(`/shared/${ownerId}?recipient=${encodeURIComponent("__private")}`)}
         />
       )}
-      {groups.map(({ email, count, id, alias }) => (
+      {multiShared.length > 0 && (
+        <SharedRecipientCard
+          key="multi-shared"
+          email="Varios"
+          count={multiShared.length}
+          alias="Varios"
+          onClick={e => {
+            if (e.target.tagName === 'INPUT') return;
+            ownerId && navigate(`/shared/${ownerId}?recipient=multi-shared`);
+          }}
+        />
+      )}
+      {individualGroups.map(({ email, count, id, alias }) => (
         <SharedRecipientCard
           key={email}
           id={id}
@@ -58,7 +73,6 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
           count={count}
           alias={alias}
           onClick={e => {
-            // Si está editando, no navegar
             if (e.target.tagName === 'INPUT') return;
             ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(email)}`);
           }}
