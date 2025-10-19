@@ -204,7 +204,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
                   checked={recipientsMode === "single"}
                   onChange={() => {
                     setRecipientsMode("single");
-                    // Always set to first contact if available
                     setSelectedSingle(contacts[0]?.email || "");
                   }}
                   disabled={!hasContacts}
@@ -219,7 +218,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
                   checked={recipientsMode === "multi"}
                   onChange={() => {
                     setRecipientsMode("multi");
-                    // Always set to all contacts if available, else empty
                     setSelectedMulti(contacts.length > 0 ? contacts.map((c) => c.email) : []);
                   }}
                   disabled={!hasContacts}
@@ -232,7 +230,7 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
 
         {!hideRecipientSelector && recipientsMode === "single" && (
           <select
-            className="user-select task-input w-full mb-2 rounded-lg block p-2.5"
+            className="user-select task-input w-full mb-2 rounded-lg block bg-neutral-900 text-zinc-300 p-2.5"
             value={contacts.find(c => c.email === selectedSingle) ? selectedSingle : (contacts[0]?.email || "")}
             onChange={(e) => setSelectedSingle(e.target.value)}
             disabled={isLoadingContacts || !hasContacts}
