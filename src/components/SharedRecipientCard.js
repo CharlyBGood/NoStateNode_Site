@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-export default function SharedRecipientCard({ id, email, count, onClick, alias }) {
+export default function SharedRecipientCard({ id, email, count, onClick, alias, groupKey, groupEmails }) {
   const [cardAlias, setCardAlias] = useState(alias || "");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -14,11 +14,28 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias }
   const handleAliasSave = async (e) => {
     e.stopPropagation();
     setIsEditing(false);
-    if (!id) return;
-    try {
-      await updateDoc(doc(db, "usersToShare", id), { alias: cardAlias });
-    } catch (e) {
-      console.error("Error al guardar alias:", e);
+    if (id) {
+      // Alias individual
+      try {
+        await updateDoc(doc(db, "usersToShare", id), { alias: cardAlias });
+      } catch (e) {
+        console.error("Error al guardar alias:", e);
+      }
+    } else if (groupKey && Array.isArray(groupEmails)) {
+      // Alias de grupo
+      try {
+        await setDoc(
+          doc(db, "sharedGroups", groupKey),
+          {
+            alias: cardAlias,
+            emails: groupEmails,
+            updatedAt: new Date(),
+          },
+          { merge: true }
+        );
+      } catch (e) {
+        console.error("Error al guardar alias de grupo:", e);
+      }
     }
   };
 

@@ -61,16 +61,18 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
         />
       )}
       {groupCards.map(({ key, emails, count }) => (
-        <SharedRecipientCard
-          key={key}
-          email={emails.length > 2 ? "Varios" : emails.join(", ")}
-          count={count}
-          alias={emails.length > 2 ? "Varios" : emails.join(", ")}
-          onClick={e => {
-            if (e.target.tagName === 'INPUT') return;
-            ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
-          }}
-        />
+            <SharedRecipientCard
+              key={key}
+              email={emails.length > 2 ? "Varios" : emails.join(", ")}
+              count={count}
+              alias={emails.length > 2 ? "Varios" : emails.join(", ")}
+              groupKey={key}
+              groupEmails={emails}
+              onClick={e => {
+                if (e.target.tagName === 'INPUT') return;
+                ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
+              }}
+            />
       ))}
       {individualGroups.map(({ email, count, id, alias }) => (
         <SharedRecipientCard
