@@ -247,22 +247,30 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
         )}
 
         {!hideRecipientSelector && recipientsMode === "multi" && (
-          <select
-            multiple
-            className="user-select task-input w-full mb-2 rounded-lg block p-2.5 bg-neutral-900 text-zinc-300"
-            value={selectedMulti.filter(email => contacts.some(c => c.email === email))}
-            onChange={(e) =>
-              setSelectedMulti(Array.from(e.target.selectedOptions).map((o) => o.value))
-            }
-            disabled={isLoadingContacts || !hasContacts}
-            size={Math.min(4, Math.max(2, contacts.length))}
-          >
+          <div className="w-full mb-2 rounded-lg block p-2.5 bg-neutral-900 text-zinc-300">
             {contacts.map((c) => (
-              <option key={c.id} value={c.email} className="bg-neutral-900 text-zinc-300 p-2">
-                {c.email}
-              </option>
+              <label key={c.id} className="flex items-center gap-2 py-1 px-2 rounded cursor-pointer hover:bg-neutral-800">
+                <input
+                  type="checkbox"
+                  value={c.email}
+                  checked={selectedMulti.includes(c.email)}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      setSelectedMulti([...selectedMulti, c.email]);
+                    } else {
+                      setSelectedMulti(selectedMulti.filter(email => email !== c.email));
+                    }
+                  }}
+                  className="accent-zinc-300 bg-neutral-900 border-zinc-700 rounded focus:ring-2 focus:ring-blue-500"
+                  disabled={isLoadingContacts || !hasContacts}
+                />
+                <span className="text-zinc-300">{c.email}</span>
+                {selectedMulti.includes(c.email) && (
+                  <span className="text-green-400 font-bold ml-1">✔</span>
+                )}
+              </label>
             ))}
-          </select>
+          </div>
         )}
         <button type="submit" className="log-btn border-none border rounded py-1 px-3" disabled={isLoading}>
           {isLoading ? "Añadiendo..." : "Añadir"}
