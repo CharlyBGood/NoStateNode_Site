@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TaskForm from "./TaskForm";
 import Task from "./Task";
 import { ConfirmationModal } from "./ConfirmationModal";
@@ -8,7 +8,7 @@ import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc
 import ShareButton from "../components/ShareButton";
 
 
-function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {  
+function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -26,7 +26,6 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
         const tasksRef = collection(db, "notes");
         let tasksQuery;
         if (isReadOnly) {
-          // Invitado: ver solo notas donde su email está en shareWith Y userId == ownerId
           if (!ownerId) {
             setTasks([]);
             return;
@@ -38,7 +37,6 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
             orderBy("createdAt", "desc")
           );
         } else {
-          // Owner: ver notas propias filtradas por destinatario
           tasksQuery = query(tasksRef, where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
         }
         unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
@@ -52,7 +50,6 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
                 (t) => !Array.isArray(t.shareWith) || t.shareWith.length === 0
               );
             } else if (filterRecipient.startsWith("[") && filterRecipient.endsWith("]")) {
-              // Filtro por grupo exacto de destinatarios
               try {
                 const group = JSON.parse(filterRecipient);
                 const sortedGroup = [...group].sort();
@@ -143,11 +140,10 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
               />
             ))}
           </div>
-          {/* Mostrar botón de compartir solo si es una lista filtrada (no dashboard ni privado) */}
           {!isReadOnly && filterRecipient && filterRecipient !== "__private" && (
-            <ShareButton 
-              mode="lista" 
-              userId={user?.uid} 
+            <ShareButton
+              mode="lista"
+              userId={user?.uid}
               listId={filterRecipient}
             />
           )}

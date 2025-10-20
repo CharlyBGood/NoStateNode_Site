@@ -13,13 +13,10 @@ export function Welcome() {
         <div className="bg-neutral w-85 max-w-prose text-center m-auto">
           <h2 className="font-bold">¡Bienvenid@!</h2>
           <p>
-            {/* <span className="text-bold text-orange-500">NoStateNode</span> */}
             <span className="text-orange-300">N</span>o
             <span className="text-orange-300">S</span>tate
             <span className="text-orange-300">N</span>ode es un espacio para
-            guardar ideas (notas) o recursos (enlaces) y compartirlos con quien desees. Para
-            comenzar debes crear una cuenta o iniciar sesión.
-            Gracias.
+            guardar ideas o recursos y compartirlos.
           </p>
           <div className="m-4 py-2">
             <Link

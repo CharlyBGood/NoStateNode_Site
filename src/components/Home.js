@@ -26,8 +26,7 @@ export function Home() {
 
   return (
     <div className="todo-list-main">
-      <div className="user-info">
-        {/* <img src={user.photoURL} alt="user pic" /> */}
+      <div className="user-info">        
         <h1 className="title-description">
           ¡Hola {(
             user?.displayName
@@ -36,8 +35,7 @@ export function Home() {
           )}!
         </h1>
       </div>
-      <div className="home-grid">
-        {/* Columna izquierda: intro + crear nota + compartir lista */}
+      <div className="home-grid">        
         <section className="home-left">
           <p className="text-center text-sm py-2">
             Podrás agregar notas, enlaces o recursos
@@ -50,11 +48,9 @@ export function Home() {
             <ShareButton mode="perfil" />
           </div>
         </section>
-
-        {/* Columna derecha: añadir contacto + selector + tarjetas compartidas */}
         <section className="home-right">
           <p className="text-center text-sm py-2">
-            Añade contactos para que puedan compartir una lista.
+            Añade contactos para que puedan compartir recursos.
           </p>
           <AddUserForm onContactAdded={() => setSelectedUsers([])} />
           <div className="user-select-wrapper">

@@ -6,12 +6,6 @@ const ShareModal = ({ isHidden, onClose, modalTitle, copyToClipboard, yourLink }
     <div className={isHidden ? "hide-modal" : "show-modal"}>
       <div className="modal-content">
         <p>{modalTitle}</p>
-        {/* <button
-          className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
-          onClick={() => window.open(`https://telegram.me/share/url?url=${yourLink}&text=Mira+mi+lista+de+recursos+en+NoStateNode`, '_blank')}>Telegram</button> */}
-        {/* <button
-          className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
-          onClick={() => window.open(`https://web.whatsapp.com/send?text=Mira+mi+lista+de+recursos+en+NoStateNode&url=${yourLink}`, '_blank')}>WhatsApp</button> */}
         <button
           className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"
           onClick={() => {
@@ -20,14 +14,14 @@ const ShareModal = ({ isHidden, onClose, modalTitle, copyToClipboard, yourLink }
                 title: "NoStateNode",
                 text: "Mira mi lista de recursos en NoStateNode",
                 url: yourLink,
-              }).catch(() => {/* user canceled or share failed */});
+              }).catch(() => {/* user canceled or share failed */ });
             } else {
-              // Fallback: instruct user to copy the link if Web Share API isn't supported
               alert("Tu navegador no soporta compartir nativo. Copia el enlace con el botón de abajo.");
             }
           }}
-        >Compartir por:</button>
-
+        >
+          Compartir por:
+        </button>
         <button
           title="Copiar enlace"
           className="btn-cancel font-bold block rounded mb-2 py-2 px-4 w-full"

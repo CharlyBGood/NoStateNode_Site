@@ -52,7 +52,6 @@ function Task({ id, text, complete, completeTask, deleteTask, isReadOnly, create
     return <p>{text}</p>;
   };
 
-  // Format date if present
   let createdDateStr = "";
   if (createdAt) {
     let dateObj;

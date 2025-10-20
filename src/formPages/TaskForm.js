@@ -12,8 +12,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
   const [contacts, setContacts] = useState([]);
   const [isLoadingContacts, setIsLoadingContacts] = useState(true);
 
-
-  // Recipients logic: if hideRecipientSelector, always use selectedUsers as shareWith
   const initialMode = useMemo(() => {
     if (hideRecipientSelector) {
       if (Array.isArray(selectedUsers)) {
@@ -40,11 +38,9 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
     Array.isArray(selectedUsers) && selectedUsers.length > 1 ? selectedUsers : []
   );
 
-  // Mantener el estado interno en sync SOLO si selectedUsers cambia realmente desde el padre
   const prevSelectedUsersRef = useRef(selectedUsers);
   useEffect(() => {
     if (!Array.isArray(selectedUsers)) return;
-    // Compara referencias y contenido para evitar loops
     const prev = prevSelectedUsersRef.current;
     const changed =
       prev !== selectedUsers &&
@@ -83,7 +79,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
     }
   }, [selectedUsers, hideRecipientSelector]);
 
-  // Load contacts for current owner
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) return;
@@ -111,10 +106,8 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
     if (user) {
       setIsLoading(true);
       try {
-        // Determine recipients according to mode
         let shareWith = [];
         if (hideRecipientSelector) {
-          // Always use selectedUsers as shareWith
           shareWith = Array.isArray(selectedUsers) ? selectedUsers : [];
         } else {
           if (recipientsMode === "private") {
@@ -148,7 +141,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
         };
         await addDoc(collection(db, "notes"), newTask);
         setInput("");
-        // Reset selections after create
         setRecipientsMode("private");
         setSelectedSingle("");
         setSelectedMulti([]);
@@ -180,8 +172,6 @@ function TaskForm({ selectedUsers = [], onClearSelectedUsers, hideRecipientSelec
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
         />
-
-        {/* Guardar en: destino de la nota */}
         {!hideRecipientSelector && (
           <fieldset className="w-full" style={{ border: "none", padding: 0, margin: 0 }}>
             <legend className="sr-only">Guardar en</legend>

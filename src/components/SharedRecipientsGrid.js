@@ -46,7 +46,6 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
     };
   }, [notes, contacts]);
 
-  // Leer alias de grupo desde Firestore
   const [groupAliases, setGroupAliases] = useState({});
   useEffect(() => {
     async function fetchAliases() {

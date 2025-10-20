@@ -15,7 +15,6 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias, 
     setIsEditing(false);
     if (id) {
       try {
-        // Si es la card privada (owner), guardar email y ownerId
         const extra = (email === "Solo tú") ? { email: window?.currentUserEmail || "", ownerId: id } : {};
         await setDoc(
           doc(db, "usersToShare", id),

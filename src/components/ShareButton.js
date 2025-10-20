@@ -3,7 +3,6 @@ import { useAuth } from "../context/AuthContext";
 import ShareModal from "./ShareModal";
 
 export const ShareButton = ({ mode = "perfil", userId, noteId, listId }) => {
-  // mode: "perfil" (dashboard), "lista" (lista compartida), o "card" (nota individual)
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -59,14 +58,11 @@ export const ShareButton = ({ mode = "perfil", userId, noteId, listId }) => {
   const getShareableLink = () => {
     const ownerId = userId || user?.uid || '';
     if (mode === "lista" && listId) {
-      // Compartir una lista filtrada (por contacto)
       return `${window.location.origin}/shared/${ownerId}/list/${encodeURIComponent(listId)}`;
     }
     if (mode === "card" && noteId) {
-      // Compartir una nota individual
       return `${window.location.origin}/shared/${ownerId}/note/${noteId}`;
     }
-    // Default: perfil/dashboard
     return `${window.location.origin}/shared/${ownerId}`;
   }
 
