@@ -1,7 +1,7 @@
 import { doc, getDoc, getDocs, query, where, collection } from "firebase/firestore";
 
 // Utilidad centralizada para obtener el título/alias correcto
-export async function getListTitle({ db, userId, recipient, userEmail }) {
+export async function getListTitle({ db, userId, recipient }) {
   if (!userId || !recipient) return "";
   if (recipient === "__private") {
     // Card privada
@@ -9,12 +9,12 @@ export async function getListTitle({ db, userId, recipient, userEmail }) {
     const snap = await getDoc(docRef);
     return snap.exists() ? (snap.data().alias || "Solo tú") : "Solo tú";
   }
-  if (userEmail && recipient === userEmail) {
-    // Card individual
+  // Card individual (owner o invitado): buscar por recipient como email
+  if (recipient && typeof recipient === "string" && !recipient.startsWith("[")) {
     const contactsRef = collection(db, "usersToShare");
-    const q = query(contactsRef, where("ownerId", "==", userId), where("email", "==", userEmail));
+    const q = query(contactsRef, where("ownerId", "==", userId), where("email", "==", recipient));
     const snap = await getDocs(q);
-    return !snap.empty ? (snap.docs[0].data().alias || userEmail) : userEmail;
+    return !snap.empty ? (snap.docs[0].data().alias || recipient) : recipient;
   }
   if (recipient.startsWith("[")) {
     // Grupo

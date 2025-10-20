@@ -86,11 +86,11 @@ export function SharedTasksPage() {
   useEffect(() => {
     let active = true;
     async function fetchTitle() {
-      if (!userId || !recipient || isOwner) {
+      if (!userId || !recipient) {
         setListTitle("");
         return;
       }
-      const title = await getListTitle({ db, userId, recipient, userEmail: user?.email });
+      const title = await getListTitle({ db, userId, recipient });
       if (active) setListTitle(title);
     }
     fetchTitle();
