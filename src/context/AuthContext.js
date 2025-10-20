@@ -47,7 +47,6 @@ export function AuthProvider({ children }) {
         window.currentUserEmail = currentUser.email;
       }
     });
-
     return () => unsubscribe();
   }, []);
 
