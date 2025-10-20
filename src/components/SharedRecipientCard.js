@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { doc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function SharedRecipientCard({ id, email, count, onClick, alias, groupKey, groupEmails }) {
@@ -10,19 +10,22 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias, 
     setCardAlias(alias || "");
   }, [alias]);
 
-  // Guarda el alias en Firestore solo al click en la tilde
   const handleAliasSave = async (e) => {
     e.stopPropagation();
     setIsEditing(false);
     if (id) {
-      // Alias individual
       try {
-        await updateDoc(doc(db, "usersToShare", id), { alias: cardAlias });
+        // Si es la card privada (owner), guardar email y ownerId
+        const extra = (email === "Solo tú") ? { email: window?.currentUserEmail || "", ownerId: id } : {};
+        await setDoc(
+          doc(db, "usersToShare", id),
+          { alias: cardAlias, ...extra },
+          { merge: true }
+        );
       } catch (e) {
         console.error("Error al guardar alias:", e);
       }
     } else if (groupKey && Array.isArray(groupEmails)) {
-      // Alias de grupo
       try {
         await setDoc(
           doc(db, "sharedGroups", groupKey),

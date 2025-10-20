@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,6 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
   const { user } = useAuth();
   const ownerId = user?.uid;
 
-  // Agrupamiento por conjunto exacto de destinatarios
   const { groupCards, individualGroups, privateCount } = useMemo(() => {
     let priv = 0;
     const groupMap = new Map();
@@ -31,7 +30,6 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
           entry.count += 1;
         }
       } else if (list.length > 1) {
-        // Agrupar por conjunto exacto de emails (ordenados para evitar duplicados)
         const sorted = [...list].sort();
         const key = JSON.stringify(sorted);
         if (!groupMap.has(key)) {
@@ -59,7 +57,7 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
           if (snap.exists()) {
             aliases[key] = snap.data().alias || null;
           }
-        } catch {}
+        } catch { }
       }
       setGroupAliases(aliases);
     }
@@ -77,8 +75,10 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
       {privateCount > 0 && ownerId && (
         <SharedRecipientCard
           key="__private__"
+          id={ownerId}
           email="Solo tú"
           count={privateCount}
+          alias={(contacts.find(c => c.email === user.email)?.alias) || ""}
           onClick={() => navigate(`/shared/${ownerId}?recipient=${encodeURIComponent("__private")}`)}
         />
       )}
