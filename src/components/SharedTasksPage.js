@@ -6,12 +6,15 @@ import { useAuth } from "../context/AuthContext";
 import TaskList from "../formPages/TaskList";
 import "../stylesheets/TaskList.css";
 import SharedRecipientsGrid from "./SharedRecipientsGrid";
+import { getListTitle } from "../utilities/getListTitle";
+
 export function SharedTasksPage() {
   const { userId, listId } = useParams();
   const location = useLocation();
   const { user, loading } = useAuth();
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
+  const [listTitle, setListTitle] = useState("");
 
   const memoRecipient = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -19,7 +22,7 @@ export function SharedTasksPage() {
     return r ? decodeURIComponent(r) : null;
   }, [location.search]);
   const recipient = listId ? decodeURIComponent(listId) : memoRecipient;
-
+  
   useEffect(() => {
     if (loading || !user) return;
 
@@ -72,6 +75,20 @@ export function SharedTasksPage() {
   };
 
   const isOwner = user && user.uid === userId;
+  
+  useEffect(() => {
+    let active = true;
+    async function fetchTitle() {
+      if (!userId || !recipient || isOwner) {
+        setListTitle("");
+        return;
+      }
+      const title = await getListTitle({ db, userId, recipient, userEmail: user?.email });
+      if (active) setListTitle(title);
+    }
+    fetchTitle();
+    return () => { active = false; };
+  }, [userId, recipient, user, isOwner]);
 
   if (isOwner && !recipient) {
     return (
@@ -93,7 +110,7 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Accede a los recursos compartidos por <b>{userId}</b>
+          Estos son los recursos compartidos para <b>{listTitle || user.email}</b>
         </div>
         <SharedRecipientsGrid notes={filteredNotes} />
       </div>
@@ -101,7 +118,6 @@ export function SharedTasksPage() {
   }
 
   if (isOwner && recipient) {
-    // Owner: editable list for recipient
     return (
       <div className="todo-list-main">
         <div className="back-btn-container">
@@ -132,7 +148,7 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Te han compartido estos recursos:
+          Estas viendo la lista compartida para <b>{listTitle || recipient}</b>
         </div>
         <TaskList filterRecipient={user.email} isReadOnly={true} ownerId={userId} />
       </div>
