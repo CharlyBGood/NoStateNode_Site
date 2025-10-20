@@ -22,7 +22,7 @@ export function SharedTasksPage() {
     return r ? decodeURIComponent(r) : null;
   }, [location.search]);
   const recipient = listId ? decodeURIComponent(listId) : memoRecipient;
-  
+
   useEffect(() => {
     if (loading || !user) return;
 
@@ -75,7 +75,7 @@ export function SharedTasksPage() {
   };
 
   const isOwner = user && user.uid === userId;
-  
+
   useEffect(() => {
     let active = true;
     async function fetchTitle() {
@@ -110,7 +110,7 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Estos son los recursos compartidos para <b>{listTitle || user.email}</b>
+          Estos son los recursos compartidos para <b>{ }</b>
         </div>
         <SharedRecipientsGrid notes={filteredNotes} />
       </div>
