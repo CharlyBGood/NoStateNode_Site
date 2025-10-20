@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import TaskList from "../formPages/TaskList";
@@ -15,6 +15,7 @@ export function SharedTasksPage() {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
   const [listTitle, setListTitle] = useState("");
+  const [contacts, setContacts] = useState([]);
 
   const memoRecipient = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -31,6 +32,12 @@ export function SharedTasksPage() {
 
     let q;
     let filterFn = (arr) => arr;
+    if (!isOwner) {
+      const contactsRef = collection(db, "usersToShare");
+      getDocs(query(contactsRef, where("ownerId", "==", userId))).then(snap => {
+        setContacts(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      });
+    }
     if (isOwner) {
       if (recipient === "__private") {
         q = query(tasksRef, where("userId", "==", userId));
@@ -110,9 +117,9 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Estos son los recursos compartidos para <b>{ }</b>
+          Estos son los recursos compartidos para <b>{user ? (user.displayName || user.email) : "Invitado"}</b>
         </div>
-        <SharedRecipientsGrid notes={filteredNotes} />
+        <SharedRecipientsGrid notes={filteredNotes} contacts={contacts} isOwner={false} />
       </div>
     );
   }
@@ -122,6 +129,9 @@ export function SharedTasksPage() {
       <div className="todo-list-main">
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+        </div>
+        <div className="shared-list-header">
+          Estas viendo la lista compartida para <b>{listTitle || recipient}</b>
         </div>
         <TaskList filterRecipient={recipient} isReadOnly={false} />
       </div>
