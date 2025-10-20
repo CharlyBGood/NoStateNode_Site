@@ -103,7 +103,7 @@ export function SharedTasksPage() {
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
-        <SharedRecipientsGrid notes={tasks} />
+        <SharedRecipientsGrid notes={tasks} isOwner={isOwner} />
       </div>
     );
   }
@@ -131,7 +131,7 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Estas viendo la lista compartida para <b>{listTitle || recipient}</b>
+          Estas viendo la lista <b>{listTitle || recipient}</b>
         </div>
         <TaskList filterRecipient={recipient} isReadOnly={false} />
       </div>
@@ -158,7 +158,7 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Estas viendo la lista compartida para <b>{listTitle || recipient}</b>
+          Estas viendo la lista <b>{listTitle || recipient}</b>
         </div>
         <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} />
       </div>

@@ -5,10 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import SharedRecipientCard from "./SharedRecipientCard";
 
-export default function SharedRecipientsGrid({ notes, contacts }) {
+export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const ownerId = user?.uid;
+  const ownerId = userIdFromContextOrProp(); // helper para obtener el ownerId
+
+  function userIdFromContextOrProp() {
+    // Si es owner, user.uid; si no, ownerId de los contactos
+    if (isOwner && user) return user.uid;
+    if (contacts && contacts.length > 0) return contacts[0].ownerId;
+    return null;
+  }
 
   const { groupCards, individualGroups, privateCount } = useMemo(() => {
     let priv = 0;
@@ -91,7 +98,11 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
           groupEmails={emails}
           onClick={e => {
             if (e.target.tagName === 'INPUT') return;
-            ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
+            if (isOwner && ownerId) {
+              navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
+            } else if (ownerId) {
+              navigate(`/shared/${ownerId}/list/${encodeURIComponent(key)}`);
+            }
           }}
         />
       ))}
@@ -104,7 +115,11 @@ export default function SharedRecipientsGrid({ notes, contacts }) {
           alias={alias}
           onClick={e => {
             if (e.target.tagName === 'INPUT') return;
-            ownerId && navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(email)}`);
+            if (isOwner && ownerId) {
+              navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(email)}`);
+            } else if (ownerId) {
+              navigate(`/shared/${ownerId}/list/${encodeURIComponent(email)}`);
+            }
           }}
         />)
       )}
