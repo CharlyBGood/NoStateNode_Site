@@ -117,7 +117,7 @@ export function SharedTasksPage() {
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
         <div className="shared-list-header">
-          Estos son los recursos compartidos para <b>{user ? (user.displayName || user.email) : "Invitado"}</b>
+          Estos son los recursos compartidos para <b>{user ? (user.displayName ? user.displayName.trim().split(/\s+/)[0] : user.email) : "Invitado"}</b>
         </div>
         <SharedRecipientsGrid notes={filteredNotes} contacts={contacts} isOwner={false} />
       </div>
@@ -160,7 +160,7 @@ export function SharedTasksPage() {
         <div className="shared-list-header">
           Estas viendo la lista compartida para <b>{listTitle || recipient}</b>
         </div>
-        <TaskList filterRecipient={user.email} isReadOnly={true} ownerId={userId} />
+        <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} />
       </div>
     );
   }
