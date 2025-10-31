@@ -8,7 +8,7 @@ import { collection, query, where, onSnapshot, doc, deleteDoc, updateDoc, getDoc
 import ShareButton from "../components/ShareButton";
 
 
-function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
+function TaskList({ filterRecipient, isReadOnly = false, ownerId, loading }) {
   const [tasks, setTasks] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalHidden, setIsModalHidden] = useState(true);
@@ -121,6 +121,9 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
     }
   };
 
+  if (loading) {
+    return <p style={{textAlign: 'center', marginTop: '2rem'}}>Cargando...</p>;
+  }
   return (
     <>
       {user ? (

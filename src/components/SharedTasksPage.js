@@ -106,7 +106,7 @@ export function SharedTasksPage() {
         <div className="back-btn-container">
           <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
         </div>
-        <SharedRecipientsGrid notes={tasks} isOwner={isOwner} />
+  <SharedRecipientsGrid notes={tasks} isOwner={isOwner} loading={loading} />
       </div>
     );
   }
@@ -122,7 +122,7 @@ export function SharedTasksPage() {
         <div className="shared-list-header">
           Estos son los recursos compartidos para <b>{user ? (user.displayName ? user.displayName.trim().split(/\s+/)[0] : user.email) : "Invitado"}</b>
         </div>
-        <SharedRecipientsGrid notes={filteredNotes} contacts={contacts} isOwner={false} />
+  <SharedRecipientsGrid notes={filteredNotes} contacts={contacts} isOwner={false} loading={loading} />
       </div>
     );
   }
@@ -136,7 +136,7 @@ export function SharedTasksPage() {
         <div className="shared-list-header">
           Estas viendo la lista <b>{listTitle || recipient}</b>
         </div>
-        <TaskList filterRecipient={recipient} isReadOnly={false} />
+  <TaskList filterRecipient={recipient} isReadOnly={false} loading={loading} />
       </div>
     );
   }
@@ -151,7 +151,7 @@ export function SharedTasksPage() {
         <div className="shared-list-header">
           Estas viendo la lista <b>{listTitle || recipient}</b>
         </div>
-        <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} />
+  <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} loading={loading} />
       </div>
     );
   }
@@ -178,7 +178,7 @@ export function SharedTasksPage() {
         <div className="shared-list-header">
           Estas viendo la lista <b>{listTitle || recipient}</b>
         </div>
-        <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} />
+  <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} loading={loading} />
       </div>
     );
   }

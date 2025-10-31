@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import SharedRecipientsGrid from "./SharedRecipientsGrid";
 
 export default function OwnerRecipientsDashboard() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [notes, setNotes] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [invitedNotes, setInvitedNotes] = useState([]);
@@ -46,5 +46,5 @@ export default function OwnerRecipientsDashboard() {
 
   if (!user) return null;
   // Combina propias y invitadas
-  return <SharedRecipientsGrid notes={[...notes, ...invitedNotes]} contacts={contacts} />;
+  return <SharedRecipientsGrid notes={[...notes, ...invitedNotes]} contacts={contacts} loading={loading} />;
 }

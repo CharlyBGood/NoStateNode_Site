@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import SharedRecipientCard from "./SharedRecipientCard";
 
-export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
+export default function SharedRecipientsGrid({ notes, contacts, isOwner, loading }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const ownerId = userIdFromContextOrProp(); // helper para obtener el ownerId
@@ -77,6 +77,10 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
     }
   }, [groupCards]);
 
+
+  if (loading) {
+    return <p style={{textAlign: 'center', marginTop: '2rem'}}>Cargando...</p>;
+  }
   if (individualGroups.length === 0 && groupCards.length === 0 && privateCount === 0) {
     return <p>No hay notas aún. ¡Crea una y compártela con tus contactos!</p>;
   }
