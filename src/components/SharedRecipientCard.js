@@ -1,14 +1,37 @@
 import { useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
-export default function SharedRecipientCard({ id, email, count, onClick, alias, groupKey, groupEmails, isInvited }) {
+export default function SharedRecipientCard({ id, email, count, onClick, alias, groupKey, groupEmails, isInvited, ownerId }) {
   const [cardAlias, setCardAlias] = useState(alias || "");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setCardAlias(alias || "");
   }, [alias]);
+
+  // Si es invitado y no hay alias, buscar alias puntual en usersToShare del owner (por query)
+  useEffect(() => {
+    async function fetchOwnerAlias() {
+      if (isInvited && !alias && ownerId && email) {
+        try {
+          const q = query(
+            collection(db, "usersToShare"),
+            where("ownerId", "==", ownerId),
+            where("email", "==", email)
+          );
+          const snap = await getDocs(q);
+          if (!snap.empty) {
+            const docData = snap.docs[0].data();
+            if (docData.alias) {
+              setCardAlias(docData.alias);
+            }
+          }
+        } catch { }
+      }
+    }
+    fetchOwnerAlias();
+  }, [isInvited, alias, ownerId, email]);
 
   const handleAliasSave = async (e) => {
     e.stopPropagation();
@@ -26,11 +49,13 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias, 
       }
     } else if (groupKey && Array.isArray(groupEmails)) {
       try {
+        // Siempre guardar con key de emails ordenados
+        const sortedKey = JSON.stringify([...groupEmails].sort());
         await setDoc(
-          doc(db, "sharedGroups", groupKey),
+          doc(db, "sharedGroups", sortedKey),
           {
             alias: cardAlias,
-            emails: groupEmails,
+            emails: [...groupEmails].sort(),
             updatedAt: new Date(),
           },
           { merge: true }
@@ -79,18 +104,20 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias, 
             ) : (
               <>
                 <span>{cardAlias || email}</span>
-                <button
-                  type="button"
-                  className="ml-2 text-gray-500 hover:text-gray-800"
-                  onClick={e => {
-                    e.stopPropagation();
-                    setIsEditing(true);
-                  }}
-                  tabIndex={0}
-                  aria-label="Editar nombre"
-                >
-                  🖉
-                </button>
+                {!isInvited && (
+                  <button
+                    type="button"
+                    className="ml-2 text-gray-500 hover:text-gray-800"
+                    onClick={e => {
+                      e.stopPropagation();
+                      setIsEditing(true);
+                    }}
+                    tabIndex={0}
+                    aria-label="Editar nombre"
+                  >
+                    🖉
+                  </button>
+                )}
               </>
             )}
           </div>

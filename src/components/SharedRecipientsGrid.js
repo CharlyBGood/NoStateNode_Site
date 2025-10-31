@@ -40,6 +40,7 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
       } else if (list.length > 1) {
         const sorted = [...list].sort();
         const key = JSON.stringify(sorted);
+        // Siempre usar key ordenado
         if (!groupMap.has(key)) {
           groupMap.set(key, { emails: sorted, notes: [n], isInvited: n.isInvited });
         } else {
@@ -60,11 +61,12 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
   useEffect(() => {
     async function fetchAliases() {
       const aliases = {};
-      for (const { key } of groupCards) {
+      for (const { emails } of groupCards) {
+        const sortedKey = JSON.stringify([...emails].sort());
         try {
-          const snap = await getDoc(doc(db, "sharedGroups", key));
+          const snap = await getDoc(doc(db, "sharedGroups", sortedKey));
           if (snap.exists()) {
-            aliases[key] = snap.data().alias || null;
+            aliases[sortedKey] = snap.data().alias || null;
           }
         } catch { }
       }
@@ -94,15 +96,23 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
       {groupCards.map(({ key, emails, count, isInvited, notes }) => {
         // ownerId real para este grupo
         const groupOwnerId = notes && notes.length > 0 ? notes[0].userId : ownerId;
+        // Alias de grupo: si existe en groupAliases, usarlo, si no, emails
+        const sortedKey = JSON.stringify([...emails].sort());
+        // Compatibilidad: buscar alias en sortedKey, luego en key original, luego en la nota
+        let displayAlias = groupAliases[sortedKey];
+        if (!displayAlias && groupAliases[key]) displayAlias = groupAliases[key];
+        if (!displayAlias && notes && notes[0] && notes[0].alias) displayAlias = notes[0].alias;
+        if (!displayAlias) displayAlias = (emails.length > 2 ? "Varios" : emails.join(", "));
         return (
           <SharedRecipientCard
             key={key}
-            email={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
+            email={displayAlias}
             count={count}
-            alias={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
+            alias={displayAlias}
             groupKey={key}
             groupEmails={emails}
             isInvited={isInvited}
+            ownerId={groupOwnerId}
             onClick={e => {
               if (e.target.tagName === 'INPUT') return;
               if (isInvited && groupOwnerId) {
@@ -120,14 +130,30 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
         // Buscar ownerId real para este grupo individual
         const note = notes.find(n => Array.isArray(n.shareWith) && n.shareWith.length === 1 && n.shareWith[0] === email);
         const indivOwnerId = note ? note.userId : ownerId;
+        // Buscar alias en los contactos del owner real si es invitado
+        let displayAlias = alias;
+        if (isInvited && indivOwnerId && email) {
+          const ownerContacts = contacts?.filter(c => c.ownerId === indivOwnerId);
+          const found = ownerContacts?.find(c => c.email === email);
+          displayAlias = found && found.alias ? found.alias : "";
+        }
+        // Contar solo notas realmente compartidas con el usuario logueado si es invitado
+        let realCount = count;
+        if (isInvited && note && typeof window !== 'undefined') {
+          const userEmail = (window.currentUserEmail || (window.firebase && window.firebase.auth && window.firebase.auth().currentUser && window.firebase.auth().currentUser.email)) || null;
+          if (userEmail) {
+            realCount = notes.filter(n => Array.isArray(n.shareWith) && n.shareWith.length === 1 && n.shareWith[0] === email && n.userId === indivOwnerId && n.shareWith.includes(userEmail)).length;
+          }
+        }
         return (
           <SharedRecipientCard
             key={email}
             id={id}
             email={email}
-            count={count}
-            alias={alias}
+            count={realCount}
+            alias={displayAlias}
             isInvited={isInvited}
+            ownerId={indivOwnerId}
             onClick={e => {
               if (e.target.tagName === 'INPUT') return;
               if (isInvited && indivOwnerId) {
