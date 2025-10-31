@@ -31,24 +31,27 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
         const contactId = contact?.id || null;
         const contactAlias = contact?.alias || "";
         if (!individualMap.has(email)) {
-          individualMap.set(email, { count: 1, id: contactId, alias: contactAlias });
+          individualMap.set(email, { count: 1, id: contactId, alias: contactAlias, isInvited: n.isInvited });
         } else {
           const entry = individualMap.get(email);
           entry.count += 1;
+          entry.isInvited = entry.isInvited || n.isInvited;
         }
       } else if (list.length > 1) {
         const sorted = [...list].sort();
         const key = JSON.stringify(sorted);
         if (!groupMap.has(key)) {
-          groupMap.set(key, { emails: sorted, notes: [n] });
+          groupMap.set(key, { emails: sorted, notes: [n], isInvited: n.isInvited });
         } else {
-          groupMap.get(key).notes.push(n);
+          const group = groupMap.get(key);
+          group.notes.push(n);
+          group.isInvited = group.isInvited || n.isInvited;
         }
       }
     }
     return {
-      groupCards: Array.from(groupMap.entries()).map(([key, { emails, notes }]) => ({ key, emails, count: notes.length, notes })),
-      individualGroups: Array.from(individualMap.entries()).map(([email, { count, id, alias }]) => ({ email, count, id, alias })),
+      groupCards: Array.from(groupMap.entries()).map(([key, { emails, notes, isInvited }]) => ({ key, emails, count: notes.length, notes, isInvited })),
+      individualGroups: Array.from(individualMap.entries()).map(([email, { count, id, alias, isInvited }]) => ({ email, count, id, alias, isInvited })),
       privateCount: priv,
     };
   }, [notes, contacts]);
@@ -88,41 +91,56 @@ export default function SharedRecipientsGrid({ notes, contacts, isOwner }) {
           onClick={() => navigate(`/shared/${ownerId}?recipient=${encodeURIComponent("__private")}`)}
         />
       )}
-      {groupCards.map(({ key, emails, count }) => (
-        <SharedRecipientCard
-          key={key}
-          email={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
-          count={count}
-          alias={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
-          groupKey={key}
-          groupEmails={emails}
-          onClick={e => {
-            if (e.target.tagName === 'INPUT') return;
-            if (isOwner && ownerId) {
-              navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(key)}`);
-            } else if (ownerId) {
-              navigate(`/shared/${ownerId}/list/${encodeURIComponent(key)}`);
-            }
-          }}
-        />
-      ))}
-      {individualGroups.map(({ email, count, id, alias }) => (
-        <SharedRecipientCard
-          key={email}
-          id={id}
-          email={email}
-          count={count}
-          alias={alias}
-          onClick={e => {
-            if (e.target.tagName === 'INPUT') return;
-            if (isOwner && ownerId) {
-              navigate(`/shared/${ownerId}?recipient=${encodeURIComponent(email)}`);
-            } else if (ownerId) {
-              navigate(`/shared/${ownerId}/list/${encodeURIComponent(email)}`);
-            }
-          }}
-        />)
-      )}
+      {groupCards.map(({ key, emails, count, isInvited, notes }) => {
+        // ownerId real para este grupo
+        const groupOwnerId = notes && notes.length > 0 ? notes[0].userId : ownerId;
+        return (
+          <SharedRecipientCard
+            key={key}
+            email={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
+            count={count}
+            alias={groupAliases[key] || (emails.length > 2 ? "Varios" : emails.join(", "))}
+            groupKey={key}
+            groupEmails={emails}
+            isInvited={isInvited}
+            onClick={e => {
+              if (e.target.tagName === 'INPUT') return;
+              if (isInvited && groupOwnerId) {
+                navigate(`/shared/${groupOwnerId}/list/${encodeURIComponent(key)}`, { state: { isInvited: true } });
+              } else if (isOwner && groupOwnerId) {
+                navigate(`/shared/${groupOwnerId}?recipient=${encodeURIComponent(key)}`);
+              } else if (groupOwnerId) {
+                navigate(`/shared/${groupOwnerId}/list/${encodeURIComponent(key)}`);
+              }
+            }}
+          />
+        );
+      })}
+      {individualGroups.map(({ email, count, id, alias, isInvited }) => {
+        // Buscar ownerId real para este grupo individual
+        const note = notes.find(n => Array.isArray(n.shareWith) && n.shareWith.length === 1 && n.shareWith[0] === email);
+        const indivOwnerId = note ? note.userId : ownerId;
+        return (
+          <SharedRecipientCard
+            key={email}
+            id={id}
+            email={email}
+            count={count}
+            alias={alias}
+            isInvited={isInvited}
+            onClick={e => {
+              if (e.target.tagName === 'INPUT') return;
+              if (isInvited && indivOwnerId) {
+                navigate(`/shared/${indivOwnerId}/list/${encodeURIComponent(email)}`, { state: { isInvited: true } });
+              } else if (isOwner && indivOwnerId) {
+                navigate(`/shared/${indivOwnerId}?recipient=${encodeURIComponent(email)}`);
+              } else if (indivOwnerId) {
+                navigate(`/shared/${indivOwnerId}/list/${encodeURIComponent(email)}`);
+              }
+            }}
+          />
+        );
+      })}
     </div>
   );
 }

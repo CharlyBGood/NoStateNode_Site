@@ -25,7 +25,7 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
       if (currentUser) {
         const tasksRef = collection(db, "notes");
         let tasksQuery;
-        // For invited users (isReadOnly), always fetch notes where userId == ownerId and shareWith contains the invitee (currentUser.email)
+        // Para invitados: trae todas las notas del owner y filtra in-memory
         if (isReadOnly) {
           if (!ownerId) {
             setTasks([]);
@@ -34,7 +34,6 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
           tasksQuery = query(
             tasksRef,
             where("userId", "==", ownerId),
-            where("shareWith", "array-contains", currentUser.email),
             orderBy("createdAt", "desc")
           );
         } else {
@@ -45,14 +44,19 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
             id: doc.id,
             ...doc.data(),
           }));
-          // In-memory filtering for both owner and invited user
+          // In-memory filtering para ambos casos, pero si es invitado, solo mostrar notas donde shareWith incluye currentUser.email
           if (filterRecipient) {
+            if (isReadOnly) {
+              // Solo mostrar notas donde shareWith incluye al usuario
+              tasksData = tasksData.filter(
+                (t) => Array.isArray(t.shareWith) && t.shareWith.includes(currentUser.email)
+              );
+            }
             if (filterRecipient === "__private") {
               tasksData = tasksData.filter(
                 (t) => !Array.isArray(t.shareWith) || t.shareWith.length === 0
               );
             } else if (filterRecipient.startsWith("[") && filterRecipient.endsWith("]")) {
-              // Group card: only show notes where shareWith (sorted) matches group (sorted)
               try {
                 const group = JSON.parse(filterRecipient);
                 const sortedGroup = [...group].sort();
@@ -62,8 +66,7 @@ function TaskList({ filterRecipient, isReadOnly = false, ownerId }) {
               } catch {
                 tasksData = [];
               }
-            } else {
-              // Individual card: only show notes where shareWith.length == 1 and shareWith[0] == filterRecipient
+            } else if (filterRecipient !== "__private") {
               tasksData = tasksData.filter(
                 (t) => Array.isArray(t.shareWith) && t.shareWith.length === 1 && t.shareWith[0] === filterRecipient
               );

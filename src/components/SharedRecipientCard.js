@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-export default function SharedRecipientCard({ id, email, count, onClick, alias, groupKey, groupEmails }) {
+export default function SharedRecipientCard({ id, email, count, onClick, alias, groupKey, groupEmails, isInvited }) {
   const [cardAlias, setCardAlias] = useState(alias || "");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -43,7 +43,7 @@ export default function SharedRecipientCard({ id, email, count, onClick, alias, 
 
   return (
     <div
-      className="task-btn w-full text-left mb-3 p-4 rounded shadow hover:opacity-90"
+      className={`task-btn w-full text-left mb-3 p-4 rounded shadow hover:opacity-90${isInvited ? ' invited-border' : ''}`}
       onClick={isEditing ? undefined : onClick}
       style={{ cursor: isEditing ? "default" : "pointer" }}
     >

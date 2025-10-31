@@ -24,6 +24,9 @@ export function SharedTasksPage() {
   }, [location.search]);
   const recipient = listId ? decodeURIComponent(listId) : memoRecipient;
 
+  // Detectar si se forzó modo invitado desde el dashboard
+  const forcedInvited = location.state?.isInvited === true;
+
   useEffect(() => {
     if (loading || !user) return;
 
@@ -81,7 +84,7 @@ export function SharedTasksPage() {
     }
   };
 
-  const isOwner = user && user.uid === userId;
+  const isOwner = user && user.uid === userId && !forcedInvited;
 
   useEffect(() => {
     let active = true;
@@ -134,6 +137,21 @@ export function SharedTasksPage() {
           Estas viendo la lista <b>{listTitle || recipient}</b>
         </div>
         <TaskList filterRecipient={recipient} isReadOnly={false} />
+      </div>
+    );
+  }
+
+  // Si forzamos modo invitado, aunque el usuario sea owner, mostrar solo lectura
+  if (forcedInvited && recipient) {
+    return (
+      <div className="todo-list-main">
+        <div className="back-btn-container">
+          <button type="button" className="task-btn back-btn" onClick={handleBack}>← Volver</button>
+        </div>
+        <div className="shared-list-header">
+          Estas viendo la lista <b>{listTitle || recipient}</b>
+        </div>
+        <TaskList filterRecipient={recipient} isReadOnly={true} ownerId={userId} />
       </div>
     );
   }

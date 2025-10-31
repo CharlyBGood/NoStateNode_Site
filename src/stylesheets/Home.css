@@ -1,3 +1,8 @@
+/* Borde naranja para cards donde el usuario es invitado */
+.invited-border {
+  border: 2px solid #ff9800;
+  border-radius: 0.5rem;
+}
 .user-info {
   display: flex;
   justify-content: center;
